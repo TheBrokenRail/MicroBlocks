@@ -7,34 +7,9 @@ body {
     margin: 0;
     padding: 0;
     top: 0;
-    right: 25%;
     left: 250px;
-    width: calc(75% - 250px);
+    width: calc(100% - 250px);
     height: 100%;
-}
-#preview {
-    position: absolute;
-    margin: 0;
-    padding: 0;
-    top: 0;
-    right: 0;
-    left: 75%;
-    width: 25%;
-    height: 75%;
-    border: none;
-}
-#inspect {
-    position: absolute;
-    margin: 0;
-    padding: 0;
-    top: 75%;
-    right: 0;
-    left: 75%;
-    width: 25%;
-    height: 25%;
-    border: none;
-    background-color: #F9F9F9;
-    overflow: auto;
 }
 #menuBar {
     position: absolute;
