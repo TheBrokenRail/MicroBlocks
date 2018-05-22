@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node patch.js && browserify build.js -o build/bundle.js && ncp node_modules/scratch-blocks/media build/media"
+    "start": "node index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "TheBrokenRail",
+  "license": "MIT",
   "dependencies": {
     "scratch-blocks": "latest",
     "js-beautify": "latest",
