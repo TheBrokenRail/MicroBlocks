@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "prepare": "cd node_modules/blockly && npm install && npm run prepare && ncp blockly_node_javascript_en.js ../../blockly.js"
   },
   "author": "TheBrokenRail",
   "license": "MIT",
   "dependencies": {
-    "blockly": "latest",
+    "blockly": "https://github.com/google/blockly.git#develop",
     "js-beautify": "latest",
     "xml-js": "latest",
     "express": "latest"
