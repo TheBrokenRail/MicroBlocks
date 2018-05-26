@@ -11,14 +11,13 @@ ScratchBlocks.Blocks['methods_def'] = {
     nameField.setSpellcheck(false);
     this.appendValueInput('TYPE');
     this.appendDummyInput()
-        .appendField(ScratchBlocks.Msg.PROCEDURES_DEFNORETURN_TITLE)
+        .appendField('define')
         .appendField(nameField, 'NAME')
         .appendField('', 'PARAMS');
     this.setMutator(new ScratchBlocks.Mutator(['methods_mutatorarg']));
     this.setColour(ScratchBlocks.Colours.control.primary, ScratchBlocks.Colours.control.secondary, ScratchBlocks.Colours.control.tertiary);
     this.arguments_ = [];
-    this.appendStatementInput('STACK')
-        .appendField(ScratchBlocks.Msg.PROCEDURES_DEFNORETURN_DO);
+    this.appendStatementInput('STACK');
     this.statementConnection_ = null;
   },
   /**
@@ -39,7 +38,7 @@ ScratchBlocks.Blocks['methods_def'] = {
       hash['arg_' + this.arguments_[i].name] = true;
     }
     if (badArg) {
-      this.setWarningText(ScratchBlocks.Msg.PROCEDURES_DEF_DUPLICATE_WARNING);
+      this.setWarningText('Bad!');
     } else {
       this.setWarningText(null);
     }
@@ -50,7 +49,7 @@ ScratchBlocks.Blocks['methods_def'] = {
       for (let i = 0; i < this.arguments_.length; i++) {
         param.push(this.arguments_[i].type + ' ' + this.arguments_[i].name);
       }
-      paramString = ScratchBlocks.Msg.PROCEDURES_BEFORE_PARAMS +
+      paramString = 'Params:' +
           ' ' + param.join(', ');
     }
     // The params field is deterministic based on the mutation,
@@ -174,7 +173,7 @@ ScratchBlocks.Blocks['methods_mutatorcontainer'] = {
    */
   init: function () {
     this.appendDummyInput()
-        .appendField(ScratchBlocks.Msg.PROCEDURES_MUTATORCONTAINER_TITLE);
+        .appendField('Arguments');
     this.appendStatementInput('STACK');
     this.setColour(ScratchBlocks.Colours.control.primary, ScratchBlocks.Colours.control.secondary, ScratchBlocks.Colours.control.tertiary);
     this.contextMenu = false;
@@ -190,11 +189,10 @@ ScratchBlocks.Blocks['methods_mutatorarg'] = {
     let field = new ScratchBlocks.FieldTextInput('x', this.validator_);
     this.appendValueInput('TYPE');
     this.appendDummyInput()
-        .appendField(ScratchBlocks.Msg.PROCEDURES_MUTATORARG_TITLE)
         .appendField(field, 'NAME');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setColour(ScratchBlocks.Msg.PROCEDURES_HUE);
+    this.setColour(ScratchBlocks.Colours.control.primary, ScratchBlocks.Colours.control.secondary, ScratchBlocks.Colours.control.tertiary);
     this.contextMenu = false;
   }
 };
@@ -406,7 +404,7 @@ ScratchBlocks.Blocks['methods_return'] = {
    */
   init: function () {
     this.appendValueInput('VALUE')
-        .appendField(ScratchBlocks.Msg.PROCEDURES_DEFRETURN_RETURN);
+        .appendField('return');
     this.setInputsInline(true);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
