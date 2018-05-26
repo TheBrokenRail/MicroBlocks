@@ -181,7 +181,9 @@ ScratchBlocks.Blocks['methods_mutatorarg'] = {
    * @this ScratchBlocks.Block
    */
   init: function () {
-    let field = new ScratchBlocks.FieldTextInput('x', this.validator_);
+    let field = new ScratchBlocks.FieldTextInput('arg');
+    this.appendDummyInput()
+        .appendField('Argument');
     this.appendValueInput('TYPE');
     this.appendDummyInput()
         .appendField(field, 'NAME');
