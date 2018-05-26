@@ -47,7 +47,7 @@ Blockly.Blocks['methods_def'] = {
     if (this.arguments_.length) {
       let param = [];
       for (let i = 0; i < this.arguments_.length; i++) {
-        param.push(Blockly.Blocks[this.arguments_[i].type].displayName + ' ' + this.arguments_[i].name);
+        param.push(Blockly.Blocks[this.arguments_[i].type] ? Blockly.Blocks[this.arguments_[i].type].displayName : 'MISSING_TYPE' + ' ' + this.arguments_[i].name);
       }
       paramString = 'Params:' +
           ' ' + param.join(', ');
