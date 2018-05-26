@@ -432,7 +432,7 @@ const methodsCallback = workspace => {
   if (ScratchBlocks.Blocks['methods_return']) {
     // <block type="procedures_ifreturn" gap="16"></block>
     var block = document.createElement('block');
-    block.setAttribute('type', 'methods_ifreturn');
+    block.setAttribute('type', 'methods_return');
     block.setAttribute('gap', 16);
     xmlList.push(block);
   }
