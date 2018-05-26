@@ -344,7 +344,7 @@ Blockly.Blocks['methods_call'] = {
     let args = [];
     for (let i = 0, childNode; childNode = xmlElement.childNodes[i]; i++) {
       if (childNode.nodeName.toLowerCase() == 'arg') {
-        args.push({name: childNode.getAttribute('name'), type: childNode.getAttribute('type')});
+        args.push({name: childNode.getAttribute('name')});
       }
     }
     this.setProcedureParameters_(args);
@@ -423,7 +423,7 @@ const methodsCallback = workspace => {
       block.appendChild(mutation);
       for (let j = 0; j < args.length; j++) {
         let arg = document.createElement('arg');
-        arg.setAttribute('name', args[j]);
+        arg.setAttribute('name', args[j].name);
         mutation.appendChild(arg);
       }
       xmlList.push(block);
