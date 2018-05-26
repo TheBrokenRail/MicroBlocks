@@ -15,7 +15,7 @@ ScratchBlocks.Blocks['methods_def'] = {
         .appendField(nameField, 'NAME')
         .appendField('', 'PARAMS');
     this.setMutator(new ScratchBlocks.Mutator(['methods_mutatorarg']));
-    this.setColour(ScratchBlocks.Colours.control);
+    this.setColour(ScratchBlocks.Colours.control.primary, ScratchBlocks.Colours.control.secondary, ScratchBlocks.Colours.control.tertiary);
     this.arguments_ = [];
     this.appendStatementInput('STACK')
         .appendField(ScratchBlocks.Msg.PROCEDURES_DEFNORETURN_DO);
@@ -176,7 +176,7 @@ ScratchBlocks.Blocks['methods_mutatorcontainer'] = {
     this.appendDummyInput()
         .appendField(ScratchBlocks.Msg.PROCEDURES_MUTATORCONTAINER_TITLE);
     this.appendStatementInput('STACK');
-    this.setColour(ScratchBlocks.Colours.control);
+    this.setColour(ScratchBlocks.Colours.control.primary, ScratchBlocks.Colours.control.secondary, ScratchBlocks.Colours.control.tertiary);
     this.contextMenu = false;
   }
 };
@@ -209,7 +209,7 @@ ScratchBlocks.Blocks['methods_call'] = {
         .appendField(this.id, 'NAME');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setColour(ScratchBlocks.Colours.control);
+    this.setColour(ScratchBlocks.Colours.control.primary, ScratchBlocks.Colours.control.secondary, ScratchBlocks.Colours.control.tertiary);
     this.arguments_ = [];
   },
   /**
@@ -410,7 +410,7 @@ ScratchBlocks.Blocks['methods_return'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setColour(ScratchBlocks.Colours.control);
+    this.setColour(ScratchBlocks.Colours.control.primary, ScratchBlocks.Colours.control.secondary, ScratchBlocks.Colours.control.tertiary);
     this.hasReturnValue_ = true;
   }
 };
