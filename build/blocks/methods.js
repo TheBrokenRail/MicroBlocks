@@ -1,12 +1,12 @@
-let ScratchBlocks = window.ScratchBlocks;
+let Blockly = window.Blockly;
 
-ScratchBlocks.Blocks['methods_def'] = {
+Blockly.Blocks['methods_def'] = {
   /**
    * Block for defining a procedure with no return value.
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   init: function () {
-    let nameField = new ScratchBlocks.FieldTextInput('');
+    let nameField = new Blockly.FieldTextInput('');
     nameField.setSpellcheck(false);
     this.appendDummyInput()
         .appendField('define');
@@ -14,7 +14,7 @@ ScratchBlocks.Blocks['methods_def'] = {
     this.appendDummyInput()
         .appendField(nameField, 'NAME')
         .appendField('', 'PARAMS');
-    this.setMutator(new ScratchBlocks.Mutator(['methods_mutatorarg']));
+    this.setMutator(new Blockly.Mutator(['methods_mutatorarg']));
     this.setColour(210);
     this.arguments_ = [];
     this.appendStatementInput('STACK');
@@ -24,14 +24,14 @@ ScratchBlocks.Blocks['methods_def'] = {
    * Update the display of parameters for this procedure definition block.
    * Display a warning if there are duplicately named parameters.
    * @private
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   updateParams_: function () {
     // Check for duplicated arguments.
     let badArg = false;
     let hash = {};
     for (let i = 0; i < this.arguments_.length; i++) {
-      if (hash['arg_' + this.arguments_[i].name] || this.arguments_[i].name.contains(' ')) {
+      if (hash['arg_' + this.arguments_[i].name] || this.arguments_[i].name.indexOf(' ') !== -1) {
         badArg = true;
         break;
       }
@@ -47,26 +47,26 @@ ScratchBlocks.Blocks['methods_def'] = {
     if (this.arguments_.length) {
       let param = [];
       for (let i = 0; i < this.arguments_.length; i++) {
-        param.push(this.arguments_[i].type + ' ' + this.arguments_[i].name);
+        param.push(Blockly.Blocks[this.arguments_[i].type].displayName + ' ' + this.arguments_[i].name);
       }
       paramString = 'Params:' +
           ' ' + param.join(', ');
     }
     // The params field is deterministic based on the mutation,
     // no need to fire a change event.
-    ScratchBlocks.Events.disable();
+    Blockly.Events.disable();
     try {
       this.setFieldValue(paramString, 'PARAMS');
     } finally {
-      ScratchBlocks.Events.enable();
+      Blockly.Events.enable();
     }
   },
   /**
    * Create XML to represent the argument inputs.
    * @param {boolean=} opt_paramIds If true include the IDs of the parameter
-   *     quarks.  Used by ScratchBlocks.Procedures.mutateCallers for reconnection.
+   *     quarks.  Used by Blockly.Procedures.mutateCallers for reconnection.
    * @return {!Element} XML storage element.
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   mutationToDom: function (opt_paramIds) {
     let container = document.createElement('mutation');
@@ -83,7 +83,7 @@ ScratchBlocks.Blocks['methods_def'] = {
   /**
    * Parse XML to restore the argument inputs.
    * @param {!Element} xmlElement XML storage element.
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   domToMutation: function (xmlElement) {
     this.arguments_ = [];
@@ -99,9 +99,9 @@ ScratchBlocks.Blocks['methods_def'] = {
   },
   /**
    * Populate the mutator's dialog with this block's components.
-   * @param {!ScratchBlocks.Workspace} workspace Mutator's workspace.
-   * @return {!ScratchBlocks.Block} Root block in mutator.
-   * @this ScratchBlocks.Block
+   * @param {!Blockly.Workspace} workspace Mutator's workspace.
+   * @return {!Blockly.Block} Root block in mutator.
+   * @this Blockly.Block
    */
   decompose: function (workspace) {
     let containerBlock = workspace.newBlock('methods_mutatorcontainer');
@@ -123,8 +123,8 @@ ScratchBlocks.Blocks['methods_def'] = {
   },
   /**
    * Reconfigure this block based on the mutator dialog's components.
-   * @param {!ScratchBlocks.Block} containerBlock Root block in mutator.
-   * @this ScratchBlocks.Block
+   * @param {!Blockly.Block} containerBlock Root block in mutator.
+   * @this Blockly.Block
    */
   compose: function (containerBlock) {
     // Parameter list.
@@ -138,14 +138,13 @@ ScratchBlocks.Blocks['methods_def'] = {
           paramBlock.nextConnection.targetBlock();
     }
     this.updateParams_();
-    ScratchBlocks.Procedures.mutateCallers(this);
   },
   /**
    * Return the signature of this procedure definition.
    * @return {!Array} Tuple containing three elements:
    *     - the name of the defined procedure,
    *     - a list of all its arguments,
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   getProcedureDef: function () {
     return [this.getFieldValue('TYPE'), this.getFieldValue('NAME'), false, this.arguments_];
@@ -153,7 +152,7 @@ ScratchBlocks.Blocks['methods_def'] = {
   /**
    * Return all letiables referenced by this block.
    * @return {!Array.<string>} List of letiable names.
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   getArgs: function () {
     return this.arguments_;
@@ -161,10 +160,10 @@ ScratchBlocks.Blocks['methods_def'] = {
   callType_: 'methods_call'
 };
 
-ScratchBlocks.Blocks['methods_mutatorcontainer'] = {
+Blockly.Blocks['methods_mutatorcontainer'] = {
   /**
    * Mutator block for procedure container.
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   init: function () {
     this.appendDummyInput()
@@ -175,13 +174,13 @@ ScratchBlocks.Blocks['methods_mutatorcontainer'] = {
   }
 };
 
-ScratchBlocks.Blocks['methods_mutatorarg'] = {
+Blockly.Blocks['methods_mutatorarg'] = {
   /**
    * Mutator block for procedure argument.
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   init: function () {
-    let field = new ScratchBlocks.FieldTextInput('arg');
+    let field = new Blockly.FieldTextInput('arg');
     this.appendDummyInput()
         .appendField('Argument');
     this.appendValueInput('TYPE');
@@ -194,10 +193,10 @@ ScratchBlocks.Blocks['methods_mutatorarg'] = {
   }
 };
 
-ScratchBlocks.Blocks['methods_call'] = {
+Blockly.Blocks['methods_call'] = {
   /**
    * Block for calling a procedure with no return value.
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   init: function () {
     this.appendDummyInput('TOPROW')
@@ -210,7 +209,7 @@ ScratchBlocks.Blocks['methods_call'] = {
   /**
    * Returns the name of the procedure this block calls.
    * @return {string} Procedure name.
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   getProcedureCall: function () {
     // The NAME field is guaranteed to exist, null will never be returned.
@@ -221,14 +220,14 @@ ScratchBlocks.Blocks['methods_call'] = {
    * If the name matches this block's procedure, rename it.
    * @param {string} oldName Previous name of procedure.
    * @param {string} newName Renamed procedure.
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   renameProcedure: function (oldName, newName) {
-    if (ScratchBlocks.Names.equals(oldName, this.getProcedureCall())) {
+    if (Blockly.Names.equals(oldName, this.getProcedureCall())) {
       this.setFieldValue(newName, 'NAME');
       let baseMsg = this.outputConnection ?
-          ScratchBlocks.Msg.PROCEDURES_CALLRETURN_TOOLTIP :
-          ScratchBlocks.Msg.PROCEDURES_CALLNORETURN_TOOLTIP;
+          Blockly.Msg.PROCEDURES_CALLRETURN_TOOLTIP :
+          Blockly.Msg.PROCEDURES_CALLNORETURN_TOOLTIP;
     }
   },
   /**
@@ -238,13 +237,13 @@ ScratchBlocks.Blocks['methods_call'] = {
    *     parameter through the life of a mutator, regardless of param renaming),
    *     e.g. ['piua', 'f8b_', 'oi.o'].
    * @private
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   setProcedureParameters_: function (args) {
     // Data structures:
     // this.arguments = ['x', 'y']
     //     Existing param names.
-    // this.quarkConnections_ {piua: null, f8b_: ScratchBlocks.Connection}
+    // this.quarkConnections_ {piua: null, f8b_: Blockly.Connection}
     //     Look-up of paramIds to connections plugged into the call block.
     // this.quarkIds_ = ['piua', 'f8b_']
     //     Existing param IDs.
@@ -274,7 +273,7 @@ ScratchBlocks.Blocks['methods_call'] = {
     for (let i = 0; i < this.arguments_.length; i++) {
       if (quark[i]) {
         let connection = quark[i];
-        if (!ScratchBlocks.Mutator.reconnect(connection, this, 'ARG' + i)) {
+        if (!Blockly.Mutator.reconnect(connection, this, 'ARG' + i)) {
           // Block no longer exists or has been attached elsewhere.
           delete this.quarkConnections_[quarkId];
         }
@@ -289,7 +288,7 @@ ScratchBlocks.Blocks['methods_call'] = {
   /**
    * Modify this block to have the correct number of arguments.
    * @private
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   updateShape_: function () {
     for (let i = 0; i < this.arguments_.length; i++) {
@@ -298,17 +297,17 @@ ScratchBlocks.Blocks['methods_call'] = {
         // Ensure argument name is up to date.
         // The argument name field is deterministic based on the mutation,
         // no need to fire a change event.
-        ScratchBlocks.Events.disable();
+        Blockly.Events.disable();
         try {
           field.setValue(this.arguments_[i].name + ':');
         } finally {
-          ScratchBlocks.Events.enable();
+          Blockly.Events.enable();
         }
       } else {
         // Add new input.
-        field = new ScratchBlocks.FieldLabel(this.arguments_[i].name);
+        field = new Blockly.FieldLabel(this.arguments_[i].name);
         let input = this.appendValueInput('ARG' + i)
-            .setAlign(ScratchBlocks.ALIGN_RIGHT)
+            .setAlign(Blockly.ALIGN_RIGHT)
             .appendField(field, 'ARGNAME' + i);
         input.init();
       }
@@ -322,7 +321,7 @@ ScratchBlocks.Blocks['methods_call'] = {
   /**
    * Create XML to represent the (non-editable) name and arguments.
    * @return {!Element} XML storage element.
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   mutationToDom: function () {
     let container = document.createElement('mutation');
@@ -337,7 +336,7 @@ ScratchBlocks.Blocks['methods_call'] = {
   /**
    * Parse XML to restore the (non-editable) name and parameters.
    * @param {!Element} xmlElement XML storage element.
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   domToMutation: function (xmlElement) {
     let name = xmlElement.getAttribute('name');
@@ -353,8 +352,8 @@ ScratchBlocks.Blocks['methods_call'] = {
   /**
    * Procedure calls cannot exist without the corresponding procedure
    * definition.  Enforce this link whenever an event is fired.
-   * @param {!ScratchBlocks.Events.Abstract} event Change event.
-   * @this ScratchBlocks.Block
+   * @param {!Blockly.Events.Abstract} event Change event.
+   * @this Blockly.Block
    */
   onchange: function (event) {
     if (!this.workspace || this.workspace.isFlyout) {
@@ -365,10 +364,10 @@ ScratchBlocks.Blocks['methods_call'] = {
   defType_: 'methods_def'
 };
 
-ScratchBlocks.Blocks['methods_return'] = {
+Blockly.Blocks['methods_return'] = {
   /**
    * Block for conditionally returning a value from a procedure.
-   * @this ScratchBlocks.Block
+   * @this Blockly.Block
    */
   init: function () {
     this.appendValueInput('VALUE')
@@ -383,7 +382,7 @@ ScratchBlocks.Blocks['methods_return'] = {
 
 const methodsCallback = workspace => {
   let xmlList = [];
-  if (ScratchBlocks.Blocks['methods_def']) {
+  if (Blockly.Blocks['methods_def']) {
     // <block type="procedures_defnoreturn" gap="16">
     //     <field name="NAME">do something</field>
     // </block>
@@ -395,7 +394,7 @@ const methodsCallback = workspace => {
     block.appendChild(nameField);
     xmlList.push(block);
   }
-  if (ScratchBlocks.Blocks['methods_return']) {
+  if (Blockly.Blocks['methods_return']) {
     // <block type="procedures_ifreturn" gap="16"></block>
     var block = document.createElement('block');
     block.setAttribute('type', 'methods_return');
@@ -431,7 +430,7 @@ const methodsCallback = workspace => {
     }
   }
 
-  let tuple = ScratchBlocks.Procedures.allProcedures(workspace);
+  let tuple = Blockly.Procedures.allProcedures(workspace);
   populateProcedures(tuple[0], 'methods_call');
   return xmlList;
 };
