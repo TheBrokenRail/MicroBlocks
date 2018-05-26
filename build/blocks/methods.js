@@ -213,7 +213,7 @@ Blockly.Blocks['methods_call'] = {
    */
   getProcedureCall: function () {
     // The NAME field is guaranteed to exist, null will never be returned.
-    return /** @type {string} */ (this.getFieldValue('NAME'));
+    return this.getFieldValue('NAME');
   },
   /**
    * Notification that a procedure is renaming.
@@ -344,7 +344,7 @@ Blockly.Blocks['methods_call'] = {
     let args = [];
     for (let i = 0, childNode; childNode = xmlElement.childNodes[i]; i++) {
       if (childNode.nodeName.toLowerCase() == 'arg') {
-        args.push(childNode.getAttribute('name'));
+        args.push({name: childNode.getAttribute('name'), type: childNode.getAttribute('type')});
       }
     }
     this.setProcedureParameters_(args);
