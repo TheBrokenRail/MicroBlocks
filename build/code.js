@@ -22,9 +22,6 @@ window.onload = function () {
         }
     }
     
-    window.ScratchBlocks.Xml.domToWorkspace(document.getElementById('workspace'), workspace);
-    workspace.scrollCenter();
-    
     document.getElementById('save').onclick = function () {
         var name = document.getElementById('name').value;
         if (!name || name === '') {
