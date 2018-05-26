@@ -133,7 +133,7 @@ ScratchBlocks.Blocks['methods_def'] = {
     while (paramBlock) {
       let argName = paramBlock.getFieldValue('NAME');
       let argType = paramBlock.getInputTargetBlock('TYPE');
-      this.arguments_.push({name: argName, type: argType.type});
+      this.arguments_.push({name: argName, type: argType});
       paramBlock = paramBlock.nextConnection &&
           paramBlock.nextConnection.targetBlock();
     }
