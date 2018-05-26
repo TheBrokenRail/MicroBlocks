@@ -410,9 +410,62 @@ ScratchBlocks.Blocks['methods_return'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setColour(ScratchBlocks.Msg.PROCEDURES_HUE);
-    this.setTooltip(ScratchBlocks.Msg.PROCEDURES_IFRETURN_TOOLTIP);
-    this.setHelpUrl(ScratchBlocks.Msg.PROCEDURES_IFRETURN_HELPURL);
+    this.setColour(ScratchBlocks.Colours.control);
     this.hasReturnValue_ = true;
   }
+};
+
+const methodsCallback = workspace => {
+  let xmlList = [];
+  if (ScratchBlocks.Blocks['methods_def']) {
+    // <block type="procedures_defnoreturn" gap="16">
+    //     <field name="NAME">do something</field>
+    // </block>
+    let block = document.createElement('block');
+    block.setAttribute('type', 'methods_def');
+    block.setAttribute('gap', 16);
+    let nameField = document.createElement('field');
+    nameField.setAttribute('', 'NAME');
+    block.appendChild(nameField);
+    xmlList.push(block);
+  }
+  if (ScratchBlocks.Blocks['methods_return']) {
+    // <block type="procedures_ifreturn" gap="16"></block>
+    var block = document.createElement('block');
+    block.setAttribute('type', 'methods_ifreturn');
+    block.setAttribute('gap', 16);
+    xmlList.push(block);
+  }
+  if (xmlList.length) {
+    // Add slightly larger gap between system blocks and user calls.
+    xmlList[xmlList.length - 1].setAttribute('gap', 24);
+  }
+
+  function populateProcedures(procedureList, templateName) {
+    for (var i = 0; i < procedureList.length; i++) {
+      let name = procedureList[i][0];
+      let args = procedureList[i][1];
+      // <block type="procedures_callnoreturn" gap="16">
+      //   <mutation name="do something">
+      //     <arg name="x"></arg>
+      //   </mutation>
+      // </block>
+      let block = document.createElement('block');
+      block.setAttribute('type', templateName);
+      block.setAttribute('gap', 16);
+      let mutation = document.createElement('mutation');
+      mutation.setAttribute('name', name);
+      block.appendChild(mutation);
+      for (let j = 0; j < args.length; j++) {
+        let arg = document.createElement('arg');
+        arg.setAttribute('name', args[j]);
+        mutation.appendChild(arg);
+      }
+      xmlList.push(block);
+    }
+  }
+
+  let tuple = ScratchBlocks.Procedures.allProcedures(workspace);
+  populateProcedures(tuple[0], 'methods_call');
+  return xmlList;
 };
