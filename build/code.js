@@ -1,7 +1,7 @@
 window.onload = function () {
     let workspace = window.ScratchBlocks.inject('blocks', {
         media: './media/',
-        toolbox: document.getElementById('toolbox'),
+        toolbox: null,
         zoom: {
             controls: true,
             wheel: true,
@@ -13,7 +13,7 @@ window.onload = function () {
         }
     });
     workspace.registerToolboxCategoryCallback('METHODS', methodsCallback);
-    
+    workspace.updateToolbox(document.getElementById('toolbox'));
     window.workspace = workspace;
     let css = window.ScratchBlocks.Css.styleSheet_.cssRules;
     for (i = 0; i < css.length; i++) {
