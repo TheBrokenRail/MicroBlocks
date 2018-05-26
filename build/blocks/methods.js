@@ -6,12 +6,13 @@ ScratchBlocks.Blocks['methods_def'] = {
    * @this ScratchBlocks.Block
    */
   init: function () {
-    let nameField = new ScratchBlocks.FieldTextInput('',
-        ScratchBlocks.Procedures.rename);
+    let nameField = new ScratchBlocks.FieldTextInput('');
     nameField.setSpellcheck(false);
     this.appendValueInput('TYPE');
     this.appendDummyInput()
-        .appendField('define')
+        .appendField('define');
+    this.appendValueInput('TYPE');
+    this.appendDummyInput()
         .appendField(nameField, 'NAME')
         .appendField('', 'PARAMS');
     this.setMutator(new ScratchBlocks.Mutator(['methods_mutatorarg']));
@@ -70,9 +71,7 @@ ScratchBlocks.Blocks['methods_def'] = {
    */
   mutationToDom: function (opt_paramIds) {
     let container = document.createElement('mutation');
-    if (opt_paramIds) {
-      container.setAttribute('name', this.getFieldValue('NAME'));
-    }
+    container.setAttribute('name', this.getFieldValue('NAME'));
     for (let i = 0; i < this.arguments_.length; i++) {
       let parameter = document.createElement('arg');
       let arg = this.arguments_[i];
@@ -96,8 +95,8 @@ ScratchBlocks.Blocks['methods_def'] = {
         this.arguments_.push({name: argName, type: argType});
       }
     }
+    this.getField('NAME').setText(xmlElement.getAttribute('name'));
     this.updateParams_();
-    ScratchBlocks.Procedures.mutateCallers(this);
   },
   /**
    * Populate the mutator's dialog with this block's components.
@@ -108,7 +107,6 @@ ScratchBlocks.Blocks['methods_def'] = {
   decompose: function (workspace) {
     let containerBlock = workspace.newBlock('methods_mutatorcontainer');
     containerBlock.initSvg();
-
     // Parameter list.
     let connection = containerBlock.getInput('STACK').connection;
     for (let i = 0; i < this.arguments_.length; i++) {
@@ -122,8 +120,6 @@ ScratchBlocks.Blocks['methods_def'] = {
       connection.connect(paramBlock.previousConnection);
       connection = paramBlock.nextConnection;
     }
-    // Initialize procedure's callers with blank IDs.
-    ScratchBlocks.Procedures.mutateCallers(this);
     return containerBlock;
   },
   /**
