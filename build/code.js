@@ -1,6 +1,6 @@
 window.onload = function () {
     let workspace = window.ScratchBlocks.inject('blocks', {
-        media: './media/',
+        media: '/editor/media/',
         toolbox: null,
         zoom: {
             controls: true,
