@@ -111,9 +111,11 @@ Blockly.Blocks['methods_def'] = {
     for (let i = 0; i < this.arguments_.length; i++) {
       let paramBlock = workspace.newBlock('methods_mutatorarg');
       paramBlock.initSvg();
-      let typeBlock = workspace.newBlock(this.arguments_[i].type);
-      typeBlock.initSvg();
-      paramBlock.getInput('type').connect(typeBlock.outputConnection);
+      if (Blockly.Blocks[this.arguments_[i].type]) {
+        let typeBlock = workspace.newBlock(this.arguments_[i].type);
+        typeBlock.initSvg();
+        paramBlock.getInput('type').connect(typeBlock.outputConnection);
+      }
       paramBlock.setFieldValue(this.arguments_[i].name, 'NAME');
       // Store the old location.
       connection.connect(paramBlock.previousConnection);
