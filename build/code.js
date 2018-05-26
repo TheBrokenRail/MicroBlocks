@@ -1,5 +1,5 @@
 window.onload = function () {
-    let workspace = window.ScratchBlocks.inject('blocks', {
+    let workspace = window.Blockly.inject('blocks', {
         media: '/editor/media/',
         toolbox: document.getElementById('toolbox'),
         zoom: {
@@ -14,7 +14,7 @@ window.onload = function () {
     });
     workspace.registerToolboxCategoryCallback('METHODS', methodsCallback);
     window.workspace = workspace;
-    let css = window.ScratchBlocks.Css.styleSheet_.cssRules;
+    let css = window.Blockly.Css.styleSheet_.cssRules;
     for (i = 0; i < css.length; i++) {
         if (css[i].selectorText === '.blocklyDragging > .blocklyPath, .blocklyDragging > .blocklyPathLight') {
             css[i].style.fillOpacity = '';
@@ -28,8 +28,8 @@ window.onload = function () {
         }
         var project = {};
         project.name = name;
-        var xml = window.ScratchBlocks.Xml.workspaceToDom(window.workspace);
-        project.blocks = window.xml_js.xml2js(window.ScratchBlocks.Xml.domToText(xml), {compact: false});
+        var xml = window.Blockly.Xml.workspaceToDom(window.workspace);
+        project.blocks = window.xml_js.xml2js(window.Blockly.Xml.domToText(xml), {compact: false});
         var json = JSON.stringify(project, null, 4);
         var hiddenElement = document.createElement('a');
         hiddenElement.href = 'data:attachment/text,' + encodeURI(json);
@@ -50,12 +50,12 @@ window.onload = function () {
                         workspace.clear();
                         var project = JSON.parse(text);
                         document.getElementById('name').value = project.name;
-                        var xml = window.ScratchBlocks.Xml.textToDom(window.xml_js.js2xml(project.blocks, {compact: false, spaces: 2}));
-                        window.ScratchBlocks.Xml.domToWorkspace(xml, workspace);
+                        var xml = window.Blockly.Xml.textToDom(window.xml_js.js2xml(project.blocks, {compact: false, spaces: 2}));
+                        window.Blockly.Xml.domToWorkspace(xml, workspace);
                     } catch(e) {
                         document.getElementById('name').value = "Untitled";
                         workspace.clear();
-                        window.ScratchBlocks.Xml.domToWorkspace(document.getElementById('workspace'), window.workspace);
+                        window.Blockly.Xml.domToWorkspace(document.getElementById('workspace'), window.workspace);
                         alert("Error: Invalid or Corrupt File");
                         throw "Invalid or Corrupt File";
                     }
