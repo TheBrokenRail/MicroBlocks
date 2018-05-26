@@ -148,7 +148,7 @@ ScratchBlocks.Blocks['methods_def'] = {
    * @this ScratchBlocks.Block
    */
   getProcedureDef: function () {
-    return [this.getFieldValue('TYPE'), this.getFieldValue('NAME'), this.arguments_];
+    return [this.getFieldValue('TYPE'), false, this.getFieldValue('NAME'), this.arguments_];
   },
   /**
    * Return all letiables referenced by this block.
