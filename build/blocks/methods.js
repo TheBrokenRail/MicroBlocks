@@ -8,7 +8,6 @@ ScratchBlocks.Blocks['methods_def'] = {
   init: function () {
     let nameField = new ScratchBlocks.FieldTextInput('');
     nameField.setSpellcheck(false);
-    this.appendValueInput('TYPE');
     this.appendDummyInput()
         .appendField('define');
     this.appendValueInput('TYPE');
