@@ -9,7 +9,7 @@
   "author": "TheBrokenRail",
   "license": "MIT",
   "dependencies": {
-    "scratch-blocks": "latest",
+    "blockly": "latest",
     "js-beautify": "latest",
     "xml-js": "latest",
     "express": "latest"
