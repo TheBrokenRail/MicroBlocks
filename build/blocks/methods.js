@@ -5,7 +5,7 @@ ScratchBlocks.Blocks['methods_def'] = {
    * Block for defining a procedure with no return value.
    * @this ScratchBlocks.Block
    */
-  init: () => {
+  init: function () {
     let nameField = new ScratchBlocks.FieldTextInput('',
         ScratchBlocks.Procedures.rename);
     nameField.setSpellcheck(false);
@@ -27,7 +27,7 @@ ScratchBlocks.Blocks['methods_def'] = {
    * @private
    * @this ScratchBlocks.Block
    */
-  updateParams_: () => {
+  updateParams_: function () {
     // Check for duplicated arguments.
     let badArg = false;
     let hash = {};
@@ -69,7 +69,7 @@ ScratchBlocks.Blocks['methods_def'] = {
    * @return {!Element} XML storage element.
    * @this ScratchBlocks.Block
    */
-  mutationToDom: function(opt_paramIds) {
+  mutationToDom: function (opt_paramIds) {
     let container = document.createElement('mutation');
     if (opt_paramIds) {
       container.setAttribute('name', this.getFieldValue('NAME'));
@@ -88,7 +88,7 @@ ScratchBlocks.Blocks['methods_def'] = {
    * @param {!Element} xmlElement XML storage element.
    * @this ScratchBlocks.Block
    */
-  domToMutation: function(xmlElement) {
+  domToMutation: function (xmlElement) {
     this.arguments_ = [];
     for (let i = 0, childNode; childNode = xmlElement.childNodes[i]; i++) {
       if (childNode.nodeName.toLowerCase() == 'arg') {
@@ -106,7 +106,7 @@ ScratchBlocks.Blocks['methods_def'] = {
    * @return {!ScratchBlocks.Block} Root block in mutator.
    * @this ScratchBlocks.Block
    */
-  decompose: function(workspace) {
+  decompose: function (workspace) {
     let containerBlock = workspace.newBlock('methods_mutatorcontainer');
     containerBlock.initSvg();
 
@@ -132,7 +132,7 @@ ScratchBlocks.Blocks['methods_def'] = {
    * @param {!ScratchBlocks.Block} containerBlock Root block in mutator.
    * @this ScratchBlocks.Block
    */
-  compose: function(containerBlock) {
+  compose: function (containerBlock) {
     // Parameter list.
     this.arguments_ = [];
     let paramBlock = containerBlock.getInputTargetBlock('STACK');
@@ -153,7 +153,7 @@ ScratchBlocks.Blocks['methods_def'] = {
    *     - a list of all its arguments,
    * @this ScratchBlocks.Block
    */
-  getProcedureDef: () => {
+  getProcedureDef: function () {
     return [this.getFieldValue('TYPE'), this.getFieldValue('NAME'), this.arguments_];
   },
   /**
@@ -161,7 +161,7 @@ ScratchBlocks.Blocks['methods_def'] = {
    * @return {!Array.<string>} List of letiable names.
    * @this ScratchBlocks.Block
    */
-  getArgs: () => {
+  getArgs: function () {
     return this.arguments_;
   },
   callType_: 'methods_call'
@@ -172,7 +172,7 @@ ScratchBlocks.Blocks['methods_mutatorcontainer'] = {
    * Mutator block for procedure container.
    * @this ScratchBlocks.Block
    */
-  init: () => {
+  init: function () {
     this.appendDummyInput()
         .appendField(ScratchBlocks.Msg.PROCEDURES_MUTATORCONTAINER_TITLE);
     this.appendStatementInput('STACK');
@@ -186,7 +186,7 @@ ScratchBlocks.Blocks['methods_mutatorarg'] = {
    * Mutator block for procedure argument.
    * @this ScratchBlocks.Block
    */
-  init: () => {
+  init: function () {
     let field = new ScratchBlocks.FieldTextInput('x', this.validator_);
     this.appendValueInput('TYPE');
     this.appendDummyInput()
@@ -204,7 +204,7 @@ ScratchBlocks.Blocks['methods_call'] = {
    * Block for calling a procedure with no return value.
    * @this ScratchBlocks.Block
    */
-  init: () => {
+  init: function () {
     this.appendDummyInput('TOPROW')
         .appendField(this.id, 'NAME');
     this.setPreviousStatement(true);
@@ -217,7 +217,7 @@ ScratchBlocks.Blocks['methods_call'] = {
    * @return {string} Procedure name.
    * @this ScratchBlocks.Block
    */
-  getProcedureCall: () => {
+  getProcedureCall: function () {
     // The NAME field is guaranteed to exist, null will never be returned.
     return /** @type {string} */ (this.getFieldValue('NAME'));
   },
@@ -228,7 +228,7 @@ ScratchBlocks.Blocks['methods_call'] = {
    * @param {string} newName Renamed procedure.
    * @this ScratchBlocks.Block
    */
-  renameProcedure: (oldName, newName) => {
+  renameProcedure: function (oldName, newName) {
     if (ScratchBlocks.Names.equals(oldName, this.getProcedureCall())) {
       this.setFieldValue(newName, 'NAME');
       let baseMsg = this.outputConnection ?
@@ -245,7 +245,7 @@ ScratchBlocks.Blocks['methods_call'] = {
    * @private
    * @this ScratchBlocks.Block
    */
-  setProcedureParameters_: (args) => {
+  setProcedureParameters_: function (args) {
     // Data structures:
     // this.arguments = ['x', 'y']
     //     Existing param names.
@@ -296,7 +296,7 @@ ScratchBlocks.Blocks['methods_call'] = {
    * @private
    * @this ScratchBlocks.Block
    */
-  updateShape_: () => {
+  updateShape_: function () {
     for (let i = 0; i < this.arguments_.length; i++) {
       let field = this.getField('ARGNAME' + i);
       if (field) {
@@ -329,7 +329,7 @@ ScratchBlocks.Blocks['methods_call'] = {
    * @return {!Element} XML storage element.
    * @this ScratchBlocks.Block
    */
-  mutationToDom: () => {
+  mutationToDom: function () {
     let container = document.createElement('mutation');
     container.setAttribute('name', this.getProcedureCall());
     for (let i = 0; i < this.arguments_.length; i++) {
@@ -344,7 +344,7 @@ ScratchBlocks.Blocks['methods_call'] = {
    * @param {!Element} xmlElement XML storage element.
    * @this ScratchBlocks.Block
    */
-  domToMutation: function(xmlElement) {
+  domToMutation: function (xmlElement) {
     let name = xmlElement.getAttribute('name');
     this.renameProcedure(this.getProcedureCall(), name);
     let args = [];
@@ -361,7 +361,7 @@ ScratchBlocks.Blocks['methods_call'] = {
    * @param {!ScratchBlocks.Events.Abstract} event Change event.
    * @this ScratchBlocks.Block
    */
-  onchange: (event) => {
+  onchange: function (event) {
     if (!this.workspace || this.workspace.isFlyout) {
       // Block is deleted or is in a flyout.
       return;
@@ -404,7 +404,7 @@ ScratchBlocks.Blocks['methods_return'] = {
    * Block for conditionally returning a value from a procedure.
    * @this ScratchBlocks.Block
    */
-  init: () => {
+  init: function () {
     this.appendValueInput('VALUE')
         .appendField(ScratchBlocks.Msg.PROCEDURES_DEFRETURN_RETURN);
     this.setInputsInline(true);
