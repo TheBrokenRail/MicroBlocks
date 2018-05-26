@@ -425,7 +425,7 @@ const methodsCallback = workspace => {
     block.setAttribute('type', 'methods_def');
     block.setAttribute('gap', 16);
     let nameField = document.createElement('field');
-    nameField.setAttribute('', 'NAME');
+    nameField.setAttribute('NAME', '');
     block.appendChild(nameField);
     xmlList.push(block);
   }
