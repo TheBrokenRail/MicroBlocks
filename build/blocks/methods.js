@@ -361,35 +361,6 @@ ScratchBlocks.Blocks['methods_call'] = {
       // Block is deleted or is in a flyout.
       return;
     }
-    if (event.type == ScratchBlocks.Events.BLOCK_CREATE &&
-        event.ids.indexOf(this.id) != -1) {
-      // Look for the case where a procedure call was created (usually through
-      // paste) and there is no matching definition.  In this case, create
-      // an empty definition block with the correct signature.
-      let name = this.getProcedureCall();
-      let def = ScratchBlocks.Procedures.getDefinition(name, this.workspace);
-      if (def && (def.type != this.defType_ ||
-          JSON.stringify(def.arguments_) != JSON.stringify(this.arguments_))) {
-        // The signatures don't match.
-        def = null;
-      }
-      if (!def) {
-        ScratchBlocks.Events.setGroup(event.group);
-        this.dispose(true, false);
-        ScratchBlocks.Events.setGroup(false);
-      }
-    } else if (event.type == ScratchBlocks.Events.BLOCK_DELETE) {
-      // Look for the case where a procedure definition has been deleted,
-      // leaving this block (a procedure call) orphaned.  In this case, delete
-      // the orphan.
-      let name = this.getProcedureCall();
-      let def = ScratchBlocks.Procedures.getDefinition(name, this.workspace);
-      if (!def) {
-        ScratchBlocks.Events.setGroup(event.group);
-        this.dispose(true, false);
-        ScratchBlocks.Events.setGroup(false);
-      }
-    }
   },
   defType_: 'methods_def'
 };
