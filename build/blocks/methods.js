@@ -1,5 +1,3 @@
-let Blockly = window.Blockly;
-
 Blockly.Blocks['&&methods_def'] = {
   /**
    * Block for defining a procedure with no return value.
