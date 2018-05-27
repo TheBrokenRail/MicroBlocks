@@ -48,7 +48,7 @@ Blockly.Blocks['methods_def'] = {
     if (this.arguments_.length) {
       let param = [];
       for (let i = 0; i < this.arguments_.length; i++) {
-        param.push((Blockly.Blocks[this.arguments_[i].type] ? this.arguments_[i].type : 'MISSING_TYPE') + ' ' + this.arguments_[i].name);
+        param.push(this.arguments_[i].type + ' ' + this.arguments_[i].name);
       }
       paramString = 'Params:' +
           ' ' + param.join(', ');
@@ -135,7 +135,7 @@ Blockly.Blocks['methods_def'] = {
     let paramBlock = containerBlock.getInputTargetBlock('STACK');
     while (paramBlock) {
       let argName = paramBlock.getFieldValue('NAME');
-      let argType = paramBlock.getInputTargetBlock('TYPE').type;
+      let argType = paramBlock.getInputTargetBlock('TYPE') ? paramBlock.getInputTargetBlock('TYPE').type : 'MISSING_TYPE';
       this.arguments_.push({name: argName, type: argType});
       paramBlock = paramBlock.nextConnection &&
           paramBlock.nextConnection.targetBlock();
