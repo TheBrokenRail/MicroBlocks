@@ -150,7 +150,7 @@ Blockly.Blocks['methods_def'] = {
    * @this Blockly.Block
    */
   getProcedureDef: function () {
-    return [this.getFieldValue('TYPE'), this.getFieldValue('NAME'), false, this.arguments_];
+    return [this.getInputTargetBlock('TYPE') ? this.getInputTargetBlock('TYPE').type : 'MISSING_TYPE', this.getFieldValue('NAME'), false, this.arguments_];
   },
   /**
    * Return all letiables referenced by this block.
@@ -214,8 +214,8 @@ Blockly.Blocks['methods_call'] = {
   setArguments: function (name, type) {
     let list = Blockly.Procedures.allProcedures(workspace)[0];
     for (let i = 0; i < list.length; i++) {
-      if (list[i].getProcedureDef()[0] === type && list[i].getProcedureDef()[1] === name) {
-        this.arguments_ = list[i].getProcedureDef()[3];
+      if (list[i][0] === type && list[i][1] === name) {
+        this.arguments_ = list[i][3];
       }
     }
   },
