@@ -211,7 +211,7 @@ Blockly.Blocks['methods_call'] = {
     this.arguments_ = [];
     this.type_ = '';
   },
-  setArguments: function (name, type) {
+  setArguments: function (type, name) {
     let list = Blockly.Procedures.allProcedures(workspace)[0];
     for (let i = 0; i < list.length; i++) {
       if (list[i][0] === type && list[i][1] === name) {
