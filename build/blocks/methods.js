@@ -209,6 +209,15 @@ Blockly.Blocks['methods_call'] = {
     this.setNextStatement(true);
     this.setColour(210);
     this.arguments_ = [];
+    this.type_ = '';
+  },
+  setArguments: function (name, type) {
+    let list = Blockly.Procedures.allProcedures(workspace)[0];
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].getProcedureDef()[0] === type && list[i].getProcedureDef()[1] === name) {
+        this.arguments_ = list[i].getProcedureDef()[3];
+      }
+    }
   },
   /**
    * Returns the name of the procedure this block calls.
@@ -217,7 +226,7 @@ Blockly.Blocks['methods_call'] = {
    */
   getProcedureCall: function () {
     // The NAME field is guaranteed to exist, null will never be returned.
-    return this.getFieldValue('NAME');
+    return [this.getFieldValue('NAME'), this.type_];
   },
   /**
    * Notification that a procedure is renaming.
@@ -243,7 +252,7 @@ Blockly.Blocks['methods_call'] = {
    * @private
    * @this Blockly.Block
    */
-  setProcedureParameters_: function (args) {
+  setProcedureParameters_: function () {
     // Data structures:
     // this.arguments = ['x', 'y']
     //     Existing param names.
@@ -271,7 +280,6 @@ Blockly.Blocks['methods_call'] = {
       }
     }
     // Rebuild the block's arguments.
-    this.arguments_ = [].concat(args);
     this.updateShape_();
     // Reconnect any child blocks.
     for (let i = 0; i < this.arguments_.length; i++) {
@@ -295,6 +303,7 @@ Blockly.Blocks['methods_call'] = {
    * @this Blockly.Block
    */
   updateShape_: function () {
+    this.getArguments(this.getProcedureCall()[0], this.getProcedureCall()[1]);
     let i = null;
     for (i = 0; i < this.arguments_.length; i++) {
       let field = this.getField('ARGNAME' + i);
@@ -331,13 +340,8 @@ Blockly.Blocks['methods_call'] = {
    */
   mutationToDom: function () {
     let container = document.createElement('mutation');
-    container.setAttribute('name', this.getProcedureCall());
-    for (let i = 0; i < this.arguments_.length; i++) {
-      let parameter = document.createElement('arg');
-      parameter.setAttribute('name', this.arguments_[i].name);
-      parameter.setAttribute('type', this.arguments_[i].type);
-      container.appendChild(parameter);
-    }
+    container.setAttribute('name', this.getProcedureCall()[0]);
+    container.setAttribute('type', this.getProcedureCall()[1]);
     return container;
   },
   /**
@@ -347,14 +351,9 @@ Blockly.Blocks['methods_call'] = {
    */
   domToMutation: function (xmlElement) {
     let name = xmlElement.getAttribute('name');
-    this.renameProcedure(this.getProcedureCall(), name);
-    let args = [];
-    for (let i = 0, childNode; childNode = xmlElement.childNodes[i]; i++) {
-      if (childNode.nodeName.toLowerCase() == 'arg') {
-        args.push({name: childNode.getAttribute('name'), type: childNode.getAttribute('type')});
-      }
-    }
-    this.setProcedureParameters_(args);
+    this.type_ = xmlElement.getAttribute('type');
+    this.renameProcedure(this.getProcedureCall()[0], name);
+    this.setProcedureParameters_();
   },
   /**
    * Procedure calls cannot exist without the corresponding procedure
