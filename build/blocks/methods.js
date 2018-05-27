@@ -1,6 +1,6 @@
 let Blockly = window.Blockly;
 
-Blockly.Blocks['methods_def'] = {
+Blockly.Blocks['&&methods_def'] = {
   /**
    * Block for defining a procedure with no return value.
    * @this Blockly.Block
@@ -15,7 +15,7 @@ Blockly.Blocks['methods_def'] = {
     this.appendDummyInput()
         .appendField(nameField, 'NAME')
         .appendField('', 'PARAMS');
-    this.setMutator(new Blockly.Mutator(['methods_mutatorarg'].concat(util.typeList)));
+    this.setMutator(new Blockly.Mutator(['&&methods_mutatorarg'].concat(util.typeList)));
     this.setColour(210);
     this.arguments_ = [];
     this.appendStatementInput('STACK');
@@ -50,7 +50,7 @@ Blockly.Blocks['methods_def'] = {
       for (let i = 0; i < this.arguments_.length; i++) {
         param.push(this.arguments_[i].type + ' ' + this.arguments_[i].name);
       }
-      paramString = 'Params:' +
+      paramString = 'With:' +
           ' ' + param.join(', ');
     }
     // The params field is deterministic based on the mutation,
@@ -110,7 +110,7 @@ Blockly.Blocks['methods_def'] = {
     // Parameter list.
     let connection = containerBlock.getInput('STACK').connection;
     for (let i = 0; i < this.arguments_.length; i++) {
-      let paramBlock = workspace.newBlock('methods_mutatorarg');
+      let paramBlock = workspace.newBlock('&&methods_mutatorarg');
       paramBlock.initSvg();
       if (Blockly.Blocks[this.arguments_[i].type]) {
         let typeBlock = workspace.newBlock(this.arguments_[i].type);
@@ -160,10 +160,10 @@ Blockly.Blocks['methods_def'] = {
   getArgs: function () {
     return this.arguments_;
   },
-  callType_: 'methods_call'
+  callType_: '&&methods_call'
 };
 
-Blockly.Blocks['methods_mutatorcontainer'] = {
+Blockly.Blocks['&&methods_mutatorcontainer'] = {
   /**
    * Mutator block for procedure container.
    * @this Blockly.Block
@@ -177,7 +177,7 @@ Blockly.Blocks['methods_mutatorcontainer'] = {
   }
 };
 
-Blockly.Blocks['methods_mutatorarg'] = {
+Blockly.Blocks['&&methods_mutatorarg'] = {
   /**
    * Mutator block for procedure argument.
    * @this Blockly.Block
@@ -197,7 +197,7 @@ Blockly.Blocks['methods_mutatorarg'] = {
   }
 };
 
-Blockly.Blocks['methods_call'] = {
+Blockly.Blocks['&&methods_call'] = {
   /**
    * Block for calling a procedure with no return value.
    * @this Blockly.Block
@@ -238,9 +238,6 @@ Blockly.Blocks['methods_call'] = {
   renameProcedure: function (oldName, newName) {
     if (Blockly.Names.equals(oldName, this.getProcedureCall()[0])) {
       this.setFieldValue(newName, 'NAME');
-      let baseMsg = this.outputConnection ?
-          Blockly.Msg.PROCEDURES_CALLRETURN_TOOLTIP :
-          Blockly.Msg.PROCEDURES_CALLNORETURN_TOOLTIP;
     }
   },
   /**
@@ -367,10 +364,10 @@ Blockly.Blocks['methods_call'] = {
       return;
     }
   },
-  defType_: 'methods_def'
+  defType_: '&&methods_def'
 };
 
-Blockly.Blocks['methods_return'] = {
+Blockly.Blocks['&&methods_return'] = {
   /**
    * Block for conditionally returning a value from a procedure.
    * @this Blockly.Block
@@ -387,22 +384,22 @@ Blockly.Blocks['methods_return'] = {
 
 const methodsCallback = workspace => {
   let xmlList = [];
-  if (Blockly.Blocks['methods_def']) {
+  if (Blockly.Blocks['&&methods_def']) {
     // <block type="procedures_defnoreturn" gap="16">
     //     <field name="NAME">do something</field>
     // </block>
     let block = document.createElement('block');
-    block.setAttribute('type', 'methods_def');
+    block.setAttribute('type', '&&methods_def');
     block.setAttribute('gap', 16);
     let nameField = document.createElement('field');
     nameField.setAttribute('NAME', '');
     block.appendChild(nameField);
     xmlList.push(block);
   }
-  if (Blockly.Blocks['methods_return']) {
+  if (Blockly.Blocks['&&methods_return']) {
     // <block type="procedures_ifreturn" gap="16"></block>
     var block = document.createElement('block');
-    block.setAttribute('type', 'methods_return');
+    block.setAttribute('type', '&&methods_return');
     block.setAttribute('gap', 16);
     xmlList.push(block);
   }
