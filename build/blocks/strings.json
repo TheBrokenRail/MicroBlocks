@@ -3,7 +3,7 @@
   "types": {
     "std::string": {
       "c_str": {
-        "args": []
+        "args": [],
         "output": "char*"
       },
       "push_back": {
