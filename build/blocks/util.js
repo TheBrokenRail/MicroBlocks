@@ -23,7 +23,7 @@ util.loadExtension = name => {
     let extension = JSON.parse(xhttp.responseText);
     let category = document.createElement('CATEGORY');
     category.setAttribute('name', extension.name);
-    for (let x of extension.types) {
+    for (let x in extension.types) {
       category.appendChild(createType_(x));
       category.appendChild(createType_(x + '*'));
       category.appendChild(createType_(x + '[]'));
