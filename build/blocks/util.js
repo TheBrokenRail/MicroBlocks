@@ -1,7 +1,7 @@
 const util = {};
 util.typeList = [];
 util.extensions_ = [];
-util.createType_ = type => {
+util.createType_ = (type, colour) => {
   util.typeList.push(type);
   Blockly.Blocks[type] = {
     init: function () {
@@ -9,7 +9,7 @@ util.createType_ = type => {
         type: type,
         message0: type,
         output: 'C++Type',
-        colour: 160
+        colour: colour
       });
     }
   };
@@ -24,9 +24,9 @@ util.loadExtension = name => {
     let category = document.createElement('CATEGORY');
     category.setAttribute('name', extension.name);
     for (let x in extension.types) {
-      category.appendChild(util.createType_(x));
-      category.appendChild(util.createType_(x + '*'));
-      category.appendChild(util.createType_(x + '[]'));
+      category.appendChild(util.createType_(x, extension.colour));
+      category.appendChild(util.createType_(x + '*', extension.colour));
+      category.appendChild(util.createType_(x + '[]', extension.colour));
       for (let y in extension.types[x]) {
         let messages = {};
         messages.message0 = y;
@@ -55,7 +55,7 @@ util.loadExtension = name => {
               this.jsonInit(Object.assign({
                 type: x + '&&' + y,
                 output: extension.types[x][y].output,
-                colour: 160,
+                colour: extension.colour,
                 inputsInline: false
               }, messages));
             }
@@ -70,7 +70,7 @@ util.loadExtension = name => {
               type: x + '&&' + y,
               nextStatement: null,
               previousStatement: null,
-              colour: 160,
+              colour: extension.colour,
               inputsInline: false
             }, messages));
           }
