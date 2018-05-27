@@ -1,5 +1,6 @@
 {
   "name": "Primitive Types",
+  "colour": 65,
   "types": {
     "char": {},
     "int": {},
