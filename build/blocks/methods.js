@@ -236,7 +236,7 @@ Blockly.Blocks['methods_call'] = {
    * @this Blockly.Block
    */
   renameProcedure: function (oldName, newName) {
-    if (Blockly.Names.equals(oldName, this.getProcedureCall())) {
+    if (Blockly.Names.equals(oldName, this.getProcedureCall()[0])) {
       this.setFieldValue(newName, 'NAME');
       let baseMsg = this.outputConnection ?
           Blockly.Msg.PROCEDURES_CALLRETURN_TOOLTIP :
