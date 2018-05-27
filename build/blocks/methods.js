@@ -428,8 +428,7 @@ const methodsCallback = workspace => {
       xmlList.push(block);
     }
   }
-
   let tuple = Blockly.Procedures.allProcedures(workspace);
-  populateProcedures(tuple[0], 'methods_call');
+  populateProcedures(tuple[0], '&&methods_call');
   return xmlList;
 };
