@@ -14,7 +14,7 @@ Blockly.Blocks['&&variables_get'] = {
       ],
       inputsInline: true,
       output: 'MISSING_TYPE',
-      colour: 160
+      colour: 20
     });
   }
 };
