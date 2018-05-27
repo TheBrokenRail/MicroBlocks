@@ -39,7 +39,7 @@ util.loadExtension = name => {
         ];
         let num = 1;
         for (let n = 0; n < extension.types[x][y].args.length; n++) {
-          messages['message' + (n + 1)] = extension.types[x][y].args[n].name + ': %1';
+          messages['message' + (n + 1)] = extension.types[x][y].args[n].name + ':%1';
           messages['args' + (n + 1)] = [
             {
               type: 'input_value',
@@ -58,6 +58,9 @@ util.loadExtension = name => {
             }, messages));
           }
         };
+        let block = document.createElement('BLOCK');
+        block.setAttribute('type', x + '_' + y);
+        category.appendChild(block);
       }
     }
     util.extensions_.push(category);
