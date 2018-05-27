@@ -20,7 +20,7 @@ util.createType_ = type => {
 util.loadExtension = name => {
   let xhttp = new XMLHttpRequest();
   xhttp.addEventListener('load', () => {
-    let extension = JSON.stringify(xhttp.responseText);
+    let extension = JSON.parse(xhttp.responseText);
     let category = document.createElement('CATEGORY');
     category.setAttribute('name', extension.name);
     for (let x of extension.types) {
