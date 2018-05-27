@@ -16,6 +16,7 @@ window.onload = function () {
     window.workspace = workspace;
     
     util.loadExtension('primitives');
+    util.loadExtension('strings');
     
     let css = window.Blockly.Css.styleSheet_.cssRules;
     for (i = 0; i < css.length; i++) {
