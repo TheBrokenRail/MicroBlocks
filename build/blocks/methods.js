@@ -150,7 +150,7 @@ Blockly.Blocks['methods_def'] = {
    * @this Blockly.Block
    */
   getProcedureDef: function () {
-    return [this.getInputTargetBlock('TYPE') ? this.getInputTargetBlock('TYPE').type : 'MISSING_TYPE', this.getFieldValue('NAME'), false, this.arguments_];
+    return [(this.getInputTargetBlock('TYPE') ? this.getInputTargetBlock('TYPE').type : 'MISSING_TYPE'), this.getFieldValue('NAME'), false, this.arguments_];
   },
   /**
    * Return all letiables referenced by this block.
@@ -303,7 +303,7 @@ Blockly.Blocks['methods_call'] = {
    * @this Blockly.Block
    */
   updateShape_: function () {
-    this.setArguments(this.getProcedureCall()[0], this.getProcedureCall()[1]);
+    this.setArguments(this.getProcedureCall()[1], this.getProcedureCall()[0]);
     let i = null;
     for (i = 0; i < this.arguments_.length; i++) {
       let field = this.getField('ARGNAME' + i);
@@ -413,6 +413,7 @@ const methodsCallback = workspace => {
 
   function populateProcedures(procedureList, templateName) {
     for (var i = 0; i < procedureList.length; i++) {
+      let type = procedureList[i][0];
       let name = procedureList[i][1];
       let args = procedureList[i][3];
       // <block type="procedures_callnoreturn" gap="16">
@@ -425,13 +426,8 @@ const methodsCallback = workspace => {
       block.setAttribute('gap', 16);
       let mutation = document.createElement('mutation');
       mutation.setAttribute('name', name);
+      mutation.setAttribute('type', type);
       block.appendChild(mutation);
-      for (let j = 0; j < args.length; j++) {
-        let arg = document.createElement('arg');
-        arg.setAttribute('name', args[j].name);
-        arg.setAttribute('type', args[j].type);
-        mutation.appendChild(arg);
-      }
       xmlList.push(block);
     }
   }
