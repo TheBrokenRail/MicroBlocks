@@ -49,19 +49,34 @@ util.loadExtension = name => {
             }
           ];
         }
-        console.log(messages);
-        Blockly.Blocks[x + '&&' + y] = {
+        if (extension.types[x][y].output !== 'void') {
+          Blockly.Blocks[x + '&&' + y] = {
+            init: function () {
+              this.jsonInit(Object.assign({
+                type: x + '&&' + y,
+                output: extension.types[x][y].output,
+                colour: 160,
+                inputsInline: false
+              }, messages));
+            }
+          };
+          let block = document.createElement('BLOCK');
+          block.setAttribute('type', x + '&&' + y);
+          category.appendChild(block);
+        }
+        Blockly.Blocks[x + '%%' + y] = {
           init: function () {
             this.jsonInit(Object.assign({
               type: x + '&&' + y,
-              output: extension.types[x][y].output,
+              nextStatement: null,
+              previousStatement: null,
               colour: 160,
               inputsInline: false
             }, messages));
           }
         };
         let block = document.createElement('BLOCK');
-        block.setAttribute('type', x + '&&' + y);
+        block.setAttribute('type', x + '%%' + y);
         category.appendChild(block);
       }
     }
