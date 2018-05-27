@@ -1,6 +1,6 @@
 {
   "name": "Strings",
-  "colour": "120",
+  "colour": 120,
   "types": {
     "std::string": {
       "c_str": {
