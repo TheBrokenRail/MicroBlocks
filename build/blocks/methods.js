@@ -135,7 +135,7 @@ Blockly.Blocks['methods_def'] = {
     let paramBlock = containerBlock.getInputTargetBlock('STACK');
     while (paramBlock) {
       let argName = paramBlock.getFieldValue('NAME');
-      let argType = paramBlock.getInputTargetBlock('TYPE');
+      let argType = paramBlock.getInputTargetBlock('TYPE').type;
       this.arguments_.push({name: argName, type: argType});
       paramBlock = paramBlock.nextConnection &&
           paramBlock.nextConnection.targetBlock();
