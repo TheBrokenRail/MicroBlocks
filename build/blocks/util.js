@@ -30,7 +30,7 @@ util.loadExtension = name => {
       for (let y in extension.types[x]) {
         let messages = {};
         messages.message0 = '%1.' + y;
-        messages.arg0 = [
+        messages.args0 = [
           {
             type: 'input_value',
             name: 'OBJ',
