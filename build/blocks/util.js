@@ -29,8 +29,9 @@ util.loadExtension = name => {
       category.appendChild(util.createType_(x + '[]'));
       for (let y in extension.types[x]) {
         let messages = {};
-        messages.message0 = '%1.' + y;
-        messages.args0 = [
+        messages.message0 = y;
+        messages.message1 = x + '%1';
+        messages.args1 = [
           {
             type: 'input_value',
             name: 'OBJ',
@@ -39,8 +40,8 @@ util.loadExtension = name => {
         ];
         let num = 1;
         for (let n = 0; n < extension.types[x][y].args.length; n++) {
-          messages['message' + (n + 1)] = extension.types[x][y].args[n].name + ':%1';
-          messages['args' + (n + 1)] = [
+          messages['message' + (n + 2)] = extension.types[x][y].args[n].name + ':%1';
+          messages['args' + (n + 2)] = [
             {
               type: 'input_value',
               name: 'ARGS' + n,
