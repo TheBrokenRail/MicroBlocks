@@ -27,6 +27,38 @@ util.loadExtension = name => {
       category.appendChild(util.createType_(x));
       category.appendChild(util.createType_(x + '*'));
       category.appendChild(util.createType_(x + '[]'));
+      for (let y in extension.types[x]) {
+        let messages = {};
+        messages.message0 = '%1.' + y;
+        messages.arg0 = [
+          {
+            type: 'input_value',
+            name: 'OBJ',
+            check: x
+          }
+        ];
+        let num = 1;
+        for (let n = 0; n < extension.types[x][y].args.length; n++) {
+          messages['message' + (n + 1)] = extension.types[x][y].args[n].name + ': %1';
+          messages['args' + (n + 1)] = [
+            {
+              type: 'input_value',
+              name: 'ARGS' + n,
+              check: extension.types[x][y].args[n].type
+            }
+          ];
+        }
+        console.log(messages);
+        Blockly.Blocks[x + '_' + y] = {
+          init: function () {
+            this.jsonInit(Object.assign({
+              type: x + '_' + y,
+              output: extension.types[x][y],
+              colour: 160
+            }, messages));
+          }
+        };
+      }
     }
     util.extensions_.push(category);
     if (window.workspace) {
