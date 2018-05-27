@@ -303,7 +303,7 @@ Blockly.Blocks['methods_call'] = {
    * @this Blockly.Block
    */
   updateShape_: function () {
-    this.getArguments(this.getProcedureCall()[0], this.getProcedureCall()[1]);
+    this.setArguments(this.getProcedureCall()[0], this.getProcedureCall()[1]);
     let i = null;
     for (i = 0; i < this.arguments_.length; i++) {
       let field = this.getField('ARGNAME' + i);
