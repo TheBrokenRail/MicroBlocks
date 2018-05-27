@@ -10,11 +10,12 @@ Blockly.Blocks['methods_def'] = {
     nameField.setSpellcheck(false);
     this.appendDummyInput()
         .appendField('define');
-    this.appendValueInput('TYPE');
+    this.appendValueInput('TYPE')
+        .setCheck('C++Type');
     this.appendDummyInput()
         .appendField(nameField, 'NAME')
         .appendField('', 'PARAMS');
-    this.setMutator(new Blockly.Mutator(['methods_mutatorarg']));
+    this.setMutator(new Blockly.Mutator(['methods_mutatorarg'].concat(util.typeList)));
     this.setColour(210);
     this.arguments_ = [];
     this.appendStatementInput('STACK');
@@ -185,7 +186,8 @@ Blockly.Blocks['methods_mutatorarg'] = {
     let field = new Blockly.FieldTextInput('arg');
     this.appendDummyInput()
         .appendField('Argument');
-    this.appendValueInput('TYPE');
+    this.appendValueInput('TYPE')
+        .setCheck('C++Type');
     this.appendDummyInput()
         .appendField(field, 'NAME');
     this.setPreviousStatement(true);
@@ -293,7 +295,8 @@ Blockly.Blocks['methods_call'] = {
    * @this Blockly.Block
    */
   updateShape_: function () {
-    for (let i = 0; i < this.arguments_.length; i++) {
+    let i = null;
+    for (i = 0; i < this.arguments_.length; i++) {
       let field = this.getField('ARGNAME' + i);
       if (field) {
         // Ensure argument name is up to date.
@@ -310,7 +313,8 @@ Blockly.Blocks['methods_call'] = {
         field = new Blockly.FieldLabel(this.arguments_[i].name);
         let input = this.appendValueInput('ARG' + i)
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField(field, 'ARGNAME' + i);
+            .appendField(field, 'ARGNAME' + i)
+            .setCheck(this.arguments_[i].type);
         input.init();
       }
     }
@@ -331,6 +335,7 @@ Blockly.Blocks['methods_call'] = {
     for (let i = 0; i < this.arguments_.length; i++) {
       let parameter = document.createElement('arg');
       parameter.setAttribute('name', this.arguments_[i].name);
+      parameter.setAttribute('type', this.arguments_[i].type);
       container.appendChild(parameter);
     }
     return container;
@@ -346,7 +351,7 @@ Blockly.Blocks['methods_call'] = {
     let args = [];
     for (let i = 0, childNode; childNode = xmlElement.childNodes[i]; i++) {
       if (childNode.nodeName.toLowerCase() == 'arg') {
-        args.push({name: childNode.getAttribute('name')});
+        args.push({name: childNode.getAttribute('name'), type: childNode.getAttribute('type')});
       }
     }
     this.setProcedureParameters_(args);
@@ -378,7 +383,6 @@ Blockly.Blocks['methods_return'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setColour(210);
-    this.hasReturnValue_ = true;
   }
 };
 
@@ -426,6 +430,7 @@ const methodsCallback = workspace => {
       for (let j = 0; j < args.length; j++) {
         let arg = document.createElement('arg');
         arg.setAttribute('name', args[j].name);
+        arg.setAttribute('type', args[j].type);
         mutation.appendChild(arg);
       }
       xmlList.push(block);
