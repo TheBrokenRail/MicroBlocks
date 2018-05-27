@@ -30,7 +30,7 @@ util.loadExtension = name => {
     }
     util.extensions_.push(category);
     if (window.workspace) {
-      let toolbox = document.getElementById('blocks').cloneNode(true);
+      let toolbox = document.getElementById('toolbox').cloneNode(true);
       for (let i = 0; i < util.extensions_.length; i++) {
         toolbox.appendChild(util.extensions_[i]);
       }
