@@ -1,0 +1,20 @@
+{
+  "name": "Strings",
+  "types": {
+    "std::string": {
+      "c_str": {
+        "args": []
+        "output": "char*"
+      },
+      "push_back": {
+        "args": [
+          {
+            "name": "Character",
+            "type": "char"
+          }
+        ],
+        "output": "void"
+      }
+    }
+  }
+}
