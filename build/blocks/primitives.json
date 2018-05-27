@@ -1,0 +1,9 @@
+{
+  "name": "Primitive Types",
+  "types": {
+    "char": {},
+    "int": {},
+    "float": {},
+    "double": {}
+  }
+}
