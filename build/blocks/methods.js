@@ -1,8 +1,4 @@
 Blockly.Blocks['&&methods_def'] = {
-  /**
-   * Block for defining a procedure with no return value.
-   * @this Blockly.Block
-   */
   init: function () {
     let nameField = new Blockly.FieldTextInput('');
     nameField.setSpellcheck(false);
@@ -19,14 +15,7 @@ Blockly.Blocks['&&methods_def'] = {
     this.appendStatementInput('STACK');
     this.bad_ = false;
   },
-  /**
-   * Update the display of parameters for this procedure definition block.
-   * Display a warning if there are duplicately named parameters.
-   * @private
-   * @this Blockly.Block
-   */
   updateParams_: function () {
-    // Check for duplicated arguments.
     let badArg = [];
     let hash = {};
     for (let i = 0; i < this.arguments_.length; i++) {
@@ -51,7 +40,6 @@ Blockly.Blocks['&&methods_def'] = {
       this.setWarningText(null);
       this.bad_ = false;
     }
-    // Merge the arguments into a human-readable list.
     let paramString = '';
     if (this.arguments_.length) {
       let param = [];
@@ -61,8 +49,6 @@ Blockly.Blocks['&&methods_def'] = {
       paramString = 'With:' +
           ' ' + param.join(', ');
     }
-    // The params field is deterministic based on the mutation,
-    // no need to fire a change event.
     Blockly.Events.disable();
     try {
       this.setFieldValue(paramString, 'PARAMS');
@@ -70,13 +56,6 @@ Blockly.Blocks['&&methods_def'] = {
       Blockly.Events.enable();
     }
   },
-  /**
-   * Create XML to represent the argument inputs.
-   * @param {boolean=} opt_paramIds If true include the IDs of the parameter
-   *     quarks.  Used by Blockly.Procedures.mutateCallers for reconnection.
-   * @return {!Element} XML storage element.
-   * @this Blockly.Block
-   */
   mutationToDom: function (opt_paramIds) {
     let container = document.createElement('mutation');
     container.setAttribute('name', this.getFieldValue('NAME'));
@@ -89,11 +68,6 @@ Blockly.Blocks['&&methods_def'] = {
     }
     return container;
   },
-  /**
-   * Parse XML to restore the argument inputs.
-   * @param {!Element} xmlElement XML storage element.
-   * @this Blockly.Block
-   */
   domToMutation: function (xmlElement) {
     this.arguments_ = [];
     for (let i = 0, childNode; childNode = xmlElement.childNodes[i]; i++) {
@@ -106,16 +80,9 @@ Blockly.Blocks['&&methods_def'] = {
     this.getField('NAME').setText(xmlElement.getAttribute('name'));
     this.updateParams_();
   },
-  /**
-   * Populate the mutator's dialog with this block's components.
-   * @param {!Blockly.Workspace} workspace Mutator's workspace.
-   * @return {!Blockly.Block} Root block in mutator.
-   * @this Blockly.Block
-   */
   decompose: function (workspace) {
-    let containerBlock = workspace.newBlock('methods_mutatorcontainer');
+    let containerBlock = workspace.newBlock('&&methods_mutatorcontainer');
     containerBlock.initSvg();
-    // Parameter list.
     let connection = containerBlock.getInput('STACK').connection;
     for (let i = 0; i < this.arguments_.length; i++) {
       let paramBlock = workspace.newBlock('&&methods_mutatorarg');
@@ -126,19 +93,12 @@ Blockly.Blocks['&&methods_def'] = {
         paramBlock.getInput('TYPE').connection.connect(typeBlock.outputConnection);
       }
       paramBlock.setFieldValue(this.arguments_[i].name, 'NAME');
-      // Store the old location.
       connection.connect(paramBlock.previousConnection);
       connection = paramBlock.nextConnection;
     }
     return containerBlock;
   },
-  /**
-   * Reconfigure this block based on the mutator dialog's components.
-   * @param {!Blockly.Block} containerBlock Root block in mutator.
-   * @this Blockly.Block
-   */
   compose: function (containerBlock) {
-    // Parameter list.
     this.arguments_ = [];
     let paramBlock = containerBlock.getInputTargetBlock('STACK');
     while (paramBlock) {
@@ -150,21 +110,9 @@ Blockly.Blocks['&&methods_def'] = {
     }
     this.updateParams_();
   },
-  /**
-   * Return the signature of this procedure definition.
-   * @return {!Array} Tuple containing three elements:
-   *     - the name of the defined procedure,
-   *     - a list of all its arguments,
-   * @this Blockly.Block
-   */
   getProcedureDef: function () {
     return [(this.getInputTargetBlock('TYPE') ? this.getInputTargetBlock('TYPE').type : 'MISSING_TYPE'), this.getFieldValue('NAME'), false, this.arguments_, this.bad_];
   },
-  /**
-   * Return all letiables referenced by this block.
-   * @return {!Array.<string>} List of letiable names.
-   * @this Blockly.Block
-   */
   getVar: function () {
     return this.arguments_;
   },
