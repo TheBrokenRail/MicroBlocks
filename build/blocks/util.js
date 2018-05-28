@@ -77,7 +77,7 @@ util.loadExtension = name => {
             if (constructor) {
               return x + '(' + args.join(',') + ');';
             } else {
-              return Blockly.JavaScript.valueToCode(block, 'OBJ') + '.' + y + '(' + args.join(',') + ');';
+              return Blockly.JavaScript.valueToCode(block, 'OBJ') + '.' + y + '(' + args.join(',') + ')';
             }
           };
         }
@@ -100,7 +100,7 @@ util.loadExtension = name => {
           if (constructor) {
             return x + '(' + args.join(',') + ');';
           } else {
-            return Blockly.JavaScript.valueToCode(block, 'OBJ') + '.' + y + '(' + args.join(',') + ');';
+            return Blockly.JavaScript.valueToCode(block, 'OBJ') + '.' + y + '(' + args.join(',') + ');\n';
           }
         };
         let block = document.createElement('BLOCK');
@@ -165,7 +165,7 @@ util.loadExtension = name => {
           for (let i = 0; i < extension.methods[x].args.length; i++) {
             args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
           }
-          return x + '(' + args.join(',') + ');';
+          return x + '(' + args.join(',') + ')';
         };
       }
       Blockly.Blocks['][' + x] = {
@@ -184,7 +184,7 @@ util.loadExtension = name => {
         for (let i = 0; i < extension.methods[x].args.length; i++) {
           args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
         }
-        return x + '(' + args.join(',') + ');';
+        return x + '(' + args.join(',') + ');\n';
       };
       let block = document.createElement('BLOCK');
       block.setAttribute('type', '][' + x);
