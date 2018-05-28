@@ -7,11 +7,11 @@ Blockly.Blocks['&&variables_get'] = {
       this.variables = [];
       let recurse = block => {
         let parent = block.getParent();
-          if (parent) {
+        if (parent) {
           if (parent.getVar) {
             this.variables.concat(parent.getVar());
           }
-          recurse(parent.getParent());
+          recurse(parent);
         }
       };
       recurse(this);
@@ -57,7 +57,7 @@ Blockly.Blocks['&&variables_set'] = {
           if (parent.getVar) {
             this.variables.concat(parent.getVar());
           }
-          recurse(parent.getParent());
+          recurse(parent);
         }
       };
       recurse(this);
