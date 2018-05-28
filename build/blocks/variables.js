@@ -100,6 +100,6 @@ Blockly.Blocks['&&variables_initialize'] = {
     this.getInput('VALUE').setCheck(this.getInputTargetBlock('TYPE') ? this.getInputTargetBlock('TYPE').type: 'MISSING_TYPE');
   },
   getVar: function () {
-    return [{name: this.getFeildValue('NAME'), type: this.getInputTargetBlock('TYPE')}];
+    return [{name: this.getFieldValue('NAME'), type: this.getInputTargetBlock('TYPE')}];
   }
 };
