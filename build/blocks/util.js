@@ -26,6 +26,7 @@ util.loadExtension = name => {
     let extension = JSON.parse(xhttp.responseText);
     let category = document.createElement('CATEGORY');
     category.setAttribute('name', extension.name);
+    category.setAttribute('colour', extension.colour);
     for (let x in extension.types) {
       category.appendChild(util.createType_(x, extension.colour));
       category.appendChild(util.createType_(x + '*', extension.colour));
