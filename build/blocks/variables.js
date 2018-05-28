@@ -20,10 +20,14 @@ Blockly.Blocks['&&variables_get'] = {
         options.push([this.variables[i].name, this.variables[i].name]);
       }
       if (options.length < 1) {
-        return [[]];
+        return [['', '']];
       }
       return options;
     }, newVar => {
+      if (newVar === '') {
+        this.setOutput('MISSING_TYPE');
+        return;
+      }
       for (let i = 0; i < this.variables.length; i++) {
         if (this.variables[i].name === newVar) {
           this.setOutput(this.variables[i].name);
@@ -59,10 +63,14 @@ Blockly.Blocks['&&variables_set'] = {
         options.push([this.variables[i].name, this.variables[i].name]);
       }
       if (options.length < 1) {
-        return [[]];
+        return [['', '']];
       }
       return options;
     }, newVar => {
+      if (newVar === '') {
+        this.setOutput('MISSING_TYPE');
+        return;
+      }
       for (let i = 0; i < this.variables.length; i++) {
         if (this.variables[i].name === newVar) {
           this.getInput('VALUE').setCheck(this.variables[i].type);
