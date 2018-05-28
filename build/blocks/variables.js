@@ -39,6 +39,9 @@ Blockly.Blocks['&&variables_get'] = {
     this.setColour(20);
   }
 };
+Blockly.JavaScript['&&methods_get'] = function (block) {
+  return block.getFieldValue('VARIABLE');
+};
 Blockly.Blocks['&&variables_set'] = {
   init: function () {
     let input = this.appendDummyInput()
@@ -83,6 +86,9 @@ Blockly.Blocks['&&variables_set'] = {
     this.setColour(20);
   }
 };
+Blockly.JavaScript['&&methods_set'] = function (block) {
+  return block.getFieldValue('VARIABLE') + ' = ' + Blockly.JavaScript.valueToCode(block, 'VALUE') + ';';
+};
 Blockly.Blocks['&&variables_initialize'] = {
   init: function () {
     this.appendValueInput('TYPE')
@@ -102,4 +108,7 @@ Blockly.Blocks['&&variables_initialize'] = {
   getVar: function () {
     return [{name: this.getFieldValue('NAME'), type: this.getInputTargetBlock('TYPE')}];
   }
+};
+Blockly.JavaScript['&&methods_initialize'] = function (block) {
+  return block.getInputTargetBlock('TYPE').type + ' ' + block.getFieldValue('VARIABLE') + ' = ' + Blockly.JavaScript.valueToCode(block, 'VALUE') + ';';
 };
