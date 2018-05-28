@@ -227,3 +227,29 @@ Blockly.Blocks['&&basic_subtract'] = {
 Blockly.JavaScript['&&basic_subtract'] = function (block) {
   return ['(' + Blockly.JavaScript.valueToCode(block, 'SUBTRACT1') + ') - (' + Blockly.JavaScript.valueToCode(block, 'SUBTRACT2') + ')'];
 };
+Blockly.Blocks['&&basic_multiply'] = {
+  init: function() {
+    this.appendValueInput('MULTIPLY1')
+    this.appendValueInput('MULTIPLY2')
+        .appendField('-');
+    this.setInputsInline(true);
+    this.setOutput('&&WILDCARD');
+    this.setColour(160);
+  }
+};
+Blockly.JavaScript['&&basic_multiply'] = function (block) {
+  return ['(' + Blockly.JavaScript.valueToCode(block, 'MULTIPLY1') + ') * (' + Blockly.JavaScript.valueToCode(block, 'MULTIPLY2') + ')'];
+};
+Blockly.Blocks['&&basic_divide'] = {
+  init: function() {
+    this.appendValueInput('DIVIDE1')
+    this.appendValueInput('DIVIDE2')
+        .appendField('/');
+    this.setInputsInline(true);
+    this.setOutput('&&WILDCARD');
+    this.setColour(160);
+  }
+};
+Blockly.JavaScript['&&basic_divide'] = function (block) {
+  return ['(' + Blockly.JavaScript.valueToCode(block, 'DIVIDE1') + ') / (' + Blockly.JavaScript.valueToCode(block, 'DIVIDE2') + ')'];
+};
