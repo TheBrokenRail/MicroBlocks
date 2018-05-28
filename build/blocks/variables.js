@@ -19,6 +19,9 @@ Blockly.Blocks['&&variables_get'] = {
       for (let i = 0; i < this.variables.length; i++) {
         options.push([this.variables[i].name, this.variables[i].name]);
       }
+      if (options.length < 1) {
+        return [[]];
+      }
       return options;
     }, newVar => {
       for (let i = 0; i < this.variables.length; i++) {
@@ -54,6 +57,9 @@ Blockly.Blocks['&&variables_set'] = {
       let options = [];
       for (let i = 0; i < this.variables.length; i++) {
         options.push([this.variables[i].name, this.variables[i].name]);
+      }
+      if (options.length < 1) {
+        return [[]];
       }
       return options;
     }, newVar => {
