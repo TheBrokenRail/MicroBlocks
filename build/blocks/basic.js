@@ -156,7 +156,7 @@ Blockly.Blocks['&&basic_if'] = {
     }
   }
 };
-Blockly.JavaScript['controls_if'] = function(block) {
+Blockly.JavaScript['&&basic_if'] = function(block) {
   let n = 0;
   let code = '', branchCode, conditionCode;
   do {
