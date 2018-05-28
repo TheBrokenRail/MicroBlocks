@@ -277,7 +277,7 @@ Blockly.JavaScript['&&methods_call'] = function (block) {
   for (let i = 0; i < block.arguments_.length; i++) {
     args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
   }
-  return block.getProcedureCall()[0] + '(' + args.join(',') + ');';
+  return block.getProcedureCall()[0] + '(' + args.join(',') + ');\n';
 };
 
 
@@ -307,7 +307,7 @@ Blockly.JavaScript['&&methods_call_output'] = function (block) {
   for (let i = 0; i < block.arguments_.length; i++) {
     args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
   }
-  return block.getProcedureCall()[0] + '(' + args.join(',') + ');';
+  return block.getProcedureCall()[0] + '(' + args.join(',') + ')';
 };
 
 Blockly.Blocks['&&methods_return'] = {
@@ -322,7 +322,7 @@ Blockly.Blocks['&&methods_return'] = {
 };
 
 Blockly.JavaScript['&&methods_return'] = function (block) {
-  return 'return ' + Blockly.JavaScript.valueToCode('VALUE') + ';';
+  return 'return ' + Blockly.JavaScript.valueToCode('VALUE') + ';\n';
 };
 
 const methodsCallback = workspace => {
