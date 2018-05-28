@@ -1,4 +1,4 @@
-Blockly.Blocks['&&literals_string'] = {
+Blockly.Blocks['&&basic_string'] = {
   init: function() {
     this.appendDummyInput()
         .appendField('"')
@@ -9,10 +9,10 @@ Blockly.Blocks['&&literals_string'] = {
     this.setColour(160);
   }
 };
-Blockly.JavaScript['&&literals_string'] = function (block) {
+Blockly.JavaScript['&&basic_string'] = function (block) {
   return '"' + block.getFieldValue('STR') + '"';
 };
-Blockly.Blocks['&&literals_number'] = {
+Blockly.Blocks['&&basic_number'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(new Blockly.FieldNumber(''), 'NUM')
@@ -21,6 +21,6 @@ Blockly.Blocks['&&literals_number'] = {
     this.setColour(160);
   }
 };
-Blockly.JavaScript['&&literals_number'] = function (block) {
+Blockly.JavaScript['&&basic_number'] = function (block) {
   return block.getFieldValue('NUM');
 };
