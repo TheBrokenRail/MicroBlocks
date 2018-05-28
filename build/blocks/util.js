@@ -74,7 +74,7 @@ util.loadExtension = name => {
               args.push(Blockly.JavaScript.valueToCode(block, 'ARGS' + i));
             }
             if (constructor) {
-              return x + '(' + args.join(',') ');';
+              return x + '(' + args.join(',') + ');';
             } else {
               return Blockly.JavaScript.valueToCode(block, 'OBJ') + '.' + y + '(' + args.join(',') ');';
             }
