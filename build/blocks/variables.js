@@ -39,7 +39,7 @@ Blockly.Blocks['&&variables_get'] = {
     this.setColour(20);
   }
 };
-Blockly.JavaScript['&&methods_get'] = function (block) {
+Blockly.JavaScript['&&variables_get'] = function (block) {
   return block.getFieldValue('VARIABLE');
 };
 Blockly.Blocks['&&variables_set'] = {
@@ -86,7 +86,7 @@ Blockly.Blocks['&&variables_set'] = {
     this.setColour(20);
   }
 };
-Blockly.JavaScript['&&methods_set'] = function (block) {
+Blockly.JavaScript['&&variables_set'] = function (block) {
   return block.getFieldValue('VARIABLE') + ' = ' + Blockly.JavaScript.valueToCode(block, 'VALUE') + ';';
 };
 Blockly.Blocks['&&variables_initialize_to'] = {
