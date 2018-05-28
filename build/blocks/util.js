@@ -33,9 +33,9 @@ util.loadExtension = name => {
       for (let y in extension.types[x]) {
         let constructor = x === y;
         let messages = {};
-        messages.message0 = x;
+        messages.message0 = y;
         if (!constructor) {
-          messages.message1 = y + '%1';
+          messages.message1 = x + '%1';
           messages.args1 = [
             {
               type: 'input_value',
