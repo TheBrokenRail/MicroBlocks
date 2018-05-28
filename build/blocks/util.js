@@ -75,9 +75,9 @@ util.loadExtension = name => {
               args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
             }
             if (constructor) {
-              return x + '(' + args.join(',') + ');';
+              return [x + '(' + args.join(',') + ')'];
             } else {
-              return Blockly.JavaScript.valueToCode(block, 'OBJ') + '.' + y + '(' + args.join(',') + ')';
+              return [Blockly.JavaScript.valueToCode(block, 'OBJ') + '.' + y + '(' + args.join(',') + ')'];
             }
           };
         }
@@ -129,7 +129,7 @@ util.loadExtension = name => {
         block.setAttribute('type', x + '\\\\' + y);
         category.appendChild(block);
         Blockly.JavaScript[x + '\\\\' + y] = function (block) {
-          return Blockly.JavaScript.valueToCode(block, 'OBJ') + '.' + y;
+          return [Blockly.JavaScript.valueToCode(block, 'OBJ') + '.' + y];
         };
       }
     }
@@ -165,7 +165,7 @@ util.loadExtension = name => {
           for (let i = 0; i < extension.methods[x].args.length; i++) {
             args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
           }
-          return x + '(' + args.join(',') + ')';
+          return [x + '(' + args.join(',') + ')'];
         };
       }
       Blockly.Blocks['][' + x] = {
