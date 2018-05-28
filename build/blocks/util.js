@@ -1,6 +1,8 @@
 const util = {};
 util.typeList = [];
 util.extensions_ = [];
+util.includes_ = [];
+util.modules_ = {};
 util.createType_ = (type, colour) => {
   util.typeList.push(type);
   Blockly.Blocks[type] = {
@@ -190,6 +192,7 @@ util.loadExtension = name => {
       block.setAttribute('type', '][' + x);
       category.appendChild(block);
     }
+    util.includes_ = util.includes.concat(extension.includes ? extension.includes : []);
     util.extensions_.push(category);
     if (window.workspace) {
       let toolbox = document.getElementById('toolbox').cloneNode(true);
@@ -202,3 +205,6 @@ util.loadExtension = name => {
   xhttp.open('GET', 'blocks/' + name + '.json');
   xhttp.send();
 };
+util.generate = workspace => {
+  return util.includes_.join('\n') + '\n\n' + Blockly.JavaScript.workspaceToCode(workspace);
+}
