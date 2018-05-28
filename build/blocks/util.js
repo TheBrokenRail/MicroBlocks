@@ -162,7 +162,7 @@ util.loadExtension = name => {
         category.appendChild(block);
         Blockly.JavaScript['[]' + x] = function (block) {
           let args = [];
-          for (let i = 0; i < extension.methods[y].args.length; i++) {
+          for (let i = 0; i < extension.methods[x].args.length; i++) {
             args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
           }
           return x + '(' + args.join(',') + ');';
@@ -181,7 +181,7 @@ util.loadExtension = name => {
       };
       Blockly.JavaScript['][' + x] = function (block) {
         let args = [];
-        for (let i = 0; i < extension.types[x].methods[y].args.length; i++) {
+        for (let i = 0; i < extension.methods[x].args.length; i++) {
           args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
         }
         return x + '(' + args.join(',') + ');';
