@@ -3,31 +3,44 @@
   "colour": 120,
   "types": {
     "std::string": {
-      "c_str": {
-        "args": [],
-        "output": "char*"
-      },
-      "push_back": {
-        "args": [
-          {
-            "name": "Character",
-            "type": "char"
-          }
-        ],
-        "output": "void"
-      },
-      "std::string": {
-        "args": [
-          {
-            "name": "String",
-            "type": "char*"
-          }
-        ],
-        "cast": [
-          "char*"
-        ],
-        "output": "std::string"
+      "methods": {
+        "c_str": {
+          "args": [],
+          "output": "char*"
+        },
+        "push_back": {
+          "args": [
+            {
+              "name": "Character",
+              "type": "char"
+            }
+          ],
+          "output": "void"
+        },
+        "std::string": {
+          "args": [
+            {
+              "name": "String",
+              "type": "char*"
+            }
+          ],
+          "cast": [
+            "char*"
+          ],
+          "output": "std::string"
+        }
       }
+    }
+  },
+  "methods": {
+    "stoi": {
+      "args": [
+        {
+          "name": "Integer",
+          "type": "int"
+        }
+      ],
+      "output": "std::string"
     }
   }
 }
