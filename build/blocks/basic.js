@@ -5,7 +5,7 @@ Blockly.Blocks['&&basic_string'] = {
         .appendField(new Blockly.FieldTextInput(''), 'STR')
         .appendField('"');
     this.setInputsInline(true);
-    this.setOutput('char*');
+    this.setOutput(true, 'char*');
     this.setColour(160);
   }
 };
@@ -207,7 +207,7 @@ Blockly.Blocks['&&basic_add'] = {
     this.appendValueInput('ADD2')
         .appendField('+');
     this.setInputsInline(true);
-    this.setOutput('&&WILDCARD');
+    this.setOutput(true, '&&WILDCARD');
     this.setColour(160);
   }
 };
@@ -220,7 +220,7 @@ Blockly.Blocks['&&basic_subtract'] = {
     this.appendValueInput('SUBTRACT2')
         .appendField('-');
     this.setInputsInline(true);
-    this.setOutput('&&WILDCARD');
+    this.setOutput(true, '&&WILDCARD');
     this.setColour(160);
   }
 };
@@ -233,7 +233,7 @@ Blockly.Blocks['&&basic_multiply'] = {
     this.appendValueInput('MULTIPLY2')
         .appendField('-');
     this.setInputsInline(true);
-    this.setOutput('&&WILDCARD');
+    this.setOutput(true, '&&WILDCARD');
     this.setColour(160);
   }
 };
@@ -246,7 +246,7 @@ Blockly.Blocks['&&basic_divide'] = {
     this.appendValueInput('DIVIDE2')
         .appendField('/');
     this.setInputsInline(true);
-    this.setOutput('&&WILDCARD');
+    this.setOutput(true, '&&WILDCARD');
     this.setColour(160);
   }
 };
