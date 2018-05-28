@@ -159,7 +159,6 @@ Blockly.JavaScript['controls_if'] = function(block) {
     branchCode = Blockly.JavaScript.statementToCode(block, 'DO' + n);
     code += (n > 0 ? ' else ' : '') +
         'if (' + conditionCode + ') {\n' + branchCode + '}';
-
     ++n;
   } while (block.getInput('IF' + n));
   if (block.getInput('ELSE')) {
