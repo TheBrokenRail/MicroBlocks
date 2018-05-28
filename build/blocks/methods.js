@@ -307,7 +307,7 @@ Blockly.JavaScript['&&methods_call_output'] = function (block) {
   for (let i = 0; i < block.arguments_.length; i++) {
     args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
   }
-  return block.getProcedureCall()[0] + '(' + args.join(',') + ')';
+  return [block.getProcedureCall()[0] + '(' + args.join(',') + ')'];
 };
 
 Blockly.Blocks['&&methods_return'] = {
