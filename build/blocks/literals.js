@@ -10,7 +10,7 @@ Blockly.Blocks['&&literals_string'] = {
   }
 };
 Blockly.JavaScript['&&literals_string'] = function (block) {
-  return block.getFieldValue('STR');
+  return '"' + block.getFieldValue('STR') + '"';
 };
 Blockly.Blocks['&&literals_number'] = {
   init: function() {
