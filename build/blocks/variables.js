@@ -40,7 +40,7 @@ Blockly.Blocks['&&variables_get'] = {
   }
 };
 Blockly.JavaScript['&&variables_get'] = function (block) {
-  return block.getFieldValue('VARIABLE');
+  return [block.getFieldValue('VARIABLE')];
 };
 Blockly.Blocks['&&variables_set'] = {
   init: function () {
