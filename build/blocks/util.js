@@ -49,7 +49,7 @@ util.loadExtension = name => {
           messages['args' + (constructor ? n + 1 : n + 2)] = [
             {
               type: 'input_value',
-              name: 'ARGS' + n,
+              name: 'ARG' + n,
               check: extension.types[x][y].args[n].type
             }
           ];
@@ -71,7 +71,7 @@ util.loadExtension = name => {
           Blockly.JavaScript[x + '&&' + y] = function (block) {
             let args = [];
             for (let i = 0; i < extension.types[x][y].args.length; i++) {
-              args.push(Blockly.JavaScript.valueToCode(block, 'ARGS' + i));
+              args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
             }
             if (constructor) {
               return x + '(' + args.join(',') + ');';
@@ -94,7 +94,7 @@ util.loadExtension = name => {
         Blockly.JavaScript[x + '%%' + y] = function (block) {
           let args = [];
           for (let i = 0; i < extension.types[x][y].args.length; i++) {
-            args.push(Blockly.JavaScript.valueToCode(block, 'ARGS' + i));
+            args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
           }
           if (constructor) {
             return x + '(' + args.join(',') + ');';
