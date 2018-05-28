@@ -13,6 +13,9 @@ util.createType_ = (type, colour) => {
       });
     }
   };
+  Blockly.JavaScript[type] = function () {
+    return type;
+  };
   let block = document.createElement('BLOCK');
   block.setAttribute('type', type);
   return block;
@@ -28,20 +31,22 @@ util.loadExtension = name => {
       category.appendChild(util.createType_(x + '*', extension.colour));
       category.appendChild(util.createType_(x + '[]', extension.colour));
       for (let y in extension.types[x]) {
+        let constructor = x === y;
         let messages = {};
-        messages.message0 = y;
-        messages.message1 = x + '%1';
-        messages.args1 = [
-          {
-            type: 'input_value',
-            name: 'OBJ',
-            check: x
-          }
-        ];
-        let num = 1;
+        messages.message0 = x;
+        if (!constructor) {
+          messages.message1 = x + '%1';
+          messages.args1 = [
+            {
+              type: 'input_value',
+              name: 'OBJ',
+              check: [x].concat(extension.types[x][y].cast)
+            }
+          ];
+        }
         for (let n = 0; n < extension.types[x][y].args.length; n++) {
-          messages['message' + (n + 2)] = extension.types[x][y].args[n].name + ':%1';
-          messages['args' + (n + 2)] = [
+          messages['message' + (constructor ? n + 1 : n + 2)] = extension.types[x][y].args[n].name + ':%1';
+          messages['args' + (constructor ? n + 1 : n + 2)] = [
             {
               type: 'input_value',
               name: 'ARGS' + n,
@@ -63,6 +68,17 @@ util.loadExtension = name => {
           let block = document.createElement('BLOCK');
           block.setAttribute('type', x + '&&' + y);
           category.appendChild(block);
+          Blockly.JavaScript[x + '&&' + y] = function (block) {
+            let args = [];
+            for (let i = 0; i < extension.types[x][y].args.length; i++) {
+              args.push(Blockly.JavaScript.valueToCode(block, 'ARGS' + i));
+            }
+            if (constructor) {
+              return x + '(' + args.join(',') ');';
+            } else {
+              return Blockly.JavaScript.valueToCode(block, 'OBJ') + '.' + y + '(' + args.join(',') ');';
+            }
+          };
         }
         Blockly.Blocks[x + '%%' + y] = {
           init: function () {
@@ -73,6 +89,17 @@ util.loadExtension = name => {
               colour: extension.colour,
               inputsInline: false
             }, messages));
+          }
+        };
+        Blockly.JavaScript[x + '%%' + y] = function (block) {
+          let args = [];
+          for (let i = 0; i < extension.types[x][y].args.length; i++) {
+            args.push(Blockly.JavaScript.valueToCode(block, 'ARGS' + i));
+          }
+          if (constructor) {
+            return x + '(' + args.join(',') ');';
+          } else {
+            return Blockly.JavaScript.valueToCode(block, 'OBJ') + '.' + y + '(' + args.join(',') ');';
           }
         };
         let block = document.createElement('BLOCK');
