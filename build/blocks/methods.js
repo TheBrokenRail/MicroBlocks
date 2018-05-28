@@ -130,7 +130,7 @@ Blockly.JavaScript['&&methods_def'] = function (block) {
   for (let i = 0; i < block.getProcedureDef()[3]; i++) {
     args.push(block.getProcedureDef()[3][i].type + ' ' + block.getProcedureDef()[3][i].name);
   }
-  return block.getProcedureDef()[0] + ' ' + block.getProcedureDef()[1] + '(' + args.join(',') + ') {\n' + Blockly.JavaScript.statementToCode(block, 'STACK') + '\n}';
+  return block.getProcedureDef()[0] + ' ' + block.getProcedureDef()[1] + '(' + args.join(',') + ') {\n' + Blockly.JavaScript.statementToCode(block, 'STACK') + '\n}\n';
 };
 
 Blockly.Blocks['&&methods_mutatorcontainer'] = {
