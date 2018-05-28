@@ -81,17 +81,20 @@ Blockly.Blocks['&&basic_if'] = {
     let elseStatementConnection = null;
     while (clauseBlock) {
       switch (clauseBlock.type) {
-        case '&&basic_if_elseif':
+        case '&&basic_if_elseif': {
           this.elseifCount_++;
           valueConnections.push(clauseBlock.valueConnection_);
           statementConnections.push(clauseBlock.statementConnection_);
           break;
-        case '&&basic_if_else':
+        }
+        case '&&basic_if_else': {
           this.elseCount_++;
           elseStatementConnection = clauseBlock.statementConnection_;
           break;
-        default:
+        }
+        default: {
           throw 'Unknown block type.';
+        }
       }
       clauseBlock = clauseBlock.nextConnection &&
           clauseBlock.nextConnection.targetBlock();
@@ -108,7 +111,7 @@ Blockly.Blocks['&&basic_if'] = {
     let i = 1;
     while (clauseBlock) {
       switch (clauseBlock.type) {
-        case '&&basic_if_elseif':
+        case '&&basic_if_elseif': {
           let inputIf = this.getInput('IF' + i);
           let inputDo = this.getInput('DO' + i);
           clauseBlock.valueConnection_ =
@@ -117,13 +120,16 @@ Blockly.Blocks['&&basic_if'] = {
               inputDo && inputDo.connection.targetConnection;
           i++;
           break;
-        case '&&basic_if_else':
+        }
+        case '&&basic_if_else': {
           let inputDo = this.getInput('ELSE');
           clauseBlock.statementConnection_ =
               inputDo && inputDo.connection.targetConnection;
           break;
-        default:
+        }
+        default: {
           throw 'Unknown block type.';
+        }
       }
       clauseBlock = clauseBlock.nextConnection &&
           clauseBlock.nextConnection.targetBlock();
