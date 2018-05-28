@@ -97,6 +97,7 @@ Blockly.Blocks['&&variables_initialize_to'] = {
     this.appendValueInput('VALUE')
         .appendField(new Blockly.FieldTextInput(''), 'NAME')
         .appendField('to');
+    this.setInputsInline(true);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setColour(20);
@@ -122,9 +123,6 @@ Blockly.Blocks['&&variables_initialize'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setColour(20);
-  },
-  onchange: function () {
-    this.getInput('VALUE').setCheck(this.getInputTargetBlock('TYPE') ? this.getInputTargetBlock('TYPE').type: 'MISSING_TYPE');
   },
   getVar: function () {
     return [{name: this.getFieldValue('NAME'), type: this.getInputTargetBlock('TYPE')}];
