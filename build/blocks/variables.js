@@ -87,7 +87,7 @@ Blockly.Blocks['&&variables_set'] = {
   }
 };
 Blockly.JavaScript['&&variables_set'] = function (block) {
-  return block.getFieldValue('VARIABLE') + ' = ' + Blockly.JavaScript.valueToCode(block, 'VALUE') + ';';
+  return block.getFieldValue('VARIABLE') + ' = ' + Blockly.JavaScript.valueToCode(block, 'VALUE') + ';\n';
 };
 Blockly.Blocks['&&variables_initialize_to'] = {
   init: function () {
@@ -110,7 +110,7 @@ Blockly.Blocks['&&variables_initialize_to'] = {
   }
 };
 Blockly.JavaScript['&&variables_initialize_to'] = function (block) {
-  return block.getInputTargetBlock('TYPE').type + ' ' + block.getFieldValue('NAME') + ' = ' + Blockly.JavaScript.valueToCode(block, 'VALUE') + ';';
+  return block.getInputTargetBlock('TYPE').type + ' ' + block.getFieldValue('NAME') + ' = ' + Blockly.JavaScript.valueToCode(block, 'VALUE') + ';\n';
 };
 Blockly.Blocks['&&variables_initialize'] = {
   init: function () {
@@ -129,5 +129,5 @@ Blockly.Blocks['&&variables_initialize'] = {
   }
 };
 Blockly.JavaScript['&&variables_initialize'] = function (block) {
-  return block.getInputTargetBlock('TYPE').type + ' ' + block.getFieldValue('NAME') + ';';
+  return block.getInputTargetBlock('TYPE').type + ' ' + block.getFieldValue('NAME') + ';\n';
 };
