@@ -161,6 +161,14 @@ Blockly.Blocks['&&methods_def'] = {
   callType_: '&&methods_call'
 };
 
+Blockly.JavaScript['&&methods_def'] = function (block) {
+  let args = [];
+  for (let i = 0; i < block.getProcedureDef()[3]; i++) {
+    args.push(block.getProcedureDef()[3][i].type + ' ' + block.getProcedureDef()[3][i].name);
+  }
+  return block.getProcedureDef()[0] + ' ' + block.getProcedureDef()[1] + '(' + args.join(',') + ') {\n' + Blockly.JavaScript.statementToCode(block, 'STACK') + '\n}';
+};
+
 Blockly.Blocks['&&methods_mutatorcontainer'] = {
   /**
    * Mutator block for procedure container.
@@ -365,6 +373,14 @@ Blockly.Blocks['&&methods_call'] = {
   defType_: '&&methods_def'
 };
 
+Blockly.JavaScript['&&methods_call'] = function (block) {
+  let args = [];
+  for (let i = 0; i < block.arguments_.length; i++) {
+    args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
+  }
+  return block.getProcedureCall()[0] + '(' + args.join(',') + ');';
+};
+
 Blockly.Blocks['&&methods_return'] = {
   /**
    * Block for conditionally returning a value from a procedure.
@@ -378,6 +394,10 @@ Blockly.Blocks['&&methods_return'] = {
     this.setNextStatement(true);
     this.setColour(210);
   }
+};
+
+Blockly.JavaScript['&&methods_return'] = function (block) {
+  return 'return ' + Blockly.JavaScript.valueToCode('VALUE') + ';';
 };
 
 const methodsCallback = workspace => {
