@@ -15,6 +15,15 @@
           }
         ],
         "output": "void"
+      },
+      "std::string": {
+        "args": [
+          {
+            "name": "String",
+            "type": "char*"
+          }
+        ],
+        "output": "std::string"
       }
     }
   }
