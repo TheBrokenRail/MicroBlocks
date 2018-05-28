@@ -359,14 +359,16 @@ const methodsCallback = workspace => {
       mutation.setAttribute('type', type);
       block.appendChild(mutation);
       xmlList.push(block);
-      let blockOutput = document.createElement('block');
-      blockOutput.setAttribute('type', templateName + '_output');
-      blockOutput.setAttribute('gap', 16);
-      let mutationOutput = document.createElement('mutation');
-      mutationOutput.setAttribute('name', name);
-      mutationOutput.setAttribute('type', type);
-      blockOutput.appendChild(mutationOutput);
-      xmlList.push(blockOutput);
+      if (type !== 'void') {
+        let blockOutput = document.createElement('block');
+        blockOutput.setAttribute('type', templateName + '_output');
+        blockOutput.setAttribute('gap', 16);
+        let mutationOutput = document.createElement('mutation');
+        mutationOutput.setAttribute('name', name);
+        mutationOutput.setAttribute('type', type);
+        blockOutput.appendChild(mutationOutput);
+        xmlList.push(blockOutput);
+      }
     }
   }
   let tuple = Blockly.Procedures.allProcedures(workspace);
