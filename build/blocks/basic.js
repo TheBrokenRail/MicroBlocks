@@ -201,3 +201,29 @@ Blockly.Blocks['&&basic_if_else'] = {
     this.setColour(160);
   }
 };
+Blockly.Blocks['&&basic_add'] = {
+  init: function() {
+    this.appendValueInput('ADD1')
+    this.appendValueInput('ADD2')
+        .appendField('+');
+    this.setInputsInline(true);
+    this.setOutput('&&WILDCARD');
+    this.setColour(160);
+  }
+};
+Blockly.JavaScript['&&basic_add'] = function (block) {
+  return ['(' + Blockly.JavaScript.valueToCode(block, 'ADD1') + ') + (' + Blockly.JavaScript.valueToCode(block, 'ADD2') + ')'];
+};
+Blockly.Blocks['&&basic_subtract'] = {
+  init: function() {
+    this.appendValueInput('SUBTRACT1')
+    this.appendValueInput('SUBTRACT2')
+        .appendField('-');
+    this.setInputsInline(true);
+    this.setOutput('&&WILDCARD');
+    this.setColour(160);
+  }
+};
+Blockly.JavaScript['&&basic_subtract'] = function (block) {
+  return ['(' + Blockly.JavaScript.valueToCode(block, 'SUBTRACT1') + ') - (' + Blockly.JavaScript.valueToCode(block, 'SUBTRACT2') + ')'];
+};
