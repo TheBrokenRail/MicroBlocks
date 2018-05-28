@@ -35,7 +35,7 @@ util.loadExtension = name => {
         let messages = {};
         messages.message0 = x;
         if (!constructor) {
-          messages.message1 = x + '%1';
+          messages.message1 = y + '%1';
           messages.args1 = [
             {
               type: 'input_value',
