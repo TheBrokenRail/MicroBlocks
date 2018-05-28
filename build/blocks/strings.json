@@ -1,6 +1,9 @@
 {
   "name": "Strings",
   "colour": 120,
+  "includes": [
+    "#include <string>"
+  ],
   "types": {
     "std::string": {
       "methods": {
