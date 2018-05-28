@@ -192,7 +192,7 @@ util.loadExtension = name => {
       block.setAttribute('type', '][' + x);
       category.appendChild(block);
     }
-    util.includes_ = util.includes.concat(extension.includes ? extension.includes : []);
+    util.includes_ = util.includes_.concat(extension.includes ? extension.includes : []);
     util.extensions_.push(category);
     if (window.workspace) {
       let toolbox = document.getElementById('toolbox').cloneNode(true);
