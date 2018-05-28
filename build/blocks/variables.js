@@ -110,5 +110,5 @@ Blockly.Blocks['&&variables_initialize'] = {
   }
 };
 Blockly.JavaScript['&&variables_initialize'] = function (block) {
-  return block.getInputTargetBlock('TYPE').type + ' ' + block.getFieldValue('VARIABLE') + ' = ' + Blockly.JavaScript.valueToCode(block, 'VALUE') + ';';
+  return block.getInputTargetBlock('TYPE').type + ' ' + block.getFieldValue('NAME') + ' = ' + Blockly.JavaScript.valueToCode(block, 'VALUE') + ';';
 };
