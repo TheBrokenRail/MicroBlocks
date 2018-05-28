@@ -155,7 +155,7 @@ Blockly.Blocks['&&methods_def'] = {
    * @return {!Array.<string>} List of letiable names.
    * @this Blockly.Block
    */
-  getArgs: function () {
+  getVar: function () {
     return this.arguments_;
   },
   callType_: '&&methods_call'
