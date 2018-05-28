@@ -40,7 +40,7 @@ util.loadExtension = name => {
             {
               type: 'input_value',
               name: 'OBJ',
-              check: [x].concat(extension.types[x][y].cast)
+              check: [x].concat(extension.types[x][x] && extension.types[x][x].cast ? extension.types[x][x].cast : [])
             }
           ];
         }
