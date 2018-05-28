@@ -109,6 +109,6 @@ Blockly.Blocks['&&variables_initialize'] = {
     return [{name: this.getFieldValue('NAME'), type: this.getInputTargetBlock('TYPE')}];
   }
 };
-Blockly.JavaScript['&&methods_initialize'] = function (block) {
+Blockly.JavaScript['&&variables_initialize'] = function (block) {
   return block.getInputTargetBlock('TYPE').type + ' ' + block.getFieldValue('VARIABLE') + ' = ' + Blockly.JavaScript.valueToCode(block, 'VALUE') + ';';
 };
