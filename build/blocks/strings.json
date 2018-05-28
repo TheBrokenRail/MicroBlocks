@@ -36,11 +36,11 @@
     "stoi": {
       "args": [
         {
-          "name": "Integer",
-          "type": "int"
+          "name": "String",
+          "type": "std::string"
         }
       ],
-      "output": "std::string"
+      "output": "int"
     }
   }
 }
