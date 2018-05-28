@@ -1,6 +1,6 @@
 Blockly.Blocks['&&methods_def'] = {
   init: function () {
-    let nameField = new Blockly.FieldTextInput('');
+    let nameField = new Blockly.FieldTextInput('', updateParams_);
     nameField.setSpellcheck(false);
     this.appendDummyInput()
         .appendField('define');
