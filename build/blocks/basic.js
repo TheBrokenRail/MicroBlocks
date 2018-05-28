@@ -195,7 +195,7 @@ Blockly.Blocks['&&basic_if_elseif'] = {
 Blockly.Blocks['&&basic_if_else'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('else if');
+        .appendField('else');
     this.setInputsInline(true);
     this.setPreviousStatement(true);
     this.setColour(160);
