@@ -31,7 +31,7 @@ util.loadExtension = name => {
       category.appendChild(util.createType_(x, extension.colour));
       category.appendChild(util.createType_(x + '*', extension.colour));
       category.appendChild(util.createType_(x + '[]', extension.colour));
-      for (let y in extension.types[x]) {
+      for (let y in extension.types[x].methods) {
         let constructor = x === y;
         let messages = {};
         messages.message0 = y;
@@ -41,26 +41,26 @@ util.loadExtension = name => {
             {
               type: 'input_value',
               name: 'OBJ',
-              check: [x].concat(extension.types[x][x] && extension.types[x][x].cast ? extension.types[x][x].cast : [])
+              check: [x, x + '*', x + '[]'].concat(extension.types[x].methods[x] && extension.types[x].methods[x].cast ? extension.types[x].methods[x].cast : [])
             }
           ];
         }
-        for (let n = 0; n < extension.types[x][y].args.length; n++) {
-          messages['message' + (constructor ? n + 1 : n + 2)] = extension.types[x][y].args[n].name + ':%1';
+        for (let n = 0; n < extension.types[x].methods[y].args.length; n++) {
+          messages['message' + (constructor ? n + 1 : n + 2)] = extension.types[x].methods[y].args[n].name + ':%1';
           messages['args' + (constructor ? n + 1 : n + 2)] = [
             {
               type: 'input_value',
               name: 'ARG' + n,
-              check: extension.types[x][y].args[n].type
+              check: extension.types[x].methods[y].args[n].type
             }
           ];
         }
-        if (extension.types[x][y].output !== 'void') {
+        if (extension.types[x].methods[y].output !== 'void') {
           Blockly.Blocks[x + '&&' + y] = {
             init: function () {
               this.jsonInit(Object.assign({
                 type: x + '&&' + y,
-                output: extension.types[x][y].output,
+                output: extension.types[x].methods[y].output,
                 colour: extension.colour,
                 inputsInline: false
               }, messages));
@@ -71,7 +71,7 @@ util.loadExtension = name => {
           category.appendChild(block);
           Blockly.JavaScript[x + '&&' + y] = function (block) {
             let args = [];
-            for (let i = 0; i < extension.types[x][y].args.length; i++) {
+            for (let i = 0; i < extension.types[x].methods[y].args.length; i++) {
               args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
             }
             if (constructor) {
@@ -94,7 +94,7 @@ util.loadExtension = name => {
         };
         Blockly.JavaScript[x + '%%' + y] = function (block) {
           let args = [];
-          for (let i = 0; i < extension.types[x][y].args.length; i++) {
+          for (let i = 0; i < extension.types[x].methods[y].args.length; i++) {
             args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
           }
           if (constructor) {
@@ -107,6 +107,88 @@ util.loadExtension = name => {
         block.setAttribute('type', x + '%%' + y);
         category.appendChild(block);
       }
+      for (let y in extension.types[x].properties) {
+        Blockly.Blocks[x + '\\\\' + y] = {
+          init: function () {
+            this.jsonInit({
+              type: x + '\\\\' + y,
+              message0: '%1.' + y,
+              args0: [
+                {
+                  type: 'input_value',
+                  name: 'OBJ',
+                  check: x
+                }
+              ],
+              output: extension.types[x].properties[y],
+              colour: extension.colour
+            });
+          }
+        };
+        let block = document.createElement('BLOCK');
+        block.setAttribute('type', x + '\\\\' + y);
+        category.appendChild(block);
+        Blockly.JavaScript[x + '\\\\' + y] = function (block) {
+          return Blockly.JavaScript.valueToCode(block, 'OBJ') + '.' + y;
+        };
+      }
+    }
+    for (let x in extension.methods) {
+      let messages = {};
+      messages.message0 = x;
+      for (let n = 0; n < extension.methods[x].args.length; n++) {
+        messages['message' + (n + 1)] = extension.methods[x].args[n].name + ':%1';
+        messages['args' + (n + 1)] = [
+          {
+            type: 'input_value',
+            name: 'ARG' + n,
+            check: extension.methods[x].args[n].type
+          }
+        ];
+      }
+      if (extension.methods[x].output !== 'void') {
+        Blockly.Blocks['[]' + x] = {
+          init: function () {
+            this.jsonInit(Object.assign({
+              type: '[]' + x,
+              output: extension.methods[x].output,
+              colour: extension.colour,
+              inputsInline: false
+            }, messages));
+          }
+        };
+        let block = document.createElement('BLOCK');
+        block.setAttribute('type', '[]' + x);
+        category.appendChild(block);
+        Blockly.JavaScript['[]' + x] = function (block) {
+          let args = [];
+          for (let i = 0; i < extension.methods[y].args.length; i++) {
+            args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
+          }
+          return x + '(' + args.join(',') + ');';
+        };
+      }
+      Blockly.Blocks['][' + x] = {
+        init: function () {
+          this.jsonInit(Object.assign({
+            type: '][' + x,
+            nextStatement: null,
+            previousStatement: null,
+            colour: extension.colour,
+            inputsInline: false
+          }, messages));
+        }
+      };
+      Blockly.JavaScript['][' + x] = function (block) {
+        let args = [];
+        for (let i = 0; i < extension.types[x].methods[y].args.length; i++) {
+          args.push(Blockly.JavaScript.valueToCode(block, 'ARG' + i));
+        }
+        return x + '(' + args.join(',') + ');';
+      };
+      let block = document.createElement('BLOCK');
+      block.setAttribute('type', '][' + x);
+      category.appendChild(block);
     }
     util.extensions_.push(category);
     if (window.workspace) {
