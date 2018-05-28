@@ -33,7 +33,13 @@ Blockly.Blocks['&&methods_def'] = {
       }
       hash['arg_' + this.arguments_[i].name] = true;
     }
-    if (badArg) {
+    if (this.getProcedureDef()[1].length < 1) {
+      badArg.push('This Procedure Doesn\'t Have A Name!');
+    }
+    if (this.getProcedureDef()[1].indexOf(' ') !== -1) {
+      badArg.push('This Procedure Has Spaces In Its Name!');
+    }
+    if (badArg.length > 0) {
       this.setWarningText(badArg.join('\n'));
       this.bad_ = true;
     } else {
