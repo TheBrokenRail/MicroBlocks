@@ -1,20 +1,91 @@
 Blockly.Blocks['&&variables_get'] = {
   init: function () {
-    this.jsonInit({
-      type: '&&variables_get',
-      message0: 'get %1',
-      args0: [
-        {
-          type: 'field_dropdown',
-          name: 'NAME',
-          options: function () {
-            return [];
-          }
+    let input = this.appendDummyInput()
+        .appendField('get');
+    this.variables = [];
+    input.appendField(new Blockly.FieldDropdown(() => {
+      this.variables = [];
+      let recurse = block => {
+        let parent = block.getParent();
+        if (parent.getVar) {
+          this.variables.concat(parent.getVar());
         }
-      ],
-      inputsInline: true,
-      output: 'MISSING_TYPE',
-      colour: 20
-    });
+        if (parent.getParent()) {
+          recurse(parent.getParent());
+        }
+      };
+      recurse(this);
+      let options = [];
+      for (let i = 0; i < this.variables.length; i++) {
+        options.push([this.variables[i].name, this.variables[i].name]);
+      }
+      return options;
+    }, newVar => {
+      for (let i = 0; i < this.variables.length; i++) {
+        if (this.variables[i].name === newVar) {
+          this.setOutput(this.variables[i].name);
+        }
+      }
+    }), 'VARIABLE');
+    this.setInputsInline(true);
+    this.setOutput('MISSING_TYPE');
+    this.setColour(20);
+  }
+};
+Blockly.Blocks['&&variables_set'] = {
+  init: function () {
+    let input = this.appendDummyInput()
+        .appendField('set');
+    this.appendValueInput('VALUE')
+        .appendField('to');
+    this.variables = [];
+    input.appendField(new Blockly.FieldDropdown(() => {
+      this.variables = [];
+      let recurse = block => {
+        let parent = block.getParent();
+        if (parent.getVar) {
+          this.variables.concat(parent.getVar());
+        }
+        if (parent.getParent()) {
+          recurse(parent.getParent());
+        }
+      };
+      recurse(this);
+      let options = [];
+      for (let i = 0; i < this.variables.length; i++) {
+        options.push([this.variables[i].name, this.variables[i].name]);
+      }
+      return options;
+    }, newVar => {
+      for (let i = 0; i < this.variables.length; i++) {
+        if (this.variables[i].name === newVar) {
+          this.getInput('VALUE').setCheck(this.variables[i].type);
+        }
+      }
+    }), 'VARIABLE');
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(20);
+  }
+};
+Blockly.Blocks['&&variables_initialize'] = {
+  init: function () {
+    this.appendValueInput('TYPE')
+        .setCheck('C++Type')
+        .appendField('initialize');
+    this.appendValueInput('VALUE')
+        .appendField(new Blockly.FieldTextInput(''), 'NAME')
+        .appendField('to');
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(20);
+  },
+  onchange: function () {
+    this.getInput('VALUE').setCheck(this.getInputTargetBlock('TYPE') ? this.getInputTargetBlock('TYPE').type: 'MISSING_TYPE');
+  },
+  getVar: function () {
+    return [{name: this.getFeildValue('NAME'), type: this.getInputTargetBlock('TYPE')}];
   }
 };
