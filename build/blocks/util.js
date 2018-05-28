@@ -43,7 +43,7 @@ util.loadExtension = name => {
             {
               type: 'input_value',
               name: 'OBJ',
-              check: [x, x + '*', x + '[]'].concat(extension.types[x].methods[x] && extension.types[x].methods[x].cast ? extension.types[x].methods[x].cast : [])
+              check: ['&&WILDCARD', x, x + '*', x + '[]'].concat(extension.types[x].methods[x] && extension.types[x].methods[x].cast ? extension.types[x].methods[x].cast : [])
             }
           ];
         }
@@ -53,7 +53,7 @@ util.loadExtension = name => {
             {
               type: 'input_value',
               name: 'ARG' + n,
-              check: extension.types[x].methods[y].args[n].type
+              check: ['&&WILDCARD', extension.types[x].methods[y].args[n].type]
             }
           ];
         }
@@ -62,7 +62,7 @@ util.loadExtension = name => {
             init: function () {
               this.jsonInit(Object.assign({
                 type: x + '&&' + y,
-                output: extension.types[x].methods[y].output,
+                output: ['&&WILDCARD', extension.types[x].methods[y].output],
                 colour: extension.colour,
                 inputsInline: false
               }, messages));
@@ -122,7 +122,7 @@ util.loadExtension = name => {
                   check: x
                 }
               ],
-              output: extension.types[x].properties[y],
+              output: ['&&WILDCARD', extension.types[x].properties[y]],
               colour: extension.colour
             });
           }
@@ -144,7 +144,7 @@ util.loadExtension = name => {
           {
             type: 'input_value',
             name: 'ARG' + n,
-            check: extension.methods[x].args[n].type
+            check: ['&&WILDCARD', extension.methods[x].args[n].type]
           }
         ];
       }
@@ -153,7 +153,7 @@ util.loadExtension = name => {
           init: function () {
             this.jsonInit(Object.assign({
               type: '[]' + x,
-              output: extension.methods[x].output,
+              output: ['&&WILDCARD', extension.methods[x].output],
               colour: extension.colour,
               inputsInline: false
             }, messages));
