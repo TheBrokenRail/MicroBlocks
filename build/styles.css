@@ -125,6 +125,9 @@ action:hover {
 .extension {
     width: 100%;
     font-family: sans-serif;
+    text-align: unset;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 .extension:hover {
     background-color: lightgrey;
