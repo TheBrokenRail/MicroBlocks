@@ -10,7 +10,7 @@
         <div class="closeContainer">
             <p class="close" id="closeAbout">✕</p>
         </div>
-        <div id="textContainer">
+        <div class="textContainer">
             <p id="textBold">View The Source Code At:</p>
             <p id="text"><a href="https://github.com/TheBrokenRail/HTMLBlocks">https://github.com/TheBrokenRail/HTMLBlocks</a></p>
             <p id="textBold">Blockly-Based Frontend At:</p>
@@ -27,6 +27,14 @@
         </div>
     </div>
 </div>
+<div class="boxOuter" id="extensionBox" style="display: none;">
+    <div class="boxInner">
+        <div class="closeContainer">
+            <p class="close" id="closeExtensions">✕</p>
+        </div>
+        <div class="textContainer" id="extensionBox"></div>
+    </div>
+</div>
 <div id="blocks"></div>
 <div id="menuBar">
     <div id="nameBarDiv">
@@ -39,8 +47,12 @@
         <action id="load">Load</action>
         <action id="export">Export</action>
         <action id="about">About</action>
+        <action id="add_extension">Add Extension</action>
     </div>
 </div>
+<xml id="extensions" style="display: none;">
+    <extension name="strings" display="Strings" description="Adds C++ Strings" img=""></extension>
+</xml>
 <link rel="stylesheet" href="styles.css">
 <xml id="toolbox" style="display: none">
     <category name="Methods" colour="210" custom="METHODS"></category>
