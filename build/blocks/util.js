@@ -30,7 +30,7 @@ util.createType_ = (type, colour) => {
   block.setAttribute('type', type);
   return block;
 };
-util.loadExtension = name => {
+util.loadExtension = (name, callback) => {
   let xhttp = new XMLHttpRequest();
   xhttp.addEventListener('load', () => {
     let extension = JSON.parse(xhttp.responseText);
@@ -218,6 +218,7 @@ util.loadExtension = name => {
         toolbox.appendChild(util.extensions_[i]);
       }
       window.workspace.updateToolbox(toolbox);
+      callback();
     }
   });
   xhttp.open('GET', 'blocks/' + name + '.json');
