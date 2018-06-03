@@ -219,3 +219,21 @@ Blockly.Blocks['&&basic_operator'] = {
 Blockly.JavaScript['&&basic_operator'] = function (block) {
   return ['(' + Blockly.JavaScript.valueToCode(block, 'IN1') + ') ' + block.getFieldValue('OPERATOR') + ' (' + Blockly.JavaScript.valueToCode(block, 'IN2') + ')'];
 };
+Blockly.Blocks['&&basic_operator_block'] = {
+  init: function () {
+    this.appendValueInput('IN1')
+    this.appendValueInput('IN2')
+        .appendField(new Blockly.FieldDropdown([['+', '+'], ['-', '-'], ['*', '*'], ['/', '/'], ['<<', '<<'], ['>>', '>>']]), 'OPERATOR');
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(160);
+  },
+  onchange: function () {
+    let operator = this.getInputTargetBlock('IN1') ? util.operator[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').outputConnection.check_] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
+    this.getInput('IN2').setCheck(operator.check);
+  }
+};
+Blockly.JavaScript['&&basic_operator_block'] = function (block) {
+  return '(' + Blockly.JavaScript.valueToCode(block, 'IN1') + ') ' + block.getFieldValue('OPERATOR') + ' (' + Blockly.JavaScript.valueToCode(block, 'IN2') + ');';
+};
