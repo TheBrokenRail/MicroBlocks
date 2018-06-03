@@ -34,7 +34,7 @@ Blockly.Blocks['&&basic_string'] = {
     console.warn('field named "' + fieldName + '" not found in ' + this.toDevString());
   },
   newQuote_: function (open) {
-    let isLeft = this.RTL? !open : open;
+    let isLeft = this.RTL ? !open : open;
     let dataUri = isLeft ?
       this.QUOTE_IMAGE_LEFT_DATAURI :
       this.QUOTE_IMAGE_RIGHT_DATAURI;
@@ -51,9 +51,9 @@ Blockly.JavaScript['&&basic_string'] = function (block) {
 Blockly.Blocks['&&basic_char'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('"')
-        .appendField(new Blockly.FieldTextInput(''), 'STR')
-        .appendField('"');
+        .appendField('\'')
+        .appendField(new Blockly.FieldTextInput('', str => return str.length > 0 ? str.charAt(0) : ''), 'STR')
+        .appendField('\'');
     this.setInputsInline(true);
     this.setOutput(true, 'char');
     this.setColour(160);
