@@ -15,11 +15,12 @@ window.onload = function() {
   workspace.registerToolboxCategoryCallback('METHODS', methodsCallback);
   window.workspace = workspace;
 
-  util.loadExtension('primitives');
-  util.loadExtension('strings');
-  
-  Blockly.Xml.domToWorkspace(document.getElementById('workspace'), workspace);
-  workspace.scrollCenter();
+  util.loadExtension('primitives', () => {
+    util.loadExtension('strings', () => {
+      Blockly.Xml.domToWorkspace(document.getElementById('workspace'), workspace);
+      workspace.scrollCenter();
+    });
+  });
 
   let css = window.Blockly.Css.styleSheet_.cssRules;
   for (i = 0; i < css.length; i++) {
