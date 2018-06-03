@@ -42,7 +42,7 @@ util.loadExtension = name => {
       category.appendChild(util.createType_(x + '*', extension.colour));
       category.appendChild(util.createType_(x + '[]', extension.colour));
       let typeAppends = ['*', '[]'];
-      for (let i = 0; i < typeAppends.length) {
+      for (let i = 0; i < typeAppends.length; i++) {
         for (let y in util.operators) {
           if (extension.operators && extension.operators[y] && extension.operators[y][x + typeAppends[i]]) {
             util.operators[y][x + typeAppends[i]] = extension.operators[y][x + typeAppends[i]];
@@ -61,7 +61,7 @@ util.loadExtension = name => {
             {
               type: 'input_value',
               name: 'OBJ',
-              check: ['&&WILDCARD', x, x + '*', x + '[]'].concat(extension.types[x].methods[x] && extension.types[x].methods[x].cast ? extension.types[x].methods[x].cast : [])
+              check: [x, x + '*', x + '[]'].concat(extension.types[x].methods[x] && extension.types[x].methods[x].cast ? extension.types[x].methods[x].cast : [])
             }
           ];
         }
@@ -71,7 +71,7 @@ util.loadExtension = name => {
             {
               type: 'input_value',
               name: 'ARG' + n,
-              check: ['&&WILDCARD', extension.types[x].methods[y].args[n].type]
+              check: [extension.types[x].methods[y].args[n].type]
             }
           ];
         }
@@ -80,7 +80,7 @@ util.loadExtension = name => {
             init: function () {
               this.jsonInit(Object.assign({
                 type: x + '&&' + y,
-                output: ['&&WILDCARD', extension.types[x].methods[y].output],
+                output: [extension.types[x].methods[y].output],
                 colour: extension.colour,
                 inputsInline: false
               }, messages));
@@ -140,7 +140,7 @@ util.loadExtension = name => {
                   check: x
                 }
               ],
-              output: ['&&WILDCARD', extension.types[x].properties[y]],
+              output: extension.types[x].properties[y],
               colour: extension.colour
             });
           }
@@ -162,7 +162,7 @@ util.loadExtension = name => {
           {
             type: 'input_value',
             name: 'ARG' + n,
-            check: ['&&WILDCARD', extension.methods[x].args[n].type]
+            check: [extension.methods[x].args[n].type]
           }
         ];
       }
@@ -171,7 +171,7 @@ util.loadExtension = name => {
           init: function () {
             this.jsonInit(Object.assign({
               type: '[]' + x,
-              output: ['&&WILDCARD', extension.methods[x].output],
+              output: extension.methods[x].output,
               colour: extension.colour,
               inputsInline: false
             }, messages));
