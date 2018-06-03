@@ -89,7 +89,14 @@ window.onload = function() {
   
   document.getElementById('add_extension').onclick = function () {
     document.getElementById('extensionBox').style.display = 'initial';
+    buildExtensions();
   };
+  
+  function buildExtension() {
+    let extensions = document.getElementById('extensions');
+    let extensionBox = document.getElementById('extensionBox');
+    extensionBox.innerHTML = '';
+  }
 
   document.getElementById('closeAbout').onclick = function () {
     document.getElementById('aboutBox').style.display = 'none';
