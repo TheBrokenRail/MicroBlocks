@@ -104,7 +104,7 @@ action:hover {
     margin-top: 2%;
     font-family: sans-serif;
 }
-#textContainer {
+.textContainer {
     text-align: center;
     margin: 5%;
     margin-top: 0;
@@ -122,16 +122,10 @@ action:hover {
     font-size: 16pt;
     font-weight: bold;
 }
-.inspectText {
+.extension {
+    width: 100%;
     font-family: sans-serif;
 }
-.inspectDiv {
-    background-color: #F9F9F9;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-.inspectDivHover {
-    background-color: #D3D3D3;
+.extension:hover {
+    background-color: lightgrey;
 }
