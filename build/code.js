@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function () {
   let workspace = window.Blockly.inject('blocks', {
     media: '/editor/media/',
     toolbox: document.getElementById('toolbox'),
@@ -29,7 +29,7 @@ window.onload = function() {
     }
   }
 
-  document.getElementById('save').onclick = function() {
+  document.getElementById('save').onclick = function () {
     var name = document.getElementById('name').value;
     if (!name || name === '') {
       name = 'Untitled';
@@ -87,12 +87,7 @@ window.onload = function() {
     document.getElementById('aboutBox').style.display = 'initial';
   };
   
-  document.getElementById('add_extension').onclick = function () {
-    document.getElementById('extensionBox').style.display = 'initial';
-    buildExtensions();
-  };
-  
-  function buildExtension() {
+  window.buildExtensions_ = () => {
     let extensions = document.getElementById('extensions');
     let extensionBox = document.getElementById('extensionBox');
     extensionBox.innerHTML = '';
@@ -108,7 +103,12 @@ window.onload = function() {
       div.appendChild(description);
       extensionBox.appendChild(div);
     }
-  }
+  };
+  
+  document.getElementById('add_extension').onclick = function () {
+    document.getElementById('extensionBox').style.display = 'initial';
+    window.buildExtensions_();
+  };
 
   document.getElementById('closeAbout').onclick = function () {
     document.getElementById('aboutBox').style.display = 'none';
