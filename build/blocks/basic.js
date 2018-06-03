@@ -211,10 +211,11 @@ Blockly.Blocks['&&basic_operator'] = {
     this.setColour(160);
   },
   onchange: function () {
-    this.getInput('IN2').setCheck(util.operator[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').getOutput()].check);
-    this.setOutput(true, util.operator[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').getOutput()].output);
+    let operator = this.getInputTargetBlock('IN1') ? util.operator[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').outputConnection.check_] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
+    this.getInput('IN2').setCheck(operator.check);
+    this.setOutput(true, operator.output);
   }
 };
 Blockly.JavaScript['&&basic_operator'] = function (block) {
-  return ['(' + Blockly.JavaScript.valueToCode(block, 'ADD1') + ') + (' + Blockly.JavaScript.valueToCode(block, 'ADD2') + ')'];
+  return ['(' + Blockly.JavaScript.valueToCode(block, 'IN1') + ') ' + block.getFieldValue('OPERATOR') + ' (' + Blockly.JavaScript.valueToCode(block, 'IN2') + ')'];
 };
