@@ -35,17 +35,17 @@ util.loadExtension = name => {
     let category = document.createElement('CATEGORY');
     category.setAttribute('name', extension.name);
     category.setAttribute('colour', extension.colour);
-    for (let x in util.operators) {
-      if (extension.operators && extension.operators[x]) {
-        for (let y in extension.operators[x]) {
-          // y = block
-        }
-      }
-    }
     for (let x in extension.types) {
       category.appendChild(util.createType_(x, extension.colour));
       category.appendChild(util.createType_(x + '*', extension.colour));
       category.appendChild(util.createType_(x + '[]', extension.colour));
+      for (let y in util.operators) {
+        if (extension.operators && extension.operators[y] && extension.operators[y][x]) {
+          util.operators[y][x] = extension.operators[y][x];
+        } else {
+          util.operators[y][x] = {output: x, check: x};
+        }
+      }
       for (let y in extension.types[x].methods) {
         let constructor = x === y;
         let messages = {};
