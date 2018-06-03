@@ -7,7 +7,9 @@ util.operators = {
   '+': {},
   '-': {},
   '*': {},
-  '/': {}
+  '/': {},
+  '<<': {},
+  '>>': {}
 };
 util.createType_ = (type, colour) => {
   util.typeList.push(type);
