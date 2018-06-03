@@ -211,7 +211,7 @@ Blockly.Blocks['&&basic_operator'] = {
     this.setColour(160);
   },
   onchange: function () {
-    let operator = this.getInputTargetBlock('IN1') ? util.operator[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').outputConnection.check_] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
+    let operator = this.getInputTargetBlock('IN1') ? util.operators[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').outputConnection.check_] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
     this.getInput('IN2').setCheck(operator.check);
     this.setOutput(true, operator.output);
   }
@@ -230,7 +230,7 @@ Blockly.Blocks['&&basic_operator_block'] = {
     this.setColour(160);
   },
   onchange: function () {
-    let operator = this.getInputTargetBlock('IN1') ? util.operator[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').outputConnection.check_] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
+    let operator = this.getInputTargetBlock('IN1') ? util.operators[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').outputConnection.check_] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
     this.getInput('IN2').setCheck(operator.check);
   }
 };
