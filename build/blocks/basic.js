@@ -205,7 +205,7 @@ Blockly.Blocks['&&basic_operator'] = {
   init: function () {
     this.appendValueInput('IN1')
     this.appendValueInput('IN2')
-        .appendField(new Blockly.FieldDropdown([['+', '+'], ['-', '-'], ['*', '*'], ['/', '/']]), 'OPERATOR');
+        .appendField(new Blockly.FieldDropdown([['+', '+'], ['-', '-'], ['*', '*'], ['/', '/'], ['<<', '<<'], ['>>', '>>']]), 'OPERATOR');
     this.setInputsInline(true);
     this.setOutput(true, 'MISSING_TYPE');
     this.setColour(160);
