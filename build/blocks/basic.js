@@ -12,6 +12,20 @@ Blockly.Blocks['&&basic_string'] = {
 Blockly.JavaScript['&&basic_string'] = function (block) {
   return '"' + block.getFieldValue('STR') + '"';
 };
+Blockly.Blocks['&&basic_char'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('"')
+        .appendField(new Blockly.FieldTextInput(''), 'STR')
+        .appendField('"');
+    this.setInputsInline(true);
+    this.setOutput(true, 'char');
+    this.setColour(160);
+  }
+};
+Blockly.JavaScript['&&basic_char'] = function (block) {
+  return '\'' + block.getFieldValue('STR') + '\'';
+};
 Blockly.Blocks['&&basic_number'] = {
   init: function() {
     this.appendDummyInput()
@@ -211,7 +225,7 @@ Blockly.Blocks['&&basic_operator'] = {
     this.setColour(160);
   },
   onchange: function () {
-    let operator = this.getInputTargetBlock('IN1') ? util.operators[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').outputConnection.check_] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
+    let operator = this.getInputTargetBlock('IN1') ? util.operators[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').outputConnection.check_[0]] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
     this.getInput('IN2').setCheck(operator.check);
     this.setOutput(true, operator.output);
   }
@@ -230,7 +244,7 @@ Blockly.Blocks['&&basic_operator_block'] = {
     this.setColour(160);
   },
   onchange: function () {
-    let operator = this.getInputTargetBlock('IN1') ? util.operators[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').outputConnection.check_] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
+    let operator = this.getInputTargetBlock('IN1') ? util.operators[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').outputConnection.check_[0]] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
     this.getInput('IN2').setCheck(operator.check);
   }
 };
