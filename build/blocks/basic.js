@@ -52,7 +52,7 @@ Blockly.Blocks['&&basic_char'] = {
   init: function() {
     this.appendDummyInput()
         .appendField('\'')
-        .appendField(new Blockly.FieldTextInput('', str => return str.length > 0 ? str.charAt(0) : ''), 'STR')
+        .appendField(new Blockly.FieldTextInput('', str => str.length > 0 ? str.charAt(0) : ''), 'STR')
         .appendField('\'');
     this.setInputsInline(true);
     this.setOutput(true, 'char');
