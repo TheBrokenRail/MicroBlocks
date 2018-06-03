@@ -79,15 +79,19 @@ window.onload = function() {
     input.click();
   };
 
-  document.getElementById('export').onclick = function() {
+  document.getElementById('export').onclick = function () {
     console.log(util.generate(workspace));
   };
 
-  document.getElementById("about").onclick = function() {
-    document.getElementById("aboutBox").style.display = "initial";
+  document.getElementById('about').onclick = function () {
+    document.getElementById('aboutBox').style.display = 'initial';
+  };
+  
+  document.getElementById('add_extension').onclick = function () {
+    document.getElementById('extensionBox').style.display = 'initial';
   };
 
-  document.getElementById("closeAbout").onclick = function() {
-    document.getElementById("aboutBox").style.display = "none";
+  document.getElementById('closeAbout').onclick = function () {
+    document.getElementById('aboutBox').style.display = 'none';
   };
 };
