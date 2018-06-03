@@ -211,7 +211,8 @@ Blockly.Blocks['&&basic_operator'] = {
     this.setColour(160);
   },
   onchange: function () {
-    this.getInput('IN2').setCheck(true, 'MISSING_TYPE');
+    this.getInput('IN2').setCheck(util.operator[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').getOutput()].check);
+    this.setOutput(true, util.operator[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').getOutput()].output);
   }
 };
 Blockly.JavaScript['&&basic_operator'] = function (block) {
