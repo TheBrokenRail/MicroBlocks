@@ -28,6 +28,8 @@ window.onload = function () {
       css[i].style.fillOpacity = '';
     }
   }
+  
+  let extensionsList = [];
 
   document.getElementById('save').onclick = function () {
     var name = document.getElementById('name').value;
@@ -35,6 +37,7 @@ window.onload = function () {
       name = 'Untitled';
     }
     var project = {};
+    project.extensions = extensionsList;
     project.name = name;
     var xml = window.Blockly.Xml.workspaceToDom(window.workspace);
     project.blocks = window.xml_js.xml2js(window.Blockly.Xml.domToText(xml), {
@@ -49,22 +52,25 @@ window.onload = function () {
   };
 
   document.getElementById('load').onclick = function() {
-    var input = document.createElement('INPUT');
+    let input = document.createElement('INPUT');
     input.type = 'file';
-    input.onchange = function() {
+    input.onchange = function () {
       if (input.files[0]) {
         var reader = new FileReader();
         reader.onload = function() {
           try {
-            var text = reader.result;
+            let text = reader.result;
             workspace.clear();
-            var project = JSON.parse(text);
-            document.getElementById('name').value = project.name;
-            var xml = window.Blockly.Xml.textToDom(window.xml_js.js2xml(project.blocks, {
-              compact: false,
-              spaces: 2
-            }));
-            window.Blockly.Xml.domToWorkspace(xml, workspace);
+            let project = JSON.parse(text);
+            extensionsList = project.extensions;
+            util.loadExtensions(extensionsList, () => {
+              document.getElementById('name').value = project.name;
+              let xml = window.Blockly.Xml.textToDom(window.xml_js.js2xml(project.blocks, {
+                compact: false,
+                spaces: 2
+              }));
+              window.Blockly.Xml.domToWorkspace(xml, workspace);
+            });
           } catch (e) {
             document.getElementById('name').value = "Untitled";
             workspace.clear();
@@ -89,20 +95,22 @@ window.onload = function () {
   
   window.buildExtensions_ = () => {
     let extensions = document.getElementById('extensions');
-    let extensionBox = document.getElementById('extensionBox');
+    let extensionBox = document.getElementById('extensionBoxContent');
     extensionBox.innerHTML = '';
     for (let i = 0; i < extensions.childNodes.length; i++) {
       if (extensions.childNodes[i].nodeName === 'EXTENSION') {
-        let div = document.createElement('DIV');
-        div.setAttribute('class', 'extension');
-        let title = document.createElement('P');
-        title.appendChild(document.createTextNode(extensions.childNodes[i].getAttribute('title')));
-        div.appendChild(title);
-        let description = document.createElement('P');
-        description.appendChild(document.createTextNode(extensions.childNodes[i].getAttribute('description')));
-        description.style.color = 'grey';
-        div.appendChild(description);
-        extensionBox.appendChild(div);
+        if (extensionsList.indexOf(extensions.childNodes[i].getAttribute('name')) === -1) {
+          let div = document.createElement('DIV');
+          div.setAttribute('class', 'extension');
+          let title = document.createElement('P');
+          title.appendChild(document.createTextNode(extensions.childNodes[i].getAttribute('display')));
+          div.appendChild(title);
+          let description = document.createElement('P');
+          description.appendChild(document.createTextNode(extensions.childNodes[i].getAttribute('description')));
+          description.style.color = 'grey';
+          div.appendChild(description);
+          extensionBox.appendChild(div);
+        }
       }
     }
   };
