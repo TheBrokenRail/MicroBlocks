@@ -3,6 +3,12 @@ util.typeList = [];
 util.extensions_ = [];
 util.includes_ = [];
 util.modules_ = {};
+util.operators = {
+  '+': {},
+  '-': {},
+  '*': {},
+  '/': {}
+};
 util.createType_ = (type, colour) => {
   util.typeList.push(type);
   Blockly.Blocks[type] = {
@@ -29,6 +35,13 @@ util.loadExtension = name => {
     let category = document.createElement('CATEGORY');
     category.setAttribute('name', extension.name);
     category.setAttribute('colour', extension.colour);
+    for (let x in util.operators) {
+      if (extension.operators && extension.operators[x]) {
+        for (let y in extension.operators[x]) {
+          // y = block
+        }
+      }
+    }
     for (let x in extension.types) {
       category.appendChild(util.createType_(x, extension.colour));
       category.appendChild(util.createType_(x + '*', extension.colour));
