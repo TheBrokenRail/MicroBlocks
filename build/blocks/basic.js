@@ -1,12 +1,48 @@
 Blockly.Blocks['&&basic_string'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('"')
-        .appendField(new Blockly.FieldTextInput(''), 'STR')
-        .appendField('"');
+        .appendField(new Blockly.FieldTextInput(''), 'STR');
     this.setInputsInline(true);
     this.setOutput(true, 'char*');
     this.setColour(160);
+    this.quoteField_('STR');
+  },
+  QUOTE_IMAGE_LEFT_DATAURI:
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAQAAAAqJXdxAAAA' +
+    'n0lEQVQI1z3OMa5BURSF4f/cQhAKjUQhuQmFNwGJEUi0RKN5rU7FHKhpjEH3TEMtkdBSCY' +
+    '1EIv8r7nFX9e29V7EBAOvu7RPjwmWGH/VuF8CyN9/OAdvqIXYLvtRaNjx9mMTDyo+NjAN1' +
+    'HNcl9ZQ5oQMM3dgDUqDo1l8DzvwmtZN7mnD+PkmLa+4mhrxVA9fRowBWmVBhFy5gYEjKMf' +
+    'z9AylsaRRgGzvZAAAAAElFTkSuQmCC',
+  QUOTE_IMAGE_RIGHT_DATAURI:
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAQAAAAqJXdxAAAA' +
+    'qUlEQVQI1z3KvUpCcRiA8ef9E4JNHhI0aFEacm1o0BsI0Slx8wa8gLauoDnoBhq7DcfWhg' +
+    'gONDmJJgqCPA7neJ7p934EOOKOnM8Q7PDElo/4x4lFb2DmuUjcUzS3URnGib9qaPNbuXvB' +
+    'O3sGPHJDRG6fGVdMSeWDP2q99FQdFrz26Gu5Tq7dFMzUvbXy8KXeAj57cOklgA+u1B5Aos' +
+    'lLtGIHQMaCVnwDnADZIFIrXsoXrgAAAABJRU5ErkJggg==',
+  QUOTE_IMAGE_WIDTH: 12,
+  QUOTE_IMAGE_HEIGHT: 12,
+  quoteField_: function (fieldName) {
+    for (let i = 0, input; input = this.inputList[i]; i++) {
+      for (let j = 0, field; field = input.fieldRow[j]; j++) {
+        if (fieldName == field.name) {
+          input.insertFieldAt(j, this.newQuote_(true));
+          input.insertFieldAt(j + 2, this.newQuote_(false));
+          return;
+        }
+      }
+    }
+    console.warn('field named "' + fieldName + '" not found in ' + this.toDevString());
+  },
+  newQuote_: function (open) {
+    let isLeft = this.RTL? !open : open;
+    let dataUri = isLeft ?
+      this.QUOTE_IMAGE_LEFT_DATAURI :
+      this.QUOTE_IMAGE_RIGHT_DATAURI;
+    return new Blockly.FieldImage(
+        dataUri,
+        this.QUOTE_IMAGE_WIDTH,
+        this.QUOTE_IMAGE_HEIGHT,
+        isLeft ? '\u201C' : '\u201D');
   }
 };
 Blockly.JavaScript['&&basic_string'] = function (block) {
