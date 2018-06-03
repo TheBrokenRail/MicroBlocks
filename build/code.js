@@ -96,6 +96,18 @@ window.onload = function() {
     let extensions = document.getElementById('extensions');
     let extensionBox = document.getElementById('extensionBox');
     extensionBox.innerHTML = '';
+    for (let i = 0; i < extensions.childNodes.length; i++) {
+      let div = document.createElement('DIV');
+      div.setAttribute('class', 'extension');
+      let title = document.createElement('P');
+      title.appendChild(document.createTextNode(extensions.childNodes[i].getAttribute('title')));
+      div.appendChild(title);
+      let description = document.createElement('P');
+      description.appendChild(document.createTextNode(extensions.childNodes[i].getAttribute('description')));
+      description.style.color = 'grey';
+      div.appendChild(description);
+      extensionBox.appendChild(div);
+    }
   }
 
   document.getElementById('closeAbout').onclick = function () {
