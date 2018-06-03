@@ -46,7 +46,7 @@ Blockly.Blocks['&&basic_string'] = {
   }
 };
 Blockly.JavaScript['&&basic_string'] = function (block) {
-  return '"' + block.getFieldValue('STR') + '"';
+  return ['"' + block.getFieldValue('STR') + '"'];
 };
 Blockly.Blocks['&&basic_char'] = {
   init: function() {
@@ -60,7 +60,7 @@ Blockly.Blocks['&&basic_char'] = {
   }
 };
 Blockly.JavaScript['&&basic_char'] = function (block) {
-  return '\'' + block.getFieldValue('STR') + '\'';
+  return ['\'' + block.getFieldValue('STR') + '\''];
 };
 Blockly.Blocks['&&basic_number'] = {
   init: function() {
