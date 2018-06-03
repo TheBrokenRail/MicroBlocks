@@ -257,7 +257,7 @@ Blockly.Blocks['&&basic_operator'] = {
     this.appendValueInput('IN2')
         .appendField(new Blockly.FieldDropdown([['+', '+'], ['-', '-'], ['*', '*'], ['/', '/'], ['<<', '<<'], ['>>', '>>']]), 'OPERATOR');
     this.setInputsInline(true);
-    this.setOutput(true, 'MISSING_TYPE');
+    this.setOutput(true);
     this.setColour(160);
   },
   onchange: function () {
@@ -286,4 +286,19 @@ Blockly.Blocks['&&basic_operator_block'] = {
 };
 Blockly.JavaScript['&&basic_operator_block'] = function (block) {
   return '(' + Blockly.JavaScript.valueToCode(block, 'IN1') + ') ' + block.getFieldValue('OPERATOR') + ' (' + Blockly.JavaScript.valueToCode(block, 'IN2') + ');';
+};
+Blockly.Blocks['&&basic_cast'] = {
+  init: function () {
+    this.appendValueInput('OBJ')
+        .appendField('cast');
+    this.appendValueInput('TYPE')
+        .setCheck('C++Type')
+        .appendField('to');
+    this.setInputsInline(true);
+    this.setOutput(true);
+    this.setColour(160);
+  },
+  onchange: function () {
+    this.setOutput(true, this.getInputTargetBlock('TYPE') ? this.getInputTargetBlock('TYPE').type : 'MISSING_TYPE');
+  }
 };
