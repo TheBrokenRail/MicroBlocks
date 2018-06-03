@@ -201,55 +201,19 @@ Blockly.Blocks['&&basic_if_else'] = {
     this.setColour(160);
   }
 };
-Blockly.Blocks['&&basic_add'] = {
-  init: function() {
-    this.appendValueInput('ADD1')
-    this.appendValueInput('ADD2')
-        .appendField('+');
+Blockly.Blocks['&&basic_operator'] = {
+  init: function () {
+    this.appendValueInput('IN1')
+    this.appendValueInput('IN2')
+        .appendField(new Blockly.FieldDropdown([['+', '+'], ['-', '-'], ['*', '*'], ['/', '/']]), 'OPERATOR');
     this.setInputsInline(true);
-    this.setOutput(true, '&&WILDCARD');
+    this.setOutput(true, 'MISSING_TYPE');
     this.setColour(160);
+  },
+  onchange: function () {
+    this.getInput('IN2').setCheck(true, 'MISSING_TYPE');
   }
 };
-Blockly.JavaScript['&&basic_add'] = function (block) {
+Blockly.JavaScript['&&basic_operator'] = function (block) {
   return ['(' + Blockly.JavaScript.valueToCode(block, 'ADD1') + ') + (' + Blockly.JavaScript.valueToCode(block, 'ADD2') + ')'];
-};
-Blockly.Blocks['&&basic_subtract'] = {
-  init: function() {
-    this.appendValueInput('SUBTRACT1')
-    this.appendValueInput('SUBTRACT2')
-        .appendField('-');
-    this.setInputsInline(true);
-    this.setOutput(true, '&&WILDCARD');
-    this.setColour(160);
-  }
-};
-Blockly.JavaScript['&&basic_subtract'] = function (block) {
-  return ['(' + Blockly.JavaScript.valueToCode(block, 'SUBTRACT1') + ') - (' + Blockly.JavaScript.valueToCode(block, 'SUBTRACT2') + ')'];
-};
-Blockly.Blocks['&&basic_multiply'] = {
-  init: function() {
-    this.appendValueInput('MULTIPLY1')
-    this.appendValueInput('MULTIPLY2')
-        .appendField('-');
-    this.setInputsInline(true);
-    this.setOutput(true, '&&WILDCARD');
-    this.setColour(160);
-  }
-};
-Blockly.JavaScript['&&basic_multiply'] = function (block) {
-  return ['(' + Blockly.JavaScript.valueToCode(block, 'MULTIPLY1') + ') * (' + Blockly.JavaScript.valueToCode(block, 'MULTIPLY2') + ')'];
-};
-Blockly.Blocks['&&basic_divide'] = {
-  init: function() {
-    this.appendValueInput('DIVIDE1')
-    this.appendValueInput('DIVIDE2')
-        .appendField('/');
-    this.setInputsInline(true);
-    this.setOutput(true, '&&WILDCARD');
-    this.setColour(160);
-  }
-};
-Blockly.JavaScript['&&basic_divide'] = function (block) {
-  return ['(' + Blockly.JavaScript.valueToCode(block, 'DIVIDE1') + ') / (' + Blockly.JavaScript.valueToCode(block, 'DIVIDE2') + ')'];
 };
