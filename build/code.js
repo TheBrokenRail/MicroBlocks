@@ -15,11 +15,10 @@ window.onload = function () {
   workspace.registerToolboxCategoryCallback('METHODS', methodsCallback);
   window.workspace = workspace;
 
-  util.loadExtension('primitives', () => {
-    util.loadExtension('strings', () => {
-      Blockly.Xml.domToWorkspace(document.getElementById('workspace'), workspace);
-      workspace.scrollCenter();
-    });
+  let extensionsList = ['primitives'];
+  util.loadExtensions(extensionsList, () => {
+    Blockly.Xml.domToWorkspace(document.getElementById('workspace'), workspace);
+    workspace.scrollCenter();
   });
 
   let css = window.Blockly.Css.styleSheet_.cssRules;
@@ -28,23 +27,21 @@ window.onload = function () {
       css[i].style.fillOpacity = '';
     }
   }
-  
-  let extensionsList = [];
 
   document.getElementById('save').onclick = function () {
-    var name = document.getElementById('name').value;
+    let name = document.getElementById('name').value;
     if (!name || name === '') {
       name = 'Untitled';
     }
-    var project = {};
+    let project = {};
     project.extensions = extensionsList;
     project.name = name;
-    var xml = window.Blockly.Xml.workspaceToDom(window.workspace);
+    let xml = window.Blockly.Xml.workspaceToDom(window.workspace);
     project.blocks = window.xml_js.xml2js(window.Blockly.Xml.domToText(xml), {
       compact: false
     });
-    var json = JSON.stringify(project, null, 4);
-    var hiddenElement = document.createElement('a');
+    let json = JSON.stringify(project, null, 4);
+    let hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:attachment/text,' + encodeURI(json);
     hiddenElement.target = '_blank';
     hiddenElement.download = name + '.json';
@@ -56,7 +53,7 @@ window.onload = function () {
     input.type = 'file';
     input.onchange = function () {
       if (input.files[0]) {
-        var reader = new FileReader();
+        let reader = new FileReader();
         reader.onload = function() {
           try {
             let text = reader.result;
@@ -109,15 +106,24 @@ window.onload = function () {
           description.appendChild(document.createTextNode(extensions.childNodes[i].getAttribute('description')));
           description.style.color = 'grey';
           div.appendChild(description);
+          div.onclick = () => {
+            extensionsList.push(extensions.childNodes[i].getAttribute('name'));
+            document.getElementById('extensionBox').style.display = 'none';
+            util.loadExtension(extensions.childNodes[i].getAttribute('display'), true);
+          };
           extensionBox.appendChild(div);
         }
       }
     }
   };
   
-  document.getElementById('add_extension').onclick = function () {
+  document.getElementById('addExtension').onclick = function () {
     document.getElementById('extensionBox').style.display = 'initial';
     window.buildExtensions_();
+  };
+  
+  document.getElementById('closeExtensions').onclick = function () {
+    document.getElementById('extensionBox').style.display = 'none';
   };
 
   document.getElementById('closeAbout').onclick = function () {
