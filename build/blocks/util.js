@@ -1,16 +1,20 @@
 const util = {};
-util.typeList = [];
-util.extensions_ = [];
-util.includes_ = [];
-util.modules_ = {};
-util.operators = {
-  '+': {},
-  '-': {},
-  '*': {},
-  '/': {},
-  '<<': {},
-  '>>': {}
+util.reset_ = () => {
+  Blockly.Blocks = {};
+  util.typeList = [];
+  util.extensions_ = [];
+  util.includes_ = [];
+  util.modules_ = {};
+  util.operators = {
+    '+': {},
+    '-': {},
+    '*': {},
+    '/': {},
+    '<<': {},
+    '>>': {}
+  };
 };
+util.reset_();
 util.createType_ = (type, colour) => {
   util.typeList.push(type);
   Blockly.Blocks[type] = {
@@ -30,7 +34,7 @@ util.createType_ = (type, colour) => {
   block.setAttribute('type', type);
   return block;
 };
-util.loadExtension = (name, callback) => {
+util.loadExtension = (name, reload, callback) => {
   let xhttp = new XMLHttpRequest();
   xhttp.addEventListener('load', () => {
     let extension = JSON.parse(xhttp.responseText);
@@ -212,7 +216,7 @@ util.loadExtension = (name, callback) => {
     }
     util.includes_ = util.includes_.concat(extension.includes ? extension.includes : []);
     util.extensions_.push(category);
-    if (window.workspace) {
+    if (window.workspace && reload) {
       let toolbox = document.getElementById('toolbox').cloneNode(true);
       for (let i = 0; i < util.extensions_.length; i++) {
         toolbox.appendChild(util.extensions_[i]);
@@ -223,6 +227,25 @@ util.loadExtension = (name, callback) => {
   });
   xhttp.open('GET', 'blocks/' + name + '.json');
   xhttp.send();
+};
+util.loadExtensions = (list, callback) => {
+  util.reset_();
+  let done = 0;
+  for (let i = 0; i < list.length; i++) {
+    util.loadExtension(list[i], false, () => {
+      done++;
+      if (done === list.length) {
+        if (window.workspace) {
+          let toolbox = document.getElementById('toolbox').cloneNode(true);
+          for (let i = 0; i < util.extensions_.length; i++) {
+            toolbox.appendChild(util.extensions_[i]);
+          }
+          window.workspace.updateToolbox(toolbox);
+          callback();
+        }
+      }
+    });
+  }
 };
 util.generate = workspace => {
   return util.includes_.join('\n') + '\n\n' + Blockly.JavaScript.workspaceToCode(workspace);
