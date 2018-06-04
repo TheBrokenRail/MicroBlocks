@@ -239,6 +239,7 @@ util.loadExtensions = (list, callback) => {
   for (let i = 0; i < list.length; i++) {
     util.loadExtension(list[i], false, () => {
       done++;
+      console.log('Done: ' + done + ' List Length: ' + list.length);
       if (done === list.length) {
         if (window.workspace) {
           let toolbox = document.getElementById('toolbox').cloneNode(true);
