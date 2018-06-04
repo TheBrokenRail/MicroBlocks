@@ -17,6 +17,7 @@ util.reset_ = () => {
     '<<': {},
     '>>': {}
   };
+  util.typeCast_ = {};
 };
 util.createType_ = (type, colour) => {
   util.typeList.push(type);
@@ -58,6 +59,11 @@ util.loadExtension = (name, reload, callback) => {
           }
         }
       }
+      if (extension.types[x].methods[x]) {
+        util.typeCast_[x] = extension.types[x].methods[x].cast;
+      } else {
+        util.typeCast_[x] = [];
+      }
       for (let y in extension.types[x].methods) {
         let constructor = x === y;
         let messages = {};
@@ -68,7 +74,7 @@ util.loadExtension = (name, reload, callback) => {
             {
               type: 'input_value',
               name: 'OBJ',
-              check: [x, x + '*', x + '[]'].concat(extension.types[x].methods[x] && extension.types[x].methods[x].cast ? extension.types[x].methods[x].cast : [])
+              check: [x, x + '*', x + '[]'].concat(util.typeCast_[x])
             }
           ];
         }
@@ -78,7 +84,7 @@ util.loadExtension = (name, reload, callback) => {
             {
               type: 'input_value',
               name: 'ARG' + n,
-              check: [extension.types[x].methods[y].args[n].type]
+              check: [extension.types[x].methods[y].args[n].type].concat(util.typeCast_[extension.types[x].methods[y].args[n].type])
             }
           ];
         }
@@ -87,7 +93,7 @@ util.loadExtension = (name, reload, callback) => {
             init: function () {
               this.jsonInit(Object.assign({
                 type: x + '&&' + y,
-                output: [extension.types[x].methods[y].output],
+                output: [extension.types[x].methods[y].output].concat(util.typeCast_[extension.types[x].methods[y].output]),
                 colour: extension.colour,
                 inputsInline: false
               }, messages));
@@ -144,7 +150,7 @@ util.loadExtension = (name, reload, callback) => {
                 {
                   type: 'input_value',
                   name: 'OBJ',
-                  check: x
+                  check: [x].concat(util.typeCast_[x])
                 }
               ],
               output: extension.types[x].properties[y],
@@ -169,7 +175,7 @@ util.loadExtension = (name, reload, callback) => {
           {
             type: 'input_value',
             name: 'ARG' + n,
-            check: [extension.methods[x].args[n].type]
+            check: [extension.methods[x].args[n].type].concat(util.typeCast_[extension.methods[x].args[n].type])
           }
         ];
       }
@@ -178,7 +184,7 @@ util.loadExtension = (name, reload, callback) => {
           init: function () {
             this.jsonInit(Object.assign({
               type: '[]' + x,
-              output: extension.methods[x].output,
+              output: [extension.methods[x].output].concat(util.typeCast_[extension.methods[x].output]),
               colour: extension.colour,
               inputsInline: false
             }, messages));
