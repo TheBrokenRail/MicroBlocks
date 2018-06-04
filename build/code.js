@@ -66,6 +66,7 @@ window.onload = function () {
                 compact: false,
                 spaces: 2
               }));
+              console.log(xml);
               window.Blockly.Xml.domToWorkspace(xml, workspace);
             });
           } catch (e) {
