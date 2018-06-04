@@ -109,7 +109,7 @@ window.onload = function () {
           div.onclick = () => {
             extensionsList.push(extensions.childNodes[i].getAttribute('name'));
             document.getElementById('extensionBox').style.display = 'none';
-            util.loadExtension(extensions.childNodes[i].getAttribute('display'), true);
+            util.loadExtension(extensions.childNodes[i].getAttribute('name'), true);
           };
           extensionBox.appendChild(div);
         }
