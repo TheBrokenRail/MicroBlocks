@@ -62,7 +62,6 @@ window.onload = function () {
               document.getElementById('name').value = project.name;
               let parser = new window.parser.j2xParser({ignoreAttributes: false});
               let xml = Blockly.Xml.textToDom(parser.parse(project.blocks));
-              console.log(xml);
               Blockly.Xml.domToWorkspace(xml, workspace);
             });
           } catch (e) {
