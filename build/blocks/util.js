@@ -1,6 +1,10 @@
 const util = {};
+util.generateBlocks_ = [];
 util.reset_ = () => {
   Blockly.Blocks = {};
+  for (let i = 0; i < util.generateBlocks_.length; i++) {
+    util.generateBlocks_[i]();
+  }
   util.typeList = [];
   util.extensions_ = [];
   util.includes_ = [];
