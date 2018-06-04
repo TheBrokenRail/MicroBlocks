@@ -1,9 +1,9 @@
 const util = {};
-util.generateBlocks_ = [];
+util.blockGenerators_ = [];
 util.reset_ = () => {
   Blockly.Blocks = {};
-  for (let i = 0; i < util.generateBlocks_.length; i++) {
-    util.generateBlocks_[i]();
+  for (let i = 0; i < util.blockGenerators_.length; i++) {
+    util.blockGenerators_[i]();
   }
   util.typeList = [];
   util.extensions_ = [];
@@ -18,7 +18,6 @@ util.reset_ = () => {
     '>>': {}
   };
 };
-util.reset_();
 util.createType_ = (type, colour) => {
   util.typeList.push(type);
   Blockly.Blocks[type] = {
