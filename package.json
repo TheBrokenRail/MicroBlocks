@@ -12,7 +12,7 @@
   "dependencies": {
     "blockly": "https://github.com/google/blockly.git#develop",
     "js-beautify": "latest",
-    "xml2json": "latest",
+    "fast-xml-parser": "latest",
     "express": "latest"
   },
   "devDependencies": {
