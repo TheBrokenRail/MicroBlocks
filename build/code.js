@@ -12,11 +12,11 @@ window.onload = function () {
       dragShadowOpacity: 0.6
     }
   });
-  workspace.registerToolboxCategoryCallback('METHODS', methodsCallback);
   window.workspace = workspace;
 
   let extensionsList = ['primitives'];
   util.loadExtensions(extensionsList, () => {
+    workspace.registerToolboxCategoryCallback('METHODS', util.methodsCallback);
     Blockly.Xml.domToWorkspace(document.getElementById('workspace'), workspace);
     workspace.scrollCenter();
   });
