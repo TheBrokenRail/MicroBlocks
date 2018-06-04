@@ -222,7 +222,9 @@ util.loadExtension = (name, reload, callback) => {
         toolbox.appendChild(util.extensions_[i]);
       }
       window.workspace.updateToolbox(toolbox);
-      callback();
+      if (callback) {
+        callback();
+      }
     }
   });
   xhttp.open('GET', 'blocks/' + name + '.json');
