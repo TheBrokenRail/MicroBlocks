@@ -36,10 +36,8 @@ window.onload = function () {
     let project = {};
     project.extensions = extensionsList;
     project.name = name;
-    let xml = window.Blockly.Xml.workspaceToDom(window.workspace);
-    project.blocks = window.xml_js.xml2js(window.Blockly.Xml.domToText(xml), {
-      compact: false
-    });
+    let xml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(window.workspace));
+    project.blocks = JSON.parse(window.xml2json.toJson(xml));
     let json = JSON.stringify(project, null, 4);
     let hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:attachment/text,' + encodeURI(json);
@@ -62,17 +60,14 @@ window.onload = function () {
             extensionsList = project.extensions;
             util.loadExtensions(extensionsList, () => {
               document.getElementById('name').value = project.name;
-              let xml = window.Blockly.Xml.textToDom(window.xml_js.js2xml(project.blocks, {
-                compact: false,
-                spaces: 2
-              }));
+              let xml = Blockly.Xml.textToDom(window.xml2json.toXml(JSON.stringify(project.blocks)));
               console.log(xml);
-              window.Blockly.Xml.domToWorkspace(xml, workspace);
+              Blockly.Xml.domToWorkspace(xml, workspace);
             });
           } catch (e) {
             document.getElementById('name').value = "Untitled";
             workspace.clear();
-            window.Blockly.Xml.domToWorkspace(document.getElementById('workspace'), window.workspace);
+            Blockly.Xml.domToWorkspace(document.getElementById('workspace'), workspace);
             alert("Error: Invalid or Corrupt File");
             throw "Invalid or Corrupt File";
           }
