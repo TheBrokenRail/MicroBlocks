@@ -52,7 +52,7 @@ window.onload = function () {
     input.onchange = function () {
       if (input.files[0]) {
         let reader = new FileReader();
-        reader.onload = function() {
+        reader.onload = function () {
           try {
             let text = reader.result;
             workspace.clear();
@@ -65,11 +65,11 @@ window.onload = function () {
               Blockly.Xml.domToWorkspace(xml, workspace);
             });
           } catch (e) {
-            document.getElementById('name').value = "Untitled";
+            document.getElementById('name').value = 'Untitled';
             workspace.clear();
             Blockly.Xml.domToWorkspace(document.getElementById('workspace'), workspace);
-            alert("Error: Invalid or Corrupt File");
-            throw "Invalid or Corrupt File";
+            alert('Error: Invalid or Corrupt File');
+            throw 'Invalid or Corrupt File';
           }
         };
         reader.readAsText(input.files[0]);
