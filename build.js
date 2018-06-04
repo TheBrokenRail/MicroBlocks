@@ -1,3 +1,3 @@
 window.Blockly = require('./blockly');
 window.html_beautify = require('js-beautify').html_beautify;
-window.xml_js = require("xml-js");
+window.xml2json = require('xml2json');
