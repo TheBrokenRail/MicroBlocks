@@ -326,7 +326,7 @@ util.blockGenerators_.push(() => {
     return 'return ' + Blockly.JavaScript.valueToCode('VALUE') + ';\n';
   };
 
-  const methodsCallback = workspace => {
+  util.methodsCallback = workspace => {
     let xmlList = [];
     if (Blockly.Blocks['&&methods_def']) {
       let block = document.createElement('block');
