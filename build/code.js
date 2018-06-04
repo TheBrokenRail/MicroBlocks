@@ -37,7 +37,7 @@ window.onload = function () {
     project.extensions = extensionsList;
     project.name = name;
     let xml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(window.workspace));
-    project.blocks = JSON.parse(window.xml2json.toJson(xml));
+    project.blocks = window.parser.parse(xml, {ignoreAttributes: false});
     let json = JSON.stringify(project, null, 4);
     let hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:attachment/text,' + encodeURI(json);
@@ -60,7 +60,8 @@ window.onload = function () {
             extensionsList = project.extensions;
             util.loadExtensions(extensionsList, () => {
               document.getElementById('name').value = project.name;
-              let xml = Blockly.Xml.textToDom(window.xml2json.toXml(JSON.stringify(project.blocks)));
+              let parser = new window.parser.j2xParser({ignoreAttributes: false});
+              let xml = Blockly.Xml.textToDom(parser.parse(project.blocks));
               console.log(xml);
               Blockly.Xml.domToWorkspace(xml, workspace);
             });
