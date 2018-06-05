@@ -77,7 +77,7 @@ util.blockGenerators_.push(() => {
         }
         for (let i = 0; i < this.variables.length; i++) {
           if (this.variables[i].name === newVar) {
-            this.getInput('VALUE').setCheck(this.variables[i].type);
+            this.getInput('VALUE').setCheck([this.variables[i].type].concat(util.typeCast_[this.variables[i].type]));
           }
         }
       }), 'VARIABLE');
@@ -104,7 +104,7 @@ util.blockGenerators_.push(() => {
       this.setColour(20);
     },
     onchange: function () {
-      this.getInput('VALUE').setCheck(this.getInputTargetBlock('TYPE') ? this.getInputTargetBlock('TYPE').type: 'MISSING_TYPE');
+      this.getInput('VALUE').setCheck(this.getInputTargetBlock('TYPE') ? [this.getInputTargetBlock('TYPE').type].concat(util.typeCast_[this.getInputTargetBlock('TYPE').type]) : 'MISSING_TYPE');
     },
     getVar: function () {
       return [{name: this.getFieldValue('NAME'), type: this.getInputTargetBlock('TYPE')}];
