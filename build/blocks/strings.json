@@ -9,9 +9,6 @@
       "cast": [
         "char*"
       ],
-      "properties": {
-        "test": "char"
-      },
       "methods": {
         "c_str": {
           "args": [],
