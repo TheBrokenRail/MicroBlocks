@@ -6,6 +6,9 @@
   ],
   "types": {
     "std::string": {
+      "cast": [
+        "char*"
+      ],
       "methods": {
         "c_str": {
           "args": [],
@@ -26,9 +29,6 @@
               "name": "String",
               "type": "char*"
             }
-          ],
-          "cast": [
-            "char*"
           ],
           "output": "std::string"
         }
