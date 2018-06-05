@@ -93,7 +93,7 @@ util.loadExtension = (name, reload, callback) => {
             init: function () {
               this.jsonInit(Object.assign({
                 type: x + '&&' + y,
-                output: [extension.types[x].methods[y].output].concat(util.typeCast_[extension.types[x].methods[y].output]),
+                output: extension.types[x].methods[y].output,
                 colour: extension.colour,
                 inputsInline: false
               }, messages));
@@ -184,7 +184,7 @@ util.loadExtension = (name, reload, callback) => {
           init: function () {
             this.jsonInit(Object.assign({
               type: '[]' + x,
-              output: [extension.methods[x].output].concat(util.typeCast_[extension.methods[x].output]),
+              output: extension.methods[x].output,
               colour: extension.colour,
               inputsInline: false
             }, messages));
