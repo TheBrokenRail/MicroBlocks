@@ -263,7 +263,7 @@ util.blockGenerators_.push(() => {
     },
     onchange: function () {
       let operator = this.getInputTargetBlock('IN1') ? util.operators[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').outputConnection.check_[0]] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
-      this.getInput('IN2').setCheck(operator.check);
+      this.getInput('IN2').setCheck([operator.check].concat(util.typeCast_[operator.check]));
       this.setOutput(true, operator.output);
     }
   };
@@ -282,7 +282,7 @@ util.blockGenerators_.push(() => {
     },
     onchange: function () {
       let operator = this.getInputTargetBlock('IN1') ? util.operators[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').outputConnection.check_[0]] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
-      this.getInput('IN2').setCheck(operator.check);
+      this.getInput('IN2').setCheck([operator.check].concat(util.typeCast_[operator.check]));
     }
   };
   Blockly.JavaScript['&&basic_operator_block'] = function (block) {
