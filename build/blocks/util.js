@@ -17,7 +17,7 @@ util.reset_ = () => {
     '<<': {},
     '>>': {}
   };
-  util.typeCast_ = {};
+  util.typeCast_ = {MISSING_TYPE: []};
 };
 util.createType_ = (type, colour) => {
   util.typeList.push(type);
