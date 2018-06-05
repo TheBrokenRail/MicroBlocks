@@ -60,7 +60,7 @@ util.loadExtension = (name, reload, callback) => {
         }
       }
       if (extension.types[x].methods && extension.types[x].methods[x]) {
-        util.typeCast_[x] = extension.types[x].methods[x].cast;
+        util.typeCast_[x] = extension.types[x].cast;
       } else {
         util.typeCast_[x] = [];
       }
