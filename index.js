@@ -5,6 +5,7 @@ const express = require('express');
 const app = express();
 
 app.use('/editor', express.static('dist'));
+app.use('/extensions', express.static('extensions'));
 webpack.watch({
   aggregateTimeout: 300,
   poll: undefined

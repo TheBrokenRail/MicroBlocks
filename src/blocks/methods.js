@@ -1,3 +1,6 @@
+import util from './util';
+import Blockly from '../blockly';
+
 util.blockGenerators_.push(() => {
   Blockly.Blocks['&&methods_def'] = {
     init: function () {

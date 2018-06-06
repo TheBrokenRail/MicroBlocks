@@ -1,3 +1,5 @@
+import Blockly from '../blockly';
+
 const util = {};
 util.blockGenerators_ = [];
 util.reset_ = () => {
@@ -240,7 +242,7 @@ util.loadExtension = (name, reload, callback) => {
       }
     }
   });
-  xhttp.open('GET', 'blocks/' + name + '.json');
+  xhttp.open('GET', '/extensions/' + name + '.json');
   xhttp.send();
 };
 util.loadExtensions = (list, callback) => {
@@ -264,4 +266,6 @@ util.loadExtensions = (list, callback) => {
 };
 util.generate = workspace => {
   return util.includes_.join('\n') + '\n\n' + Blockly.JavaScript.workspaceToCode(workspace);
-}
+};
+
+export default util;
