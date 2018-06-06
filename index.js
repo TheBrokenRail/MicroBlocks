@@ -1,17 +1,19 @@
 const fs = require('fs');
-const browserify = require('browserify')();
+const webpack = require('webpack')(require('./webpack.config.js'));
 const ncp = require('ncp').ncp;
 const express = require('express');
 const app = express();
 
-browserify.add('build.js');
-app.use('/editor', express.static('build'));
-browserify.bundle((err, data) => {
+app.use('/editor', express.static('dist'));
+webpack.watch({
+  aggregateTimeout: 300,
+  poll: undefined
+}, (err, stats) => {
   if (err) {
     throw err;
   }
-  fs.writeFileSync('build/bundle.js', data);
-  ncp('node_modules/blockly/media', 'build/media', ncpErr => {
+  console.log(stats);
+  ncp('node_modules/blockly/media', 'dist/media', ncpErr => {
     if (ncpErr) {
       throw ncpErr;
     }

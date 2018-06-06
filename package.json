@@ -5,18 +5,27 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "prepare": "cd node_modules/blockly && npm install && ncp blockly_node_javascript_en.js ../../blockly.js"
+    "prepare": "cd node_modules/blockly && npm install && ncp blockly_node_javascript_en.js ../../dist/blockly.js"
   },
   "author": "TheBrokenRail",
   "license": "MIT",
   "dependencies": {
     "blockly": "https://github.com/google/blockly.git#develop",
-    "js-beautify": "latest",
+    "express": "latest",
     "fast-xml-parser": "latest",
-    "express": "latest"
+    "js-beautify": "latest",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0"
   },
   "devDependencies": {
-    "browserify": "^14.1.0",
-    "ncp": "^2.0.0"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "ncp": "^2.0.0",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.11.1"
   }
 }
