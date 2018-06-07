@@ -6,6 +6,7 @@ const app = express();
 
 app.use('/editor', express.static('dist'));
 app.use('/extensions', express.static('extensions'));
+let firstTime = true;
 webpack.watch({
   aggregateTimeout: 300,
   poll: undefined
@@ -14,10 +15,13 @@ webpack.watch({
     throw err;
   }
   console.log(stats);
-  ncp('node_modules/blockly/media', 'dist/media', ncpErr => {
-    if (ncpErr) {
-      throw ncpErr;
-    }
-    app.listen(80, () => console.log('MicroBlocks listening on port 80'));
-  });
+  if (firstTime) {
+    ncp('node_modules/blockly/media', 'dist/media', ncpErr => {
+      if (ncpErr) {
+        throw ncpErr;
+      }
+      app.listen(80, () => console.log('MicroBlocks listening on port 80'));
+    });
+    firstTime = false;
+  }
 });
