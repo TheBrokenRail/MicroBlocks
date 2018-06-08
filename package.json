@@ -16,7 +16,8 @@
     "js-beautify": "latest",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
-    "react-foundation": "^0.9.5"
+    "react-menu-bar": "^2.0.4",
+    "reactstrap": "^6.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
