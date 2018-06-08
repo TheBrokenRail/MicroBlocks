@@ -186,7 +186,7 @@ util.blockGenerators_.push(() => {
       if (this.output_) {
         this.setOutput(type);
       }
-      let list = Blockly.Procedures.allProcedures(workspace)[0];
+      let list = Blockly.Procedures.allProcedures(util.workspace)[0];
       for (let i = 0; i < list.length; i++) {
         if (list[i][0] === type && list[i][1] === name) {
           this.arguments_ = list[i][3];

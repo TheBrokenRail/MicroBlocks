@@ -1,22 +1,18 @@
 const path = require('path');
 const webpack = require('webpack');
-const bundlePath = path.resolve(__dirname, "dist/");
+const bundlePath = path.resolve(__dirname, 'dist/');
 
 module.exports = {
   entry: './src/index.js',
+  stats: 'verbose',
+  mode: 'development',
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'babel-loader',
-        options: {
-          presets: ['env']
-        }
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        include: path.resolve(__dirname, 'src'),
+        exclude: path.resolve(__dirname, 'src/blockly.js'),
+        use: ['babel-loader']
       }
     ]
   },

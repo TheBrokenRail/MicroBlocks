@@ -7,14 +7,14 @@ const app = express();
 app.use('/editor', express.static('dist'));
 app.use('/extensions', express.static('extensions'));
 let firstTime = true;
-webpack.watch({
-  aggregateTimeout: 300,
-  poll: undefined
-}, (err, stats) => {
+webpack.run((err, stats) => {
   if (err) {
     throw err;
   }
-  console.log(stats);
+  console.log(stats.toString({
+    chunks: false,
+    colors: true
+  }));
   if (firstTime) {
     ncp('node_modules/blockly/media', 'dist/media', ncpErr => {
       if (ncpErr) {

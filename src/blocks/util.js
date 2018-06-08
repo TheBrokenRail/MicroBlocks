@@ -1,7 +1,22 @@
+import parser from 'fast-xml-parser';
 import Blockly from '../blockly';
+import BlocklyData from '../blockly-data';
 
 const util = {};
+util.getName = null;
+util.setName = null;
+util.getExtensionList = null;
+util.setExtensionList = null;
+util.addExtension = null;
+util.setData_ = data => {
+  util.getName = data.getName;
+  util.setName = data.setName;
+  util.getExtensionList = data.getExtensionList;
+  util.setExtensionList = data.setExtensionList;
+  util.addExtension = data.addExtension;
+}
 util.blockGenerators_ = [];
+util.workspace = null;
 util.reset_ = () => {
   Blockly.Blocks = {};
   for (let i = 0; i < util.blockGenerators_.length; i++) {
@@ -21,6 +36,38 @@ util.reset_ = () => {
   };
   util.typeCast_ = {MISSING_TYPE: []};
 };
+util.save = () => {
+  let name = util.getName();
+  if (!name || name === '') {
+    name = 'Untitled';
+  }
+  let project = {};
+  project.extensions = util.getExtensionList();
+  project.name = name;
+  let xml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(util.workspace));
+  project.blocks = parser.parse(xml, {ignoreAttributes: false});
+  return JSON.stringify(project, null, 4);
+};
+util.load = data => {
+  try {
+    let text = reader.result;
+    workspace.clear();
+    let project = JSON.parse(text);
+    util.setExtensionList(project.extensions);
+    util.loadExtensions(util.getExtensionList, () => {
+      util.setName(project.name);
+      let xmlParser = new parser.j2xParser({ignoreAttributes: false});
+      let xml = Blockly.Xml.textToDom(xmlParser.parse(project.blocks));
+      Blockly.Xml.domToWorkspace(xml, workspace);
+    });
+  } catch (e) {
+    document.getElementById('name').value = 'Untitled';
+    workspace.clear();
+    Blockly.Xml.domToWorkspace(document.getElementById('workspace'), workspace);
+    alert('Error: Invalid or Corrupt File');
+    throw 'Invalid or Corrupt File';
+  }
+}
 util.createType_ = (type, colour) => {
   util.typeList.push(type);
   Blockly.Blocks[type] = {
@@ -227,12 +274,12 @@ util.loadExtension = (name, reload, callback) => {
     }
     util.includes_ = util.includes_.concat(extension.includes ? extension.includes : []);
     util.extensions_.push(category);
-    if (window.workspace && reload) {
-      let toolbox = document.getElementById('toolbox').cloneNode(true);
+    if (util.workspace && reload) {
+      let toolbox = BlocklyData.toolbox.cloneNode(true);
       for (let i = 0; i < util.extensions_.length; i++) {
         toolbox.appendChild(util.extensions_[i]);
       }
-      window.workspace.updateToolbox(toolbox);
+      util.workspace.updateToolbox(toolbox);
       if (callback) {
         callback();
       }
@@ -252,12 +299,12 @@ util.loadExtensions = (list, callback) => {
     util.loadExtension(list[i], false, () => {
       done++;
       if (done === list.length) {
-        if (window.workspace) {
-          let toolbox = document.getElementById('toolbox').cloneNode(true);
+        if (util.workspace) {
+          let toolbox = BlocklyData.toolbox.cloneNode(true);
           for (let i = 0; i < util.extensions_.length; i++) {
             toolbox.appendChild(util.extensions_[i]);
           }
-          window.workspace.updateToolbox(toolbox);
+          util.workspace.updateToolbox(toolbox);
           callback();
         }
       }
