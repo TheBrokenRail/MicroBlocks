@@ -10,7 +10,7 @@ class BlocklyApp extends Component {
   render() {
     return (
       <div ref={blocks => this.blocks = blocks} style={{
-        height: 600,
+        height: 'calc(100% - 50px)',
         width: '100%'
       }}></div>
     );

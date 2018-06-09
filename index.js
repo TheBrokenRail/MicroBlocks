@@ -7,7 +7,7 @@ const app = express();
 app.use('/editor', express.static('dist'));
 app.use('/extensions', express.static('extensions'));
 let firstTime = true;
-webpack.run((err, stats) => {
+webpack.watch({}, (err, stats) => {
   if (err) {
     throw err;
   }

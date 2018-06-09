@@ -9,7 +9,9 @@ util.getExtensionList = null;
 util.setExtensionList = null;
 util.addExtension = null;
 util.setData_ = data => {
-  util.getName = data.getName;
+  util.getName = () => {
+    return data.getName() || data.getName().length < 1 ? data.getName() : 'Untitled';
+  };
   util.setName = data.setName;
   util.getExtensionList = data.getExtensionList;
   util.setExtensionList = data.setExtensionList;
@@ -38,9 +40,6 @@ util.reset_ = () => {
 };
 util.save = () => {
   let name = util.getName();
-  if (!name || name === '') {
-    name = 'Untitled';
-  }
   let project = {};
   project.extensions = util.getExtensionList();
   project.name = name;
@@ -50,15 +49,14 @@ util.save = () => {
 };
 util.load = data => {
   try {
-    let text = reader.result;
-    workspace.clear();
-    let project = JSON.parse(text);
+    util.workspace.clear();
+    let project = JSON.parse(data);
     util.setExtensionList(project.extensions);
-    util.loadExtensions(util.getExtensionList, () => {
+    util.loadExtensions(util.getExtensionList(), () => {
       util.setName(project.name);
       let xmlParser = new parser.j2xParser({ignoreAttributes: false});
       let xml = Blockly.Xml.textToDom(xmlParser.parse(project.blocks));
-      Blockly.Xml.domToWorkspace(xml, workspace);
+      Blockly.Xml.domToWorkspace(xml, util.workspace);
     });
   } catch (e) {
     document.getElementById('name').value = 'Untitled';

@@ -5,16 +5,19 @@
   overflow: hidden;
   background-color: #ddd;
   font-family: sans-serif;
+  height: 50px;
+  max-height: 50px;
 }
 .item {
   float: left;
+  height: 100%;
 }
 .item .item-title {
   display: block;
   text-align: center;
-  padding: 14px 16px;
+  padding: 14px 12px;
   text-decoration: none;
-  height: 100%;
+  font-size: 21px;
 }
 .item:hover .item-title {
   background-color: #bbb;

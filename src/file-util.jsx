@@ -5,4 +5,18 @@ const downloadFile = (data, name) => {
   element.download = name;
   element.click();
 };
-export downloadFile;
+const uploadFile = callback => {
+  let input = document.createElement('INPUT');
+  input.type = 'file';
+  input.addEventListener('change', () => {
+    if (input.files[0]) {
+      let reader = new FileReader();
+      reader.onload = function () {
+        callback(reader.result);
+      };
+      reader.readAsText(input.files[0]);
+    }
+  });
+  input.click();
+};
+export { downloadFile, uploadFile };
