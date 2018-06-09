@@ -13,6 +13,33 @@ module.exports = {
         include: path.resolve(__dirname, 'src'),
         exclude: path.resolve(__dirname, 'src/blockly.js'),
         use: ['babel-loader']
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'assets/',
+              publicPath: '/editor/assets/'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              camelCase: true
+            }
+          }
+        ]
       }
     ]
   },
