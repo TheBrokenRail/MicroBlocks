@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "prepare": "cd node_modules/blockly && npm install && ncp blockly_node_javascript_en.js ../../src/blockly.js",
-    "heroku-prebuild": "sh ./heroku.sh"
+    "prepare": "cd node_modules/blockly && npm install && ncp blockly_node_javascript_en.js ../../src/blockly.js"
   },
   "author": "TheBrokenRail",
   "license": "MIT",
