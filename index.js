@@ -2,11 +2,17 @@ const fs = require('fs');
 const webpack = require('webpack')(require('./webpack.config.js'));
 const ncp = require('ncp').ncp;
 const express = require('express');
+const rimraf = require('rimraf');
 const app = express();
 
 app.use('/editor', express.static('dist'));
 app.use('/extensions', express.static('extensions'));
 let firstTime = true;
+if (fs.existsSync('dist/')) {
+  rimraf.sync('dist');
+}
+fs.mkdirSync('dist');
+fs.writeFileSync('dist/index.html', fs.readFileSync('src/index.html'));
 webpack.watch({}, (err, stats) => {
   if (err) {
     throw err;
