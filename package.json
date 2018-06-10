@@ -13,12 +13,9 @@
     "blockly": "https://github.com/google/blockly.git#develop",
     "express": "latest",
     "fast-xml-parser": "latest",
-    "js-beautify": "latest",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
-    "react-menu-bar": "^2.0.4",
-    "react-modal": "^3.4.5",
-    "reactstrap": "^6.1.0"
+    "react-modal": "^3.4.5"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
