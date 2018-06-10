@@ -1,5 +1,24 @@
+import parser from 'fast-xml-parser';
+import Blockly from '../blockly';
+import BlocklyData from '../blockly-data';
+
 const util = {};
+util.getName = null;
+util.setName = null;
+util.getExtensionList = null;
+util.setExtensionList = null;
+util.addExtension = null;
+util.setData_ = data => {
+  util.getName = () => {
+    return data.getName() || data.getName().length < 1 ? data.getName() : 'Untitled';
+  };
+  util.setName = data.setName;
+  util.getExtensionList = data.getExtensionList;
+  util.setExtensionList = data.setExtensionList;
+  util.addExtension = data.addExtension;
+}
 util.blockGenerators_ = [];
+util.workspace = null;
 util.reset_ = () => {
   Blockly.Blocks = {};
   for (let i = 0; i < util.blockGenerators_.length; i++) {
@@ -15,27 +34,57 @@ util.reset_ = () => {
     '*': {},
     '/': {},
     '<<': {},
-    '>>': {}
+    '>>': {},
+    '[]': {}
   };
   util.typeCast_ = {MISSING_TYPE: []};
 };
-util.createType_ = (type, colour) => {
-  util.typeList.push(type);
-  Blockly.Blocks[type] = {
+util.save = () => {
+  let name = util.getName();
+  let project = {};
+  project.extensions = util.getExtensionList();
+  project.name = name;
+  let xml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(util.workspace));
+  project.blocks = parser.parse(xml, {ignoreAttributes: false});
+  return JSON.stringify(project, null, 4);
+};
+util.load = data => {
+  try {
+    util.workspace.clear();
+    let project = JSON.parse(data);
+    util.setExtensionList(project.extensions);
+    util.loadExtensions(util.getExtensionList(), () => {
+      util.setName(project.name);
+      let xmlParser = new parser.j2xParser({ignoreAttributes: false});
+      let xml = Blockly.Xml.textToDom(xmlParser.parse(project.blocks));
+      Blockly.Xml.domToWorkspace(xml, util.workspace);
+    });
+  } catch (e) {
+    document.getElementById('name').value = 'Untitled';
+    workspace.clear();
+    Blockly.Xml.domToWorkspace(document.getElementById('workspace'), workspace);
+    alert('Error: Invalid or Corrupt File');
+    throw 'Invalid or Corrupt File';
+  }
+}
+util.createType_ = (type, prefix, colour) => {
+  util.typeList.push(type + prefix);
+  Blockly.Blocks[type + prefix] = {
     init: function () {
       this.jsonInit({
-        type: type,
-        message0: type,
+        type: type + prefix,
+        message0: type + prefix,
         output: 'C++Type',
         colour: colour
       });
-    }
+    },
+    baseType: type
   };
-  Blockly.JavaScript[type] = function () {
-    return type;
+  Blockly.JavaScript[type + prefix] = function () {
+    return [type + prefix];
   };
   let block = document.createElement('BLOCK');
-  block.setAttribute('type', type);
+  block.setAttribute('type', type + prefix);
   return block;
 };
 util.loadExtension = (name, reload, callback) => {
@@ -46,16 +95,16 @@ util.loadExtension = (name, reload, callback) => {
     category.setAttribute('name', extension.name);
     category.setAttribute('colour', extension.colour);
     for (let x in extension.types) {
-      category.appendChild(util.createType_(x, extension.colour));
-      category.appendChild(util.createType_(x + '*', extension.colour));
-      category.appendChild(util.createType_(x + '[]', extension.colour));
+      category.appendChild(util.createType_(x, '', extension.colour));
+      category.appendChild(util.createType_(x, '*', extension.colour));
+      category.appendChild(util.createType_(x, '[]', extension.colour));
       let typeAppends = ['', '*', '[]'];
       for (let i = 0; i < typeAppends.length; i++) {
         for (let y in util.operators) {
           if (extension.operators && extension.operators[y] && extension.operators[y][x + typeAppends[i]]) {
             util.operators[y][x + typeAppends[i]] = extension.operators[y][x + typeAppends[i]];
           } else {
-            util.operators[y][x + typeAppends[i]] = {output: x + typeAppends[i], check: x + typeAppends[i]};
+            util.operators[y][x + typeAppends[i]] = {output: x + typeAppends[i], check: y !== '[]' ? x + typeAppends[i] : 'int'};
           }
         }
       }
@@ -225,12 +274,12 @@ util.loadExtension = (name, reload, callback) => {
     }
     util.includes_ = util.includes_.concat(extension.includes ? extension.includes : []);
     util.extensions_.push(category);
-    if (window.workspace && reload) {
-      let toolbox = document.getElementById('toolbox').cloneNode(true);
+    if (util.workspace && reload) {
+      let toolbox = BlocklyData.toolbox.cloneNode(true);
       for (let i = 0; i < util.extensions_.length; i++) {
         toolbox.appendChild(util.extensions_[i]);
       }
-      window.workspace.updateToolbox(toolbox);
+      util.workspace.updateToolbox(toolbox);
       if (callback) {
         callback();
       }
@@ -240,7 +289,7 @@ util.loadExtension = (name, reload, callback) => {
       }
     }
   });
-  xhttp.open('GET', 'blocks/' + name + '.json');
+  xhttp.open('GET', '/extensions/' + name + '.json');
   xhttp.send();
 };
 util.loadExtensions = (list, callback) => {
@@ -250,12 +299,12 @@ util.loadExtensions = (list, callback) => {
     util.loadExtension(list[i], false, () => {
       done++;
       if (done === list.length) {
-        if (window.workspace) {
-          let toolbox = document.getElementById('toolbox').cloneNode(true);
+        if (util.workspace) {
+          let toolbox = BlocklyData.toolbox.cloneNode(true);
           for (let i = 0; i < util.extensions_.length; i++) {
             toolbox.appendChild(util.extensions_[i]);
           }
-          window.workspace.updateToolbox(toolbox);
+          util.workspace.updateToolbox(toolbox);
           callback();
         }
       }
@@ -264,4 +313,6 @@ util.loadExtensions = (list, callback) => {
 };
 util.generate = workspace => {
   return util.includes_.join('\n') + '\n\n' + Blockly.JavaScript.workspaceToCode(workspace);
-}
+};
+
+export default util;

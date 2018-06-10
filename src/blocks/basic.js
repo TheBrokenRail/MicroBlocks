@@ -1,3 +1,6 @@
+import util from './util';
+import Blockly from '../blockly';
+
 util.blockGenerators_.push(() => {
   Blockly.Blocks['&&basic_string'] = {
     init: function() {
@@ -262,13 +265,41 @@ util.blockGenerators_.push(() => {
       this.setColour(160);
     },
     onchange: function () {
-      let operator = this.getInputTargetBlock('IN1') ? util.operators[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').outputConnection.check_[0]] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
+      let operator = this.getInputTargetBlock('IN1') && this.getInputTargetBlock('IN1').outputConnection.check_[0] !== 'C++Type' ? util.operators[this.getFieldValue('OPERATOR')][this.getInputTargetBlock('IN1').outputConnection.check_[0]] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
       this.getInput('IN2').setCheck([operator.check].concat(util.typeCast_[operator.check]));
       this.setOutput(true, operator.output);
     }
   };
   Blockly.JavaScript['&&basic_operator'] = function (block) {
     return ['(' + Blockly.JavaScript.valueToCode(block, 'IN1') + ') ' + block.getFieldValue('OPERATOR') + ' (' + Blockly.JavaScript.valueToCode(block, 'IN2') + ')'];
+  };
+  Blockly.Blocks['&&basic_list_operator'] = {
+    init: function () {
+      this.appendValueInput('IN1')
+      this.appendValueInput('IN2')
+          .appendField('[');
+      this.appendDummyInput()
+          .appendField(']');
+      this.setInputsInline(true);
+      this.setOutput(true);
+      this.setColour(160);
+    },
+    onchange: function () {
+      let operator = this.getInputTargetBlock('IN1') && this.getInputTargetBlock('IN1').outputConnection.check_[0] !== 'C++Type' ? util.operators['[]'][this.getInputTargetBlock('IN1').outputConnection.check_[0]] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
+      //debugger;
+      if (this.getInputTargetBlock('IN1') && this.getInputTargetBlock('IN1').outputConnection.check_[0] === 'C++Type') {
+        this.setOutput(true, this.getInputTargetBlock('IN1').type + '[]');
+        this.getInput('IN2').setCheck('int');
+        this.constructor = this.getInputTargetBlock('IN1').type;
+      } else {
+        this.setOutput(true, operator.output);
+        this.getInput('IN2').setCheck([operator.check].concat(util.typeCast_[operator.check]));
+        this.constructor = false;
+      }
+    }
+  };
+  Blockly.JavaScript['&&basic_list_operator'] = function (block) {
+    return [(this.constructor ? Blockly.JavaScript.valueToCode(block, 'IN1') : this.constructor) + '[' + Blockly.JavaScript.valueToCode(block, 'IN2') + ']'];
   };
   Blockly.Blocks['&&basic_operator_block'] = {
     init: function () {
