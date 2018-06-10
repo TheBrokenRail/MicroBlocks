@@ -43,7 +43,9 @@ class BlocklyApp extends Component {
       addExtension: (data, callback) => {
         extensionsList.push(data);
         util.loadExtensions(extensionsList, () => {
-          callback();
+          if (callback) {
+            callback();
+          }
         });
       }
     });
