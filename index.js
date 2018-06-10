@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 80;
 app.use('/editor', express.static('dist'));
 app.use('/extensions', express.static('extensions'));
 let firstTime = true;
-if (fs.exitsSync('dist/')) {
+if (fs.existsSync('dist/')) {
   rimraf.sync('dist');
 }
 fs.mkdirSync('dist');
