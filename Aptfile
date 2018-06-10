@@ -1,0 +1,7 @@
+python-setuptools
+cmake
+ninja-build
+libssl-dev
+srecord
+gcc-arm-embedded
+:repo:ppa:team-gcc-arm-embedded/ppa
