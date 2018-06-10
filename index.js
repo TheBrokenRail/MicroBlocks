@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 80;
 
 app.use('/editor', express.static('dist'));
 app.use('/extensions', express.static('extensions'));
+app.get('/', (req, res) => res.redirect('/editor'));
 let firstTime = true;
 if (fs.existsSync('dist/')) {
   rimraf.sync('dist');
