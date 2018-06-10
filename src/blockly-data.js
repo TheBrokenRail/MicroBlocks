@@ -13,6 +13,7 @@ blocklyToolbox.innerHTML = `
     <block type="&amp;&amp;basic_number"></block>
     <block type="&amp;&amp;basic_if"></block>
     <block type="&amp;&amp;basic_operator"></block>
+    <block type="&amp;&amp;basic_list_operator"></block>
     <block type="&amp;&amp;basic_operator_block"></block>
     <block type="&amp;&amp;basic_cast"></block>
   </category>

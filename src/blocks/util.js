@@ -34,7 +34,8 @@ util.reset_ = () => {
     '*': {},
     '/': {},
     '<<': {},
-    '>>': {}
+    '>>': {},
+    '[]': {}
   };
   util.typeCast_ = {MISSING_TYPE: []};
 };
@@ -66,23 +67,24 @@ util.load = data => {
     throw 'Invalid or Corrupt File';
   }
 }
-util.createType_ = (type, colour) => {
-  util.typeList.push(type);
-  Blockly.Blocks[type] = {
+util.createType_ = (type, prefix, colour) => {
+  util.typeList.push(type + prefix);
+  Blockly.Blocks[type + prefix] = {
     init: function () {
       this.jsonInit({
-        type: type,
-        message0: type,
+        type: type + prefix,
+        message0: type + prefix,
         output: 'C++Type',
         colour: colour
       });
-    }
+    },
+    baseType: type
   };
-  Blockly.JavaScript[type] = function () {
-    return type;
+  Blockly.JavaScript[type + prefix] = function () {
+    return [type + prefix];
   };
   let block = document.createElement('BLOCK');
-  block.setAttribute('type', type);
+  block.setAttribute('type', type + prefix);
   return block;
 };
 util.loadExtension = (name, reload, callback) => {
@@ -93,16 +95,16 @@ util.loadExtension = (name, reload, callback) => {
     category.setAttribute('name', extension.name);
     category.setAttribute('colour', extension.colour);
     for (let x in extension.types) {
-      category.appendChild(util.createType_(x, extension.colour));
-      category.appendChild(util.createType_(x + '*', extension.colour));
-      category.appendChild(util.createType_(x + '[]', extension.colour));
+      category.appendChild(util.createType_(x, '', extension.colour));
+      category.appendChild(util.createType_(x, '*', extension.colour));
+      category.appendChild(util.createType_(x, '[]', extension.colour));
       let typeAppends = ['', '*', '[]'];
       for (let i = 0; i < typeAppends.length; i++) {
         for (let y in util.operators) {
           if (extension.operators && extension.operators[y] && extension.operators[y][x + typeAppends[i]]) {
             util.operators[y][x + typeAppends[i]] = extension.operators[y][x + typeAppends[i]];
           } else {
-            util.operators[y][x + typeAppends[i]] = {output: x + typeAppends[i], check: x + typeAppends[i]};
+            util.operators[y][x + typeAppends[i]] = {output: x + typeAppends[i], check: y !== '[]' ? x + typeAppends[i] : 'int'};
           }
         }
       }

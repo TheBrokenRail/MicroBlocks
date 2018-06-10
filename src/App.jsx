@@ -54,6 +54,9 @@ class App extends Component {
               <MenuDropdownItem onClick={() => downloadFile(this.util.save(), this.util.getName() + '.json')}>
                 Save
               </MenuDropdownItem>
+              <MenuDropdownItem onClick={() => downloadFile(this.util.generate(this.util.workspace), this.util.getName() + '.cpp')}>
+                Export
+              </MenuDropdownItem>
               <MenuDropdownItem onClick={() => this.setState({extensionsOpen: true})}>
                 Add Extension
               </MenuDropdownItem>
