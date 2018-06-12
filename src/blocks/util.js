@@ -98,7 +98,8 @@ util.loadExtension = (name, reload, callback) => {
       category.appendChild(util.createType_(x, '', extension.colour));
       category.appendChild(util.createType_(x, '*', extension.colour));
       category.appendChild(util.createType_(x, '[]', extension.colour));
-      let typeAppends = ['', '*', '[]'];
+      category.appendChild(util.createType_(x, '*[]', extension.colour));
+      let typeAppends = ['', '*', '[]', '*[]'];
       for (let i = 0; i < typeAppends.length; i++) {
         for (let y in util.operators) {
           if (extension.operators && extension.operators[y] && extension.operators[y][x + typeAppends[i]]) {
