@@ -277,16 +277,13 @@ util.blockGenerators_.push(() => {
     init: function () {
       this.appendValueInput('IN1')
       this.appendValueInput('IN2')
-          .appendField('[');
-      this.appendDummyInput()
-          .appendField(']');
+          .appendField('index');
       this.setInputsInline(true);
       this.setOutput(true);
       this.setColour(160);
     },
     onchange: function () {
       let operator = this.getInputTargetBlock('IN1') && this.getInputTargetBlock('IN1').outputConnection.check_[0] !== 'C++Type' ? util.operators['[]'][this.getInputTargetBlock('IN1').outputConnection.check_[0]] : {output: 'MISSING_TYPE', check: 'MISSING_TYPE'};
-      //debugger;
       if (this.getInputTargetBlock('IN1') && this.getInputTargetBlock('IN1').outputConnection.check_[0] === 'C++Type') {
         this.setOutput(true, this.getInputTargetBlock('IN1').type + '[]');
         this.getInput('IN2').setCheck('int');
